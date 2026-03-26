@@ -36,5 +36,8 @@ export const auth = betterAuth({
         }
     },
     secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-development",
-    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:4321"
+    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:4321",
+    advanced: {
+        trustedOrigins: process.env.BETTER_AUTH_TRUSTED_ORIGINS?.split(',') || []
+    }
 });
