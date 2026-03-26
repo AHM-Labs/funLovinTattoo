@@ -1,0 +1,105 @@
+---
+interface Props {
+  images: { src: string; alt: string }[];
+}
+const { images } = Astro.props;
+const galleryId = Math.random().toString(36).substring(2, 9);
+---
+
+<div class="my-12" id={`gallery-${galleryId}`}>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+    {images.map((img, index) => (
+      <div 
+        class="aspect-[4/5] bg-flt-border/5 cursor-pointer overflow-hidden border-premium group gallery-thumbnail"
+        data-index={index}
+      >
+        <img src={img.src} alt={img.alt} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale hover:grayscale-0 shadow-lg" loading="lazy" />
+      </div>
+    ))}
+  </div>
+
+  <div id={`lightbox-${galleryId}`} class="fixed inset-0 bg-[#0d0d0d]/98 z-[100] hidden flex-col items-center justify-center opacity-0 transition-opacity duration-500 backdrop-blur-sm">
+    <button class="absolute top-6 right-6 text-flt-ivory text-5xl hover:text-white z-50 lightbox-close transition-colors">&times;</button>
+    
+    <div class="relative w-full max-w-5xl px-4 md:px-16 flex items-center justify-center h-full">
+      <button class="absolute left-2 md:left-4 text-flt-ivory text-6xl hover:text-white z-50 lightbox-prev transition-colors">&lsaquo;</button>
+      <img id={`lightbox-img-${galleryId}`} src="" alt="" class="max-h-[85vh] max-w-full object-contain border-premium shadow-[0_0_100px_rgba(0,0,0,0.8)]" />
+      <button class="absolute right-2 md:right-4 text-flt-ivory text-6xl hover:text-white z-50 lightbox-next transition-colors">&rsaquo;</button>
+    </div>
+    
+    <div id={`lightbox-caption-${galleryId}`} class="absolute bottom-12 left-0 right-0 ivory-text font-headline italic text-2xl text-center px-4 tracking-tighter opacity-80 uppercase"></div>
+  </div>
+</div>
+
+<script define:vars={{ galleryId, images }}>
+  const container = document.getElementById(`gallery-${galleryId}`);
+  if (container) {
+    const thumbnails = container.querySelectorAll('.gallery-thumbnail');
+    const lightbox = document.getElementById(`lightbox-${galleryId}`);
+    const lightboxImg = document.getElementById(`lightbox-img-${galleryId}`);
+    const lightboxCaption = document.getElementById(`lightbox-caption-${galleryId}`);
+    const btnClose = lightbox.querySelector('.lightbox-close');
+    const btnPrev = lightbox.querySelector('.lightbox-prev');
+    const btnNext = lightbox.querySelector('.lightbox-next');
+    
+    let currentIndex = 0;
+    
+    const openLightbox = (index) => {
+      currentIndex = index;
+      updateLightbox();
+      lightbox.classList.remove('hidden');
+      setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+      document.body.style.overflow = 'hidden';
+    };
+    
+    const closeLightbox = () => {
+      lightbox.classList.add('opacity-0');
+      setTimeout(() => {
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 300);
+    };
+    
+    const updateLightbox = () => {
+      lightboxImg.src = images[currentIndex].src;
+      lightboxImg.alt = images[currentIndex].alt;
+      lightboxCaption.textContent = images[currentIndex].alt;
+    };
+    
+    const nextImage = (e) => {
+      if(e) e.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      updateLightbox();
+    };
+    
+    const prevImage = (e) => {
+      if(e) e.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateLightbox();
+    };
+    
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        openLightbox(parseInt(thumb.getAttribute('data-index')));
+      });
+    });
+    
+    btnClose.addEventListener('click', closeLightbox);
+    btnNext.addEventListener('click', nextImage);
+    btnPrev.addEventListener('click', prevImage);
+    
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || !e.target.closest('img') && !e.target.closest('button')) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+      }
+    });
+  }
+</script>

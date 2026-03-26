@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Fun Lovin Tattoo | Professional Artistry">
+  <section class="relative min-h-[90vh] flex flex-col justify-center overflow-hidden border-b border-flt-ivory-border/10 ivory-gradient">
+    <div class="absolute inset-0 bg-[url('/noise.png')] opacity-15 pointer-events-none mix-blend-overlay"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-24">
+      <div class="lg:col-span-8 z-20">
+        <span class="inline-block font-label text-[10px] uppercase tracking-[0.4em] mb-12 text-flt-muted/80">EST. 2007 — PROFESSIONAL TATTOO ARTISTRY</span>
+        <h1 class="font-headline text-5xl sm:text-8xl md:text-[9.5rem] leading-[0.85] italic tracking-tighter mb-12 ivory-text uppercase">
+          Mobile <br/>
+          <span class="ml-8 md:ml-32">Artistry,</span> <br/>
+          <span class="italic stroke-text text-transparent">Bespoke Studio.</span>
+        </h1>
+        <div class="max-w-md ml-4 md:ml-32 space-y-8">
+          <p class="font-body text-lg text-flt-muted leading-relaxed">
+            Luxury tattooing, wherever you are. Our custom-converted private mobile studio brings elite artistry to your doorstep, wedding, or multi-day event.
+          </p>
+          <div class="flex flex-wrap gap-8 items-center pt-4">
+            <a href="/book" class="bg-flt-cream text-black px-12 py-6 font-label text-[11px] uppercase tracking-[0.2em] transition-all hover:bg-white font-bold shadow-xl">
+              Book Event
+            </a>
+            <a href="/news" class="group flex items-center gap-4 py-5 font-label text-[11px] uppercase tracking-[0.2em]">
+              <span class="border-b border-flt-ivory/30 group-hover:border-flt-ivory pb-1 transition-all ivory-text">The Journal</span>
+              <span class="text-xs ivory-text">&nearr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-4 relative mt-20 lg:mt-0">
+        <div class="aspect-[3/4] bg-flt-border/5 relative blob-mask overflow-hidden contrast-125 transition-all duration-1000 border-premium group">
+           <img src="/assets/mobile_van_hero.png" alt="Fun Lovin Tattoo Mobile Studio" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[3s]" />
+        </div>
+        <div class="absolute -bottom-8 -left-12 z-30 p-8 bg-flt-bg border-premium hidden lg:block backdrop-blur-md">
+          <p class="font-label text-[8px] uppercase tracking-widest text-flt-muted mb-2">MOBILE STATUS</p>
+          <p class="font-headline italic text-2xl cream-text leading-tight uppercase tracking-tighter">On Location <br/> Globally</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute right-[-5%] top-1/2 -translate-y-1/2 rotate-90 origin-right hidden xl:block pointer-events-none">
+      <span class="font-headline text-[12rem] text-transparent stroke-text opacity-10 uppercase tracking-tighter whitespace-nowrap">FUN LOVIN TATTOO</span>
+    </div>
+  </section>
+
+  <section class="border-t border-flt-ivory-border/10 bg-[#0f0f0f]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 sm:py-40 grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-20 items-stretch">
+      <div class="md:col-span-5 md:sticky md:top-40 h-fit mb-16 md:mb-0">
+        <span class="font-label text-[9px] uppercase tracking-[0.4rem] text-flt-muted mb-6 block">The Workspace</span>
+        <h2 class="font-headline text-5xl sm:text-6xl md:text-7xl italic tracking-tighter mb-10 ivory-text uppercase">The Studio <br/> Boutique.</h2>
+        <div class="space-y-6 max-w-sm">
+          <p class="font-body text-lg sm:text-xl text-flt-muted leading-relaxed">
+            Our permanent boutique studio provides a curated environment for large-scale illustrative works and intimate appointments.
+          </p>
+          <p class="font-body text-flt-muted/60">
+            A boutique space designed for precision, and the elevation of tattooing as a dedicated art form.
+          </p>
+        </div>
+        <div class="mt-12 h-px w-24 bg-flt-ivory-border/30"></div>
+        <a href="/studio" class="mt-12 inline-block border border-flt-ivory-border/40 px-12 py-5 font-label text-[11px] uppercase tracking-[0.2em] hover:bg-flt-cream hover:text-black transition-all font-bold ivory-text">
+          View Studio
+        </a>
+      </div>
+      
+      <div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8 items-start">
+        <div class="space-y-12">
+           <div class="aspect-[3/4] bg-flt-border/5 blob-mask-alt contrast-125 transition-all duration-700 flex items-center justify-center border-premium overflow-hidden">
+             <img src="/assets/studio_inside.jpg" alt="Studio Interior" class="w-full h-full object-cover" />
+           </div>
+           <div class="aspect-square bg-flt-border/5 border-premium flex items-center justify-center grayscale opacity-40 hover:opacity-100 transition-opacity overflow-hidden">
+             <img src="/assets/archival_tools.png" alt="Precision Tools" class="w-full h-full object-cover" />
+           </div>
+        </div>
+        <div class="pt-0 sm:pt-32 space-y-12">
+           <div class="aspect-[4/5] bg-flt-border/5 contrast-150 border-l border-flt-ivory-border/30 pl-8 flex items-center justify-center border-premium overflow-hidden">
+              <img src="/assets/fineline_work.png" alt="Fine-line Mastery" class="w-full h-full object-cover" />
+           </div>
+           <blockquote class="p-8 border border-flt-ivory-border/20 italic font-headline text-2xl sm:text-3xl text-flt-muted/60 leading-tight bg-[#141414] uppercase tracking-tighter font-black">
+             "Dedicated to the art of lasting memories."
+           </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#1a1a1a",
+              "on-surface": "#faf9f6",
+              "surface-variant": "#2a2a2a",
+              "on-background": "#faf9f6",
+              "tertiary-container": "#807266",
+              "tertiary": "#443930",
+              "surface": "#0a0a0a",
+              "on-error": "#ffffff",
+              "outline-variant": "#333333",
+              "on-tertiary-container": "#ffffff",
+              "on-tertiary-fixed": "#ffffff",
+              "background": "#0a0a0a",
+              "surface-container-lowest": "#000000",
+              "error": "#ba1a1a",
+              "on-surface-variant": "#a1a1a1",
+              "surface-dim": "#111111",
+              "outline": "#444444",
+              "on-primary-fixed-variant": "#e5e2e1",
+              "primary": "#ffffff",
+              "on-primary": "#000000",
+              "primary-fixed": "#5f5e5e",
+              "inverse-primary": "#c8c6c5",
+              "surface-container": "#131313",
+              "on-secondary-container": "#1b1d0e",
+              "secondary": "#acad96",
+              "on-secondary-fixed": "#1b1d0e",
+              "tertiary-fixed-dim": "#50453a",
+              "on-error-container": "#410002",
+              "tertiary-fixed": "#695c51",
+              "on-primary-container": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-tint": "#ffffff",
+              "inverse-on-surface": "#f2f1ee",
+              "on-tertiary": "#f1dfd1",
+              "primary-container": "#333333",
+              "secondary-fixed-dim": "#acad96",
+              "on-tertiary-fixed-variant": "#f1dfd1",
+              "surface-container-low": "#181818",
+              "on-secondary": "#000000",
+              "primary-fixed-dim": "#474746",
+              "on-primary": "#000000",
+              "surface-bright": "#1a1a1a",
+              "surface-container-high": "#1e1e1e",
+              "on-secondary-fixed-variant": "#3b3d2b",
+              "secondary-fixed": "#c8c8b0",
+              "secondary-container": "#3b3d2b",
+              "inverse-surface": "#faf9f6"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Manrope"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Newsreader', serif; }
+        
+        /* Ink Bleed Border Effect */
+        .ink-bleed-border {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .ink-bleed-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border: 1px solid transparent;
+            background: linear-gradient(90deg, #ffffff20, transparent, #ffffff20) border-box;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            filter: url(#ink-filter);
+            pointer-events: none;
+        }
+
+        .text-ink-stroke {
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.3);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-white antialiased selection:bg-white selection:text-black">
+<!-- SVG Filter for Organic Ink Bleed -->
+<svg style="position: absolute; width: 0; height: 0;" xmlns="http://www.w3.org/2000/svg">
+<filter id="ink-filter">
+<feturbulence basefrequency="0.05" numoctaves="2" type="fractalNoise"></feturbulence>
+<fedisplacementmap in="SourceGraphic" scale="3"></fedisplacementmap>
+</filter>
+</svg>
+<!-- TopAppBar Component Integration -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 max-w-full bg-gradient-to-b from-[#1b1b1b] to-transparent">
+<div class="font-['Newsreader'] italic font-black text-2xl text-white tracking-tighter">FUN LOVIN TATTOO</div>
+<div class="hidden md:flex items-center space-x-12">
+<a class="font-['Newsreader'] tracking-tight text-lg text-white font-bold hover:text-white transition-colors duration-300" href="#">Artists</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Collections</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Studio</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Bookings</a>
+</div>
+<button class="bg-white text-black px-8 py-2 font-['Newsreader'] tracking-tight text-lg active:scale-95 duration-200">
+            Inquire
+        </button>
+</nav>
+<main class="pt-48 pb-24 px-8 max-w-7xl mx-auto">
+<!-- Header Section: Editorial/Magazine Layout -->
+<header class="mb-40 border-b border-white/10 pb-20">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
+<div class="md:col-span-8">
+<span class="font-label text-[0.65rem] uppercase tracking-[0.4rem] text-white/40 block mb-6">Archive // Pricing Index v.01</span>
+<h1 class="text-7xl md:text-[9.5rem] italic font-black tracking-tighter leading-[0.85] text-white">
+                        Modern <br/>Archivist.
+                    </h1>
+</div>
+<div class="md:col-span-4 pb-4">
+<div class="text-white/60 max-w-xs font-body text-sm leading-relaxed border-l border-white/20 pl-6">
+<p class="italic font-headline text-lg text-white mb-4">Transparent Craft.</p>
+                        A curated catalog of permanent investments. From mobile activations to bespoke legacy sessions, our pricing reflects technical mastery and artisanal precision.
+                    </div>
+</div>
+</div>
+</header>
+<!-- Main Services Grid: Magazine Style -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24 mb-48">
+<!-- Service Item -->
+<div class="group ink-bleed-border p-10 flex flex-col justify-between hover:bg-white/[0.02] transition-all duration-700">
+<div class="mb-12">
+<div class="flex justify-between items-baseline mb-8">
+<h3 class="text-5xl italic font-semibold tracking-tight text-white group-hover:translate-x-2 transition-transform duration-500">Flash Event</h3>
+<span class="font-label text-xs tracking-widest text-white/50">FROM £2,400</span>
+</div>
+<p class="text-white/40 font-body text-base leading-relaxed max-w-sm">
+                        High-energy boutique activations. Features two senior artists and a curated collection of bespoke flash designs.
+                    </p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-white/30">add</span>
+<span class="font-label text-[0.65rem] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">4 Hour Minimum</span>
+</div>
+<span class="material-symbols-outlined text-white/20 group-hover:text-white transition-colors">arrow_outward</span>
+</div>
+</div>
+<!-- Service Item -->
+<div class="group ink-bleed-border p-10 flex flex-col justify-between hover:bg-white/[0.02] transition-all duration-700">
+<div class="mb-12">
+<div class="flex justify-between items-baseline mb-8">
+<h3 class="text-5xl italic font-semibold tracking-tight text-white group-hover:translate-x-2 transition-transform duration-500">Bespoke Wedding</h3>
+<span class="font-label text-xs tracking-widest text-white/50">FROM £4,850</span>
+</div>
+<p class="text-white/40 font-body text-base leading-relaxed max-w-sm">
+                        Luxury ink service for your reception. Includes custom initials flash, white-glove setup, and live residency.
+                    </p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-white/30">add</span>
+<span class="font-label text-[0.65rem] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">6 Hour Session</span>
+</div>
+<span class="material-symbols-outlined text-white/20 group-hover:text-white transition-colors">arrow_outward</span>
+</div>
+</div>
+<!-- Service Item -->
+<div class="group ink-bleed-border p-10 flex flex-col justify-between hover:bg-white/[0.02] transition-all duration-700">
+<div class="mb-12">
+<div class="flex justify-between items-baseline mb-8">
+<h3 class="text-5xl italic font-semibold tracking-tight text-white group-hover:translate-x-2 transition-transform duration-500">Studio Takeover</h3>
+<span class="font-label text-xs tracking-widest text-white/50">FROM £3,200</span>
+</div>
+<p class="text-white/40 font-body text-base leading-relaxed max-w-sm">
+                        Brand identity translated to skin. Full-day private access for creative teams or product launch events.
+                    </p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-white/30">add</span>
+<span class="font-label text-[0.65rem] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Full Day Access</span>
+</div>
+<span class="material-symbols-outlined text-white/20 group-hover:text-white transition-colors">arrow_outward</span>
+</div>
+</div>
+<!-- Service Item -->
+<div class="group ink-bleed-border p-10 flex flex-col justify-between hover:bg-white/[0.02] transition-all duration-700">
+<div class="mb-12">
+<div class="flex justify-between items-baseline mb-8">
+<h3 class="text-5xl italic font-semibold tracking-tight text-white group-hover:translate-x-2 transition-transform duration-500">Artist Residency</h3>
+<span class="font-label text-xs tracking-widest text-white/50">FROM £850</span>
+</div>
+<p class="text-white/40 font-body text-base leading-relaxed max-w-sm">
+                        Booth rental for visiting international artists. Full equipment support and premium medical supplies.
+                    </p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-white/30">add</span>
+<span class="font-label text-[0.65rem] uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Equipment Included</span>
+</div>
+<span class="material-symbols-outlined text-white/20 group-hover:text-white transition-colors">arrow_outward</span>
+</div>
+</div>
+</section>
+<!-- Additional Modules: Deep Black Bento Layout -->
+<section class="mb-48 bg-black -mx-8 px-8 py-32 border-y border-white/5">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-20">
+<h2 class="text-5xl italic font-bold text-white">Additional <span class="text-ink-stroke text-transparent">Modules</span></h2>
+<div class="font-label text-[0.65rem] uppercase tracking-[0.4rem] text-white/30">Enhancements // v.2024</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Module 01 -->
+<div class="bg-surface-container-high p-12 flex flex-col justify-between min-h-[450px] ink-bleed-border group overflow-hidden">
+<div>
+<span class="font-label text-[0.6rem] uppercase tracking-[0.3rem] text-white/30 block mb-12">01 / Creative</span>
+<h4 class="text-3xl font-headline italic mb-6 text-white group-hover:text-white/80 transition-colors">Custom Flash Design</h4>
+<p class="text-sm text-white/50 font-body leading-relaxed mb-12">Collaborative curation with our lead artists to create a 12-piece flash sheet unique to your identity.</p>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-headline text-2xl italic">£450</span>
+<div class="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+</div>
+</div>
+<!-- Image Break -->
+<div class="relative overflow-hidden group ink-bleed-border">
+<img alt="Tattoo artist sketching custom flash" class="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-90 group-hover:scale-110 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK9qOszDiDhqnAcbXC5n-a8AE0_TLTkbAIZneq8licODCSO3L-1WrmOYt-Y2EjrtgYDd8RljcGuVeppknQXdwZmj3fcHxQ8bfTru6jSte5dOdOVZB-l3isJyk2AY1Q_ZScZ5Cwo_Ayhbv487IbFtkOIu6U9cktIHxsAKPBNJRHxSuNkkh6Gv060rlKFWgT_GdSnkuH1qsnBrxgxiQUb_NQOg0pYRiEjblVtEy6oBFUFKBvKi8WyVi7Z5WozUwZzv0GvHp1cA8sYwLn"/>
+<div class="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
+<div class="absolute bottom-6 left-6 font-label text-[0.6rem] uppercase tracking-widest text-white/60">Process // 002</div>
+</div>
+<!-- Small Modules -->
+<div class="grid grid-rows-2 gap-8">
+<div class="bg-surface-container-high p-10 flex flex-col justify-between ink-bleed-border hover:bg-white/[0.05] transition-colors">
+<div class="flex justify-between items-start">
+<h4 class="text-xl font-headline italic">Artist Add-on</h4>
+<span class="font-label text-xs tracking-widest text-white/40">£600 / DAY</span>
+</div>
+<p class="text-xs text-white/40 font-body">Scale your event capacity with additional senior talent and kits.</p>
+</div>
+<div class="bg-white text-black p-10 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<h4 class="text-xl font-headline italic font-bold">Overtime Support</h4>
+<span class="font-label text-xs tracking-widest opacity-60">£250 / HR</span>
+</div>
+<p class="text-xs opacity-80 font-body">Extended studio support for high-demand event environments.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Terms / Legal Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-16 border-t border-white/10 pt-24">
+<div class="md:col-span-4">
+<h3 class="text-3xl font-headline italic mb-8">Booking Protocols</h3>
+<p class="text-sm text-white/40 leading-loose font-body">
+                    A non-refundable commitment deposit of 50% is required for all reservations. Logistics beyond a 30-mile radius are subject to mileage and accommodation surcharges. All sessions are strictly private and curated.
+                </p>
+</div>
+<div class="md:col-span-8 flex flex-wrap gap-x-32 gap-y-16">
+<div>
+<h5 class="font-label text-[0.65rem] uppercase tracking-widest text-white/30 mb-8">Technical Stack</h5>
+<ul class="text-[0.65rem] space-y-4 font-body uppercase tracking-wider text-white/60">
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Autoclave Sterilization</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Vegan Botanical Inks</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Wireless Tech</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Clinical Aftercare</li>
+</ul>
+</div>
+<div>
+<h5 class="font-label text-[0.65rem] uppercase tracking-widest text-white/30 mb-8">Regulatory</h5>
+<ul class="text-[0.65rem] space-y-4 font-body uppercase tracking-wider text-white/60">
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Liability Indemnity</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Health Certified</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> Artist Licensed</li>
+<li class="flex items-center gap-3"><span class="w-1 h-1 bg-white/20"></span> GDPR Compliant</li>
+</ul>
+</div>
+<div class="flex-grow flex justify-end items-end pb-4">
+<div class="relative">
+<span class="text-9xl font-black italic text-white/5 select-none">2007</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component Integration -->
+<footer class="bg-[#131313] w-full py-20 px-10 border-t border-[#474747]/20">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+<div class="space-y-8">
+<div class="text-white font-['Newsreader'] text-3xl italic font-black">FUN LOVIN TATTOO</div>
+<div class="font-['Space_Grotesk'] uppercase tracking-widest text-[0.65rem] text-[#c9c6c0] opacity-80">
+                    © 2024 FUN LOVIN TATTOO. ALL RIGHTS RESERVED. COLLECTION NO. 001
+                </div>
+</div>
+<div class="flex flex-col md:items-end gap-6">
+<div class="flex flex-wrap gap-8">
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Instagram</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Studio Directions</a>
+</div>
+<div class="font-['Space_Grotesk'] uppercase tracking-widest text-[0.6rem] text-white/20 italic">
+                    Crafted with precision. Permanent Artistry.
+                </div>
+</div>
+</div>
+</footer>
+</body></html>

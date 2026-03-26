@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Mobile Services | Fun Lovin Tattoo">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <div class="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
+      <h1 class="font-headline text-7xl md:text-[9rem] underline decoration-flt-ivory-border/20 underline-offset-32 italic tracking-tighter ivory-text uppercase">Offerings</h1>
+      <div class="md:text-right border-t border-flt-ivory-border/30 pt-8 md:w-1/3">
+        <p class="font-label text-xs tracking-[0.3em] uppercase text-flt-muted mb-4">Curated Experiences</p>
+        <p class="font-body text-sm text-flt-muted/60 italic">Expertly crafted for those who demand the exceptional and the permanent.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div class="md:col-span-7 group relative overflow-hidden bg-flt-border/5 min-h-[600px] flex items-end p-12 lg:p-16 border-premium">
+        <img src="/assets/hero_mobile.png" alt="Wedding Tattoos" class="absolute inset-0 w-full h-full object-cover grayscale opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
+        <div class="z-10 relative">
+          <span class="font-label text-[9px] uppercase tracking-[0.4rem] text-white/40 mb-4 block">CATEGORY 01</span>
+          <h2 class="font-headline text-5xl md:text-7xl italic ivory-text mb-6">Weddings</h2>
+          <p class="font-body text-lg max-w-md text-flt-muted uppercase tracking-widest leading-relaxed">The Ultimate Party Favor. Live tattooing for your guests.</p>
+          <div class="mt-12 h-0.5 w-0 group-hover:w-full bg-flt-cream transition-all duration-700"></div>
+          <a href="/weddings" class="mt-8 inline-block font-label text-[10px] uppercase tracking-widest text-flt-cream border-b border-flt-ivory-border/50 pb-1 hover:opacity-70">View Wedding Services &rarr;</a>
+        </div>
+      </div>
+      
+      <div class="md:col-span-5 flex flex-col gap-12">
+        <div class="bg-flt-border/5 p-12 lg:p-16 flex flex-col justify-center items-center text-center group min-h-[300px] border-premium relative overflow-hidden">
+           <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-flt-ivory-border/30 to-transparent"></div>
+            <h3 class="font-headline text-4xl italic mb-6 ivory-text">Private Pop-ups</h3>
+           <p class="font-label text-[10px] text-flt-muted uppercase tracking-[0.3rem] leading-loose opacity-60">Corporate • Fashion • Launch</p>
+           <a href="/corporate" class="mt-8 font-label text-[10px] uppercase tracking-widest text-flt-cream border-b border-flt-ivory-border/30 pb-1">Corporate Details &rarr;</a>
+        </div>
+        <div class="relative bg-flt-border/5 min-h-[300px] p-12 lg:p-16 border-premium flex flex-col justify-center overflow-hidden">
+           <img src="/assets/fineline_work.png" alt="Fine Line" class="absolute inset-0 w-full h-full object-cover grayscale opacity-10 group-hover:opacity-30 transition-opacity" />
+           <span class="font-label text-[9px] uppercase tracking-[0.4rem] text-white/40 mb-4 z-10">TECHNIQUE</span>
+           <h3 class="font-headline text-5xl italic ivory-text leading-tight z-10">Fine Line <br/> Mastery</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

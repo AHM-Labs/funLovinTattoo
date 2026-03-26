@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fun Lovin Tattoo | The Modern Archivist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#1c1c1c",
+              "on-surface": "#e3e2e0",
+              "surface-variant": "#2a2a2a",
+              "on-background": "#e3e2e0",
+              "tertiary-container": "#443930",
+              "tertiary": "#807266",
+              "surface": "#131313",
+              "on-error": "#ffffff",
+              "outline-variant": "#333333",
+              "on-tertiary-container": "#f1dfd1",
+              "background": "#131313",
+              "surface-container-lowest": "#0a0a0a",
+              "error": "#ffb4ab",
+              "on-surface-variant": "#c9c6c0",
+              "surface-dim": "#131313",
+              "outline": "#8e918e",
+              "primary": "#ffffff",
+              "on-primary": "#000000",
+              "surface-container": "#1b1b1b",
+              "secondary": "#c8c8b0",
+              "on-secondary": "#2f3224",
+              "surface-container-low": "#1e1e1e",
+              "surface-bright": "#242424",
+              "surface-container-high": "#2b2b2b",
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Manrope"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      .grunge-border {
+        border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='10' preserveAspectRatio='none'%3E%3Cpath d='M0 5 L10 2 L20 8 L30 4 L40 6 L50 3 L60 7 L70 5 L80 9 L90 2 L100 5' fill='none' stroke='%23333' stroke-width='0.5'/%3E%3C/svg%3E") 2 stretch;
+      }
+      
+      .blob-mask {
+        clip-path: polygon(5% 10%, 95% 5%, 100% 90%, 5% 100%, 0% 50%);
+      }
+      
+      .blob-mask-alt {
+        clip-path: polygon(0% 0%, 100% 15%, 90% 100%, 10% 95%);
+      }
+
+      .text-overlap {
+        text-shadow: 0 0 40px rgba(0,0,0,0.8);
+      }
+
+      .ivory-text { color: #e3e2e0; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-white selection:text-black">
+<!-- TopAppBar Component -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 max-w-full bg-gradient-to-b from-[#1b1b1b] to-transparent transition-colors duration-500">
+<div class="font-['Newsreader'] italic font-black text-2xl text-white tracking-tighter uppercase">Fun Lovin Tattoo</div>
+<div class="hidden md:flex items-center gap-12 font-['Newsreader'] tracking-tight text-lg">
+<a class="text-white font-bold" href="#">Artists</a>
+<a class="text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Collections</a>
+<a class="text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Studio</a>
+<a class="text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Bookings</a>
+</div>
+<button class="bg-white text-black px-8 py-2 font-label text-[0.6875rem] uppercase tracking-[0.2rem] hover:opacity-80 transition-all active:scale-95 duration-200">
+        Inquire
+    </button>
+</nav>
+<main>
+<!-- Hero Section: Modern Archivist Reimagined -->
+<section class="relative min-h-screen flex items-center pt-32 pb-16 px-8 bg-surface overflow-hidden">
+<div class="max-w-[1440px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-0 items-center">
+<div class="md:col-span-8 relative z-20">
+<span class="inline-block font-label text-[0.75rem] uppercase tracking-[0.4rem] mb-12 text-on-surface-variant/60 mix-blend-difference">EST. 2007 — NO. 44</span>
+<h1 class="font-headline text-[5rem] md:text-[10rem] leading-[0.85] italic tracking-tighter mb-12 ivory-text">
+                    Luxury Ink, <br/>
+<span class="ml-12 md:ml-32">Wherever</span> <br/>
+<span class="italic text-outline-variant opacity-40">You Are.</span>
+</h1>
+<div class="max-w-md ml-12 md:ml-32 space-y-8">
+<p class="font-body text-lg text-on-surface-variant leading-relaxed">
+                        Curated mobile tattoo experiences for high-end weddings, private celebrations, and editorial events. We bring the archive to your venue.
+                    </p>
+<div class="flex flex-wrap gap-8 items-center">
+<button class="bg-white text-black px-12 py-6 font-label text-[0.8rem] uppercase tracking-[0.2rem] transition-all hover:bg-on-surface-variant">
+                            Book Event
+                        </button>
+<button class="group flex items-center gap-4 py-5 font-label text-[0.8rem] uppercase tracking-[0.2rem]">
+<span class="border-b border-white/20 group-hover:border-white pb-1 transition-all">The Process</span>
+<span class="material-symbols-outlined text-[1rem]">arrow_outward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 relative mt-20 md:mt-0">
+<div class="aspect-[3/4] bg-surface-container-high relative blob-mask overflow-hidden grayscale contrast-125 brightness-75 hover:brightness-100 transition-all duration-1000">
+<img alt="Mobile Tattoo Event" class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-[2s]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQU254B_LIMdWu3cKlSPyAgt_jFBbQq1Hu7SVkxIVJgtwW4rzGZAU652qRiBB8x0aK9D-nZb1h0S-YWmbsDOHA_GoDUdrYrQMtkY5Pt9RmsEKH4yy65R7MSRGNMVGET_kLNGr0rPmxE0rtomBTkiApAIWTjPzh3kvELtjWskAE4gMAzhABRl4FEYMtlfUcr35cihfly77yc_3F9uq1Fsa9KXIVmZQ_rAYI0kaDublgT6pd14v6DgQ7_m1CI9wWUU7n6AGDWFl4NYP3"/>
+</div>
+<!-- Editorial Overlay -->
+<div class="absolute -bottom-8 -left-20 z-30 p-8 bg-surface border border-outline-variant/30 hidden lg:block backdrop-blur-md">
+<p class="font-label text-[0.6rem] uppercase tracking-widest text-on-surface-variant mb-2">ARCHIVE STATUS</p>
+<p class="font-headline italic text-2xl ivory-text">Active Mobile Unit <br/> Coastal Route 01</p>
+</div>
+</div>
+</div>
+<!-- Vertical Decorative Text -->
+<div class="absolute right-4 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden xl:block">
+<span class="font-headline text-[12rem] text-transparent stroke-text opacity-5 select-none uppercase tracking-tighter" style="-webkit-text-stroke: 1px #fff;">MODERN ARCHIVIST</span>
+</div>
+</section>
+<!-- Studio Section: Grungy Editorial -->
+<section class="bg-surface-container-lowest py-40 px-8 relative border-t border-outline-variant/10">
+<div class="max-w-[1440px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-start">
+<div class="md:col-span-5 md:sticky md:top-40">
+<span class="font-label text-[0.7rem] uppercase tracking-[0.4rem] text-tertiary mb-6 block">The Sanctuary</span>
+<h2 class="font-headline text-7xl italic tracking-tighter mb-10 ivory-text">The Studio <br/> Archive.</h2>
+<div class="space-y-6 max-w-sm">
+<p class="font-body text-xl text-on-surface-variant leading-relaxed">
+                            When we aren't on the road, our permanent sanctuary in the city serves as a hub for complex illustrative works. 
+                        </p>
+<p class="font-body text-on-surface-variant/60">
+                            A brutalist space designed for precision, and the elevation of tattoo culture to fine art.
+                        </p>
+</div>
+<div class="mt-12 h-[1px] w-24 bg-outline-variant"></div>
+<button class="mt-12 bg-transparent border border-outline-variant/50 px-12 py-5 font-label text-[0.75rem] uppercase tracking-[0.2rem] hover:bg-white hover:text-black transition-all">
+                        Private Inquiries
+                    </button>
+</div>
+<div class="md:col-span-7 grid grid-cols-2 gap-8 relative">
+<div class="space-y-8">
+<div class="aspect-[3/4] overflow-hidden blob-mask-alt grayscale contrast-125 brightness-50 hover:brightness-100 transition-all duration-700">
+<img alt="Studio Interior" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0_3afKHDXroDvf8i4zf8Ef1DbhZtHUYYLrN_ifba7UJjfNoF8UDQWVE0NMII-uId2Ava8alBa17htKjDLvEjGURaFOJc6_YsNf4SspRA4yl_GZ1-hm3V10j3mq1aK2bSy9Sf7SyWWtWQgTK0FYy_tZ6_1XIvHgWx-JX8FAcKTWZ41VgRSfciyB89pcnB2dO--RfvrYOONvsRUB0g7Cjqpbpr3oJtQq23VDKPrED6G6T5AtGsTSVOmWSXtMj9Jjz2X2p6eBEJjL1CD"/>
+</div>
+<div class="aspect-square overflow-hidden grayscale opacity-40 hover:opacity-100 transition-opacity">
+<img alt="Tattoo Tools" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALHUtEZGt-intH4zJ9XAVs4i--KNucHS0ZOLH1rolikvXnZ_UUHOvdQ6z6YS6t_T-TenddRt1_12XyPzVwUnmI5bAjYlv2wyabMXz1twGt3tgVCFcQNt48A35F5v-ppxSKNTFZG34WoEsea8cZ6NiYIEeLqqo6j65lEj_4AUX95Wt7oSHNlZq4stNddbO_LzwfwfRL-CbNRxhTseCzKkWmRkORIBlIcLdqgP54ysCK0-g0rBEZVDKm10Qu7tmUJc2YZ6TPn1fYv8tI"/>
+</div>
+</div>
+<div class="pt-32 space-y-8">
+<div class="aspect-[4/5] overflow-hidden grayscale contrast-150 brightness-75 hover:brightness-100 transition-all duration-700 border-l border-outline-variant/30 pl-8">
+<img alt="Artist at Work" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8uF23EPM6dbNvG4E2RyQHrAGnwvkTlGjEboY26wyr6kjDzO44S2ZBTIU6n8RhVXp0ySpgHsBB1tktAgfeXGxc8YSvAofPuGA9R1RosRegev_VyrV4LaSeAgT9YkOgIa3lgR3yxNanRwvCKRyP3QncYPiW6CWP4CgrbAzUpPzWv0XKweYwbiqtoBh1OHoV7dBrMeHyRS72NcHkRtBsSx9djJyeuqUBeOoXNbivUjjWgEzcDCPxVzkFcMDO89kCSQqSOZLEVDtIdoAr"/>
+</div>
+<div class="p-8 border border-outline-variant/20 italic font-headline text-lg text-on-surface-variant/40">
+                            "The skin is the final archive of our human experience."
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services: Overlapping Bento -->
+<section class="bg-surface py-40 px-8 relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="max-w-[1440px] mx-auto relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
+<h2 class="font-headline text-8xl md:text-[10rem] italic tracking-tighter ivory-text mix-blend-difference">Offerings</h2>
+<div class="md:text-right border-t border-outline-variant/30 pt-8 md:w-1/3">
+<p class="font-label text-xs tracking-[0.3rem] uppercase text-on-surface-variant mb-4">Curated Experiences</p>
+<p class="font-body text-sm text-on-surface-variant/60 italic">Expertly crafted for those who demand the exceptional and the permanent.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-stretch">
+<!-- Large Item -->
+<div class="md:col-span-7 group relative overflow-hidden bg-surface-container h-[700px]">
+<img alt="Weddings" class="absolute inset-0 w-full h-full object-cover grayscale opacity-30 group-hover:scale-105 group-hover:opacity-60 transition-all duration-[1.5s]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuQMEaudeLllrSFAU4H88tIJN3y-HDpvlY9tTU1Xp-4OIBMurFfnnMtNDZ6giYGnq38Q1wluyJISpR8PKN0NKCfKvCT5JGH0VNIKAvqGYUwvkhj-dAQ4TVkPanMTrbSE6JcyR3vWMjvbnl7cuobeRMmM13FeMsRRPsONO2yyCzJ8ugDZifRj1JEHYqEeG8EhDzlEQdRJd9nesREWfhWsbZksasgHC4cvt8s6YN-sO-wOaC54KzA_x-itcUcLxzFsIGmFFG2e1yIYiT"/>
+<div class="absolute inset-0 p-16 flex flex-col justify-end">
+<span class="font-label text-[0.6rem] uppercase tracking-[0.4rem] text-white/40 mb-4 block">CATEGORY 01</span>
+<h3 class="font-headline text-6xl italic ivory-text mb-6">Weddings</h3>
+<p class="font-body text-lg max-w-md text-on-surface-variant uppercase tracking-widest leading-relaxed">The Ultimate Party Favor. Live tattooing for your guests.</p>
+<div class="mt-12 overflow-hidden h-1 w-0 group-hover:w-full bg-white transition-all duration-700"></div>
+</div>
+</div>
+<!-- Stacked Items -->
+<div class="md:col-span-5 flex flex-col gap-12">
+<div class="bg-surface-container-high p-16 flex flex-col justify-center items-center text-center group h-1/2 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-outline-variant/30 to-transparent"></div>
+<span class="material-symbols-outlined text-6xl mb-8 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all">workspace_premium</span>
+<h3 class="font-headline text-4xl italic mb-6 ivory-text">Private Pop-ups</h3>
+<p class="font-label text-xs text-on-surface-variant uppercase tracking-[0.3rem] leading-loose opacity-60">Corporate • Fashion • Launch</p>
+</div>
+<div class="relative bg-surface-container-highest h-1/2 overflow-hidden group">
+<img alt="Fine Line" class="absolute inset-0 w-full h-full object-cover grayscale opacity-20 group-hover:opacity-50 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUvD0CJc3aW_K4a_833Q-fVjlqXw26YFoEdBnJXKkW93RlQPIilX5U0x7Xx09qcixV1jrlV8ZksfK6l12XxUaZG9v2lC4dNcu8wBOZEjsJE5ZKy930X6-u8EFRQIasJskPTx41TgYqtkGTWl6GrKGDQNyLx4Tk_P8ajKY2HCeMXosPPdO9ZicwaB_i9L2QHI_fdkRriXGTCv35C1C3aHTB1sLLg46LTRwLvchlfpO-tlgCafTOfe0IAdPEtgrBpBqSFvj159YGb1El"/>
+<div class="absolute inset-0 p-16 flex flex-col justify-between">
+<span class="font-label text-[0.6rem] uppercase tracking-[0.4rem] text-white/40">TECHNIQUE</span>
+<h3 class="font-headline text-5xl italic ivory-text">Fine Line <br/> Mastery</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter: Brutalist Dark -->
+<section class="py-48 px-8 bg-surface-container-lowest border-t border-b border-outline-variant/10">
+<div class="max-w-[1000px] mx-auto text-center">
+<h2 class="font-headline text-7xl italic mb-12 ivory-text tracking-tighter">Enter the Archive.</h2>
+<p class="font-body text-xl text-on-surface-variant/60 mb-16 max-w-2xl mx-auto leading-relaxed">Subscribe to receive monthly updates on studio residency, guest artists, and mobile availability across the coast.</p>
+<form class="flex flex-col md:flex-row gap-0 items-stretch max-w-xl mx-auto">
+<input class="flex-grow bg-[#1a1a1a] border-b border-outline-variant py-6 px-6 font-label text-xs tracking-widest focus:ring-0 focus:outline-none focus:border-white placeholder:text-outline-variant uppercase ivory-text" placeholder="IDENTITY / EMAIL" type="email"/>
+<button class="bg-white text-black px-12 py-6 font-label text-[0.75rem] tracking-[0.3rem] uppercase mt-4 md:mt-0 hover:bg-on-surface-variant transition-colors">Join</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-[#131313] w-full py-20 px-10 border-t border-[#474747]/20">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+<div class="space-y-12">
+<div class="text-white font-['Newsreader'] text-4xl italic font-black tracking-tighter uppercase">Fun Lovin Tattoo</div>
+<div class="flex gap-12">
+<div class="flex flex-col gap-4 font-['Space_Grotesk'] uppercase tracking-widest text-xs">
+<span class="text-white/20">Social</span>
+<a class="text-[#c9c6c0] hover:text-white transition-opacity" href="#">Instagram</a>
+<a class="text-[#c9c6c0] hover:text-white transition-opacity" href="#">Facebook</a>
+</div>
+<div class="flex flex-col gap-4 font-['Space_Grotesk'] uppercase tracking-widest text-xs">
+<span class="text-white/20">Info</span>
+<a class="text-[#c9c6c0] hover:text-white transition-opacity underline underline-offset-8" href="#">Studio Directions</a>
+<a class="text-[#c9c6c0] hover:text-white transition-opacity" href="#">Privacy Policy</a>
+<a class="text-[#c9c6c0] hover:text-white transition-opacity" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-start md:items-end justify-between h-full space-y-12 md:space-y-0">
+<div class="text-right hidden md:block">
+<span class="material-symbols-outlined text-6xl opacity-10 text-white">ink_highlighter</span>
+</div>
+<div class="text-left md:text-right">
+<p class="font-headline italic text-3xl ivory-text opacity-80 mb-6">Crafting stories that <br/> last a lifetime.</p>
+<p class="font-['Space_Grotesk'] uppercase tracking-[0.2rem] text-[0.6rem] text-[#c9c6c0]/40">
+                    © 2024 FUN LOVIN TATTOO. ALL RIGHTS RESERVED. <br/> COLLECTION NO. 001
+                </p>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

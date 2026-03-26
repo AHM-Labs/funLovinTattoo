@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Pricing | Professional Artistry">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <div class="text-center mb-32">
+      <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">Transparent Workspace</span>
+      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter ivory-text font-black uppercase">Pricing.</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-16">
+      <div class="md:col-span-8 space-y-16">
+        <section>
+          <h2 class="font-headline text-4xl italic mb-12 pb-4 border-b border-flt-ivory-border/30 ivory-text">Studio Sessions</h2>
+          <div class="space-y-8">
+            <div class="flex justify-between items-baseline border-b border-flt-ivory-border/10 pb-6 group">
+              <div>
+                <h3 class="font-headline text-2xl group-hover:cream-text transition-colors">Minimum Rate</h3>
+                <p class="font-body text-sm text-flt-muted mt-2">Personal small-scale relics</p>
+              </div>
+              <div class="font-headline italic text-3xl ivory-text">$150</div>
+            </div>
+            <div class="flex justify-between items-baseline border-b border-flt-ivory-border/10 pb-6 group">
+              <div>
+                <h3 class="font-headline text-2xl group-hover:cream-text transition-colors">Hourly Collection</h3>
+                <p class="font-body text-sm text-flt-muted mt-2">Custom illustrative works</p>
+              </div>
+              <div class="font-headline italic text-3xl ivory-text">$200 / hr</div>
+            </div>
+            <div class="flex justify-between items-baseline border-b border-flt-ivory-border/10 pb-6 group">
+              <div>
+                <h3 class="font-headline text-2xl group-hover:cream-text transition-colors">Full Session</h3>
+                <p class="font-body text-sm text-flt-muted mt-2">Intensive 6-hour archival work</p>
+              </div>
+              <div class="font-headline italic text-3xl ivory-text">$1000</div>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <div class="md:col-span-4 lg:pl-8">
+        <div class="bg-flt-border/5 p-8 border-premium sticky top-10">
+          <div class="aspect-square mb-8 bg-flt-bg border-premium grayscale">
+            <img src="/assets/archival_tools.png" alt="Tools" class="w-full h-full object-cover opacity-50" />
+          </div>
+          <h3 class="font-label text-xs uppercase tracking-widest text-flt-cream border-b border-flt-ivory-border/30 pb-4 mb-6">Booking Flow</h3>
+          <ul class="space-y-6 font-body text-sm text-flt-muted list-decimal list-inside pl-2">
+            <li>Inquiry form submission</li>
+            <li>Consultation & Design</li>
+            <li>Non-refundable deposit</li>
+            <li>Final session date</li>
+          </ul>
+          <a href="/book" class="mt-12 block bg-flt-cream text-black text-center py-5 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">Start Inquiry</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

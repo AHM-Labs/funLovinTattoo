@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Studio Gallery | Fun Lovin Tattoo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e3e2e0",
+              "on-surface": "#1a1c1a",
+              "surface-variant": "#e3e2e0",
+              "on-background": "#1a1c1a",
+              "tertiary-container": "#807266",
+              "tertiary": "#443930",
+              "surface": "#faf9f6",
+              "on-error": "#ffffff",
+              "outline-variant": "#c6c6c6",
+              "on-tertiary-container": "#ffffff",
+              "on-tertiary-fixed": "#ffffff",
+              "background": "#faf9f6",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "on-surface-variant": "#474747",
+              "surface-dim": "#dbdad7",
+              "outline": "#777777",
+              "on-primary-fixed-variant": "#e5e2e1",
+              "primary": "#000000",
+              "on-primary-fixed": "#ffffff",
+              "primary-fixed": "#5f5e5e",
+              "inverse-primary": "#c8c6c5",
+              "surface-container": "#efeeeb",
+              "on-secondary-container": "#1b1d0e",
+              "secondary": "#5e604d",
+              "on-secondary-fixed": "#1b1d0e",
+              "tertiary-fixed-dim": "#50453a",
+              "on-error-container": "#410002",
+              "tertiary-fixed": "#695c51",
+              "on-primary-container": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-tint": "#5f5e5e",
+              "inverse-on-surface": "#f2f1ee",
+              "on-tertiary": "#f1dfd1",
+              "primary-container": "#3c3b3b",
+              "secondary-fixed-dim": "#acad96",
+              "on-tertiary-fixed-variant": "#f1dfd1",
+              "surface-container-low": "#f4f3f1",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#474746",
+              "on-primary": "#e5e2e1",
+              "surface-bright": "#faf9f6",
+              "surface-container-high": "#e9e8e5",
+              "on-secondary-fixed-variant": "#3b3d2b",
+              "secondary-fixed": "#c8c8b0",
+              "secondary-container": "#d6d6be",
+              "inverse-surface": "#2f312f",
+              "ivory": "#faf9f6",
+              "deep-black": "#131313"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Manrope"],
+              "label": ["Manrope"],
+              "mono": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg)
+    }
+::selection {
+    background-color: #000;
+    color: #faf9f6
+    }
+.organic-mask-1 {
+    clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%)
+    }
+.organic-mask-2 {
+    clip-path: polygon(0% 15%, 100% 0%, 85% 100%, 15% 85%)
+    }
+.organic-mask-3 {
+    clip-path: polygon(5% 5%, 95% 0%, 100% 95%, 0% 100%)
+    }
+.organic-mask-4 {
+    clip-path: polygon(0 0, 90% 10%, 100% 90%, 10% 100%)
+    }
+.distressed-border {
+    position: relative;
+    padding: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1)
+    }
+.distressed-border::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    clip-path: polygon(2% 2%, 98% 1%, 99% 99%, 1% 98%, 2% 50%);
+    pointer-events: none
+    }
+.noise-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD3idf84SoPUUwsxICpoiqjCuPU95rJU3sjxh3mMnL7A1cgPvocL4rPykx3k_yKtM7665RPUgdBOjXKIctwI6ycnsgHhx7chyYLabWs_Im8DdrgS1YER3b9zSeGFEvg7qiiNZg025HQhknFd1z68cL2gtM4Lw-fn-GjDIQl9dSc421RjhP_EUum2e5qRiPNk30FrxHudtkikmBMCQGaT_Ci2MPX7POzTBukHF29TrJQpyYGNjQl48BrEBvfZbrFeKOma76SnB2AZ6r1)
+    }</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar Component -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 max-w-full bg-[#131313] dark:bg-[#131313] bg-gradient-to-b from-[#1b1b1b] to-transparent transition-all duration-300">
+<a class="font-['Newsreader'] italic font-black text-2xl text-white tracking-tighter" href="#">FUN LOVIN TATTOO</a>
+<div class="hidden md:flex items-center space-x-12">
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300 active:text-white active:font-bold" href="#">Artists</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-white font-bold transition-colors duration-300" href="#">Collections</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Studio</a>
+<a class="font-['Newsreader'] tracking-tight text-lg text-[#c9c6c0] hover:text-white transition-colors duration-300" href="#">Bookings</a>
+</div>
+<button class="bg-white text-black px-8 py-3 font-mono text-[0.6875rem] uppercase tracking-[0.15em] hover:scale-95 transition-all duration-200">
+        Inquire
+    </button>
+</nav>
+<main class="pt-0">
+<!-- Hero Section with Deep Black Theme -->
+<section class="bg-deep-black text-ivory px-8 pt-48 pb-32 noise-bg">
+<div class="flex flex-col md:flex-row items-end justify-between gap-8 max-w-7xl mx-auto">
+<div class="max-w-4xl">
+<span class="font-mono text-[0.6875rem] uppercase tracking-[0.4rem] text-[#c9c6c0] mb-6 block">THE MODERN ARCHIVIST / VOL. 01</span>
+<h1 class="font-headline text-7xl md:text-[11rem] italic leading-[0.85] tracking-tighter mix-blend-difference">
+                    Permanent <br/> <span class="ml-12 md:ml-32">Collections</span>
+</h1>
+</div>
+<div class="hidden md:block pb-12">
+<p class="font-body text-[#c9c6c0] max-w-xs leading-relaxed text-sm uppercase tracking-wider italic">
+                    A curated anthology of skin and ink. Every piece is a singular narrative, documented for the discerning collector.
+                </p>
+</div>
+</div>
+</section>
+<!-- Studio Gallery Bento Grid with Organic Masks & Dark Theme -->
+<section class="bg-deep-black px-8 pb-48">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 auto-rows-[300px] md:auto-rows-[450px]">
+<!-- Item 1: Large Vertical with Mask -->
+<div class="md:col-span-4 md:row-span-2 group relative overflow-hidden organic-mask-1">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale brightness-90" data-alt="Close-up high contrast black and white photography of an intricate floral sleeve tattoo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs-uF8xm02A0g1bwfmGLAXQBBy50wu74p9Xw3_Cf89wKCHzvmb9Ypnp-3FIhxG83rLx2HpwvorNURqMiLP7G9s8mm1Wo3gAltuArBg8guAxdVHSaBEm4LVZHWv8OGR9QFLyUYkRo3yMPn3s4MGRsQciG5kPM1bfZPS85jaMcGMo4srnaYZP9z4NMWjVpcdhyR34WCFPd2KIYQk0cmj9Fl9IWKOMFIiCoSvTjzwQ89aOn5Vcfeggbys80RsMmMIzHalXf-b0dmFmkrW"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<span class="font-mono text-[0.6rem] text-ivory tracking-[0.3em] uppercase mb-2">ARCHIVE REF: 7002</span>
+<p class="font-headline italic text-3xl text-ivory">The Midnight Flora</p>
+</div>
+</div>
+<!-- Item 2: Wide Horizontal with Mask -->
+<div class="md:col-span-8 md:row-span-1 group relative overflow-hidden organic-mask-2">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale brightness-90" data-alt="Dramatic black and white wide shot of a large back piece tattoo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW6oXqOMhMOCrHFk4TuLTV2REiU1EWEuJXTlSLjP3zlKr9_i19ncAXUYAU8F86CQWmIe98096_RcIVOMkYOIyOhomGEH2gffHrSioBkRVGSyI5dND_JMS-YBUCSThjW8wKXA4a8Q48KBURhof9flMbkPlct5pBvvMH-trbXwbsNO8O_kHByLGjjQyt057savL26TDahGZqMaTH1MagZhMQjh6QYG_hPrCg9NgwfHpVu-8xe-JmWMajUvWWn94LxkeCNldNGktL1H75"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<span class="font-mono text-[0.6rem] text-ivory tracking-[0.3em] uppercase mb-2">STRUCTURAL THEORY</span>
+<p class="font-headline italic text-3xl text-ivory">Geometric Spine</p>
+</div>
+</div>
+<!-- Item 3: Square with Mask -->
+<div class="md:col-span-4 md:row-span-1 group relative overflow-hidden organic-mask-3">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale brightness-90" data-alt="Detailed macro shot of a small fine line tattoo of a bird" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwsk7UScMR6bvYAhofuhNTpoKyuT34DBTiSsJbdmOeg1XbgX9o7GE4FqQ0zmkApviNvhsRbE4f4PL0eqxmaC-jftQ0ozQKedHQpTXDBgR_i7Y3O7FPIlfttzqtivVLfZeODb6aYv0m8lKAkhpFcEhLqCX8vtLWEUASqICWay78yGDMrcRVK6Xr1M6OyZ0N8QK4r74ImD02aMEZPDtAIglbIwB0ttA-iKj_gVs6mGtBwiU6tu7b55-ghsQLXhA5xacrQ4KqttPNob5m"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<span class="font-mono text-[0.6rem] text-ivory tracking-[0.3em] uppercase mb-2">MINIMALIST STUDIES</span>
+<p class="font-headline italic text-3xl text-ivory">Avian 01</p>
+</div>
+</div>
+<!-- Item 4: Square with Mask -->
+<div class="md:col-span-4 md:row-span-1 group relative overflow-hidden organic-mask-4">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale brightness-90" data-alt="Black and white portrait of a person with ornamental neck tattoos" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFjhSZXJecgquguhTLIdFeIjAtHjbh3i29UUGb4AA8CG2WLBbRpwlxGlUeB9uv4btDUx_v0VmfrPXQwcjrmWrwP88ZyP0-kW8cXgjTrdxQDT0GWqJ1otzjVwDx5pf9hbm83fo6O7oxbKQbZtXafigF6FRy6OtU8wza-SuB7HNpe1SmmYes26UKcTU3ApHR3uM69U7g3ltwpTQp1gujQGuOmcuAtg7IW0Zxvb38EC42KNDNTEkFuj0M5esbTUxnBQ9ZGcDlU4FZIeWF"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<span class="font-mono text-[0.6rem] text-ivory tracking-[0.3em] uppercase mb-2">PORTRAIT SERIES</span>
+<p class="font-headline italic text-3xl text-ivory">Choker Silhouette</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Artist Showcase Section -->
+<section class="bg-ivory py-48 px-8 overflow-hidden relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block">
+<span class="vertical-text font-headline text-9xl italic text-black/5 select-none uppercase tracking-widest">Master Archive</span>
+</div>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-24">
+<div class="flex-1">
+<div class="relative mb-8">
+<div class="p-1 border border-black/10">
+<img class="w-full aspect-[4/5] object-cover grayscale brightness-90" data-alt="Professional portrait of a tattoo artist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi2sscvABXkrfoRMttz2FuWIDzjSyfGlCayuhrUPrlje-efFay7GVQNMMULioE_fqwl_FiM42pq9hf150Jo4SXmrjl3mfz8GxriEzXc_8Nfy-GvWffmHh_oJLS0A_BFnUqLXZf7Ges2OEtvS-HsFOWAupNllMm74jTiUj-hxhtkvj2bQAWyPkOOwPwysjC5pkyKAPZhXNqZYxIRJZJ95O7kveoJhSvmlzWtWGXu_1sUnoPBpKTFA_Pxxu_xWG1_azm58GK1RbT0i3Q"/>
+</div>
+<div class="absolute -bottom-8 -right-8 bg-black p-10 text-ivory hidden md:block border-ivory border-2">
+<h3 class="font-headline text-4xl italic">Marco V.</h3>
+<p class="font-mono text-[0.6rem] tracking-[0.4rem] uppercase mt-2">CHIEF ARCHIVIST</p>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<span class="font-mono text-[0.75rem] uppercase tracking-[0.3rem] text-black/60 mb-8 block">LEGACY / CRAFT / TRADITION</span>
+<h2 class="font-headline text-6xl md:text-7xl italic leading-[1.1] mb-8">The hands behind the archive.</h2>
+<p class="font-body text-xl text-black/80 leading-relaxed mb-12 max-w-lg">
+                    With over 15 years in the industry, Marco specializes in high-contrast realism and micro-ornamentalism. His philosophy centers on the tattoo as a permanent extension of the soul's architecture.
+                </p>
+<div class="flex flex-col gap-6">
+<a class="inline-flex items-center group w-fit" href="#">
+<span class="font-mono text-[0.7rem] uppercase tracking-[0.2rem] border-b-2 border-black pb-2">Full Collection Access</span>
+<span class="material-symbols-outlined ml-4 group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Find Us Section with High Contrast Ivory/Black and Distressed Borders -->
+<section class="px-8 mb-48 bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="distressed-border bg-ivory grid grid-cols-1 md:grid-cols-2 gap-16">
+<div class="order-2 md:order-1 p-8">
+<div class="mb-16">
+<h2 class="font-headline text-6xl italic mb-12 tracking-tighter">The Studio</h2>
+<div class="space-y-12">
+<div class="group">
+<span class="font-mono text-[0.65rem] uppercase tracking-[0.4rem] text-black/40 block mb-4">COORDINATES</span>
+<p class="font-headline text-3xl italic">412 Editorial Way,<br/>Ink District, NY 10013</p>
+</div>
+<div class="group">
+<span class="font-mono text-[0.65rem] uppercase tracking-[0.4rem] text-black/40 block mb-4">THE ARCHIVE HOURS</span>
+<p class="font-headline text-3xl italic">Tue — Sat / 11:00 — 20:00<br/>Sun — Mon / Private Bookings</p>
+</div>
+<div class="group">
+<span class="font-mono text-[0.65rem] uppercase tracking-[0.4rem] text-black/40 block mb-4">ENQUIRIES</span>
+<p class="font-headline text-3xl italic">studio@funlovintattoo.com<br/>+1 212 555 0198</p>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto bg-black text-white px-16 py-5 font-mono text-[0.7rem] uppercase tracking-[0.4rem] flex items-center justify-center group hover:bg-black/90 transition-all">
+                        Locate Studio
+                        <span class="material-symbols-outlined ml-4 group-hover:rotate-45 transition-transform">north_east</span>
+</button>
+</div>
+<div class="order-1 md:order-2 bg-black overflow-hidden relative border-l border-black/10">
+<!-- High Contrast Map -->
+<div class="absolute inset-0 grayscale contrast-150 brightness-50 opacity-80 mix-blend-multiply">
+<img class="w-full h-full object-cover" data-alt="High contrast monochromatic map of New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs_MeWjtvyyvMD8AYYpPGezosKUOUsbPPyGaSqqGiSWLXyh_1xCXBw5gU9Vo7AbrjvHydzw43modazTGbJYTbQTU6I6SDKhwd8aKN0EqPzuuiYrP9piiXM8n0QYKdeJMYJslayBmb86AKkgB2hplMLlrhrPOmSkN0RG8M6lc6PwOpiCfrdcGmoUt1g19OqOMoCwe8SQ6XHldASRoNtrVv0SMKRjmNTxESubF4f9FF8EPHQNsNqy6LwpLKKgqsgzEns9s9laOWN8OVE"/>
+</div>
+<!-- Central ivory marker -->
+<div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+<div class="w-2 h-2 bg-black rounded-full animate-ping"></div>
+</div>
+</div>
+<!-- Floating Ivory Label -->
+<div class="absolute bottom-12 left-12 bg-ivory p-6 border border-black/10 shadow-2xl">
+<p class="font-mono text-[0.6rem] uppercase tracking-[0.3rem]">ESTABLISHED 2007</p>
+<p class="font-headline italic text-2xl mt-1">Lower Manhattan</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-[#131313] w-full py-20 px-10 border-t border-[#474747]/20">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+<div class="flex flex-col gap-8">
+<span class="text-white font-['Newsreader'] text-3xl italic">FUN LOVIN TATTOO</span>
+<div class="flex gap-8">
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Instagram</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white transition-opacity opacity-80 hover:opacity-100" href="#">Studio Directions</a>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-6">
+<div class="flex flex-wrap md:justify-end gap-x-8 gap-y-2 mb-4">
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white" href="#">Privacy Policy</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#c9c6c0] hover:text-white" href="#">Terms of Service</a>
+</div>
+<p class="text-[#c9c6c0] font-['Space_Grotesk'] uppercase tracking-widest text-[0.6rem]">
+                © 2024 FUN LOVIN TATTOO. ALL RIGHTS RESERVED. COLLECTION NO. 001
+            </p>
+</div>
+</div>
+</footer>
+</body></html>

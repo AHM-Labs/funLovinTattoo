@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="The Studio | Professional Artistry">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <div class="text-center mb-32">
+      <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">The Boutique Workspace</span>
+      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter ivory-text font-black uppercase">The Studio.</h1>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+      <div class="lg:col-span-4 lg:sticky lg:top-10 space-y-16">
+        <section class="p-8 border-premium bg-[#111]">
+          <h2 class="font-headline text-3xl font-black italic mb-8 border-b border-flt-ivory-border/30 pb-4 uppercase">Location</h2>
+          <div class="font-body text-flt-muted space-y-6">
+            <p>
+              <strong class="text-flt-cream uppercase tracking-widest text-[10px] block mb-2 font-label">The Mexborough Studio</strong>
+              Above Gorilla Beer Hall<br/>
+              Unit 3 Canalside Ind. Estate<br/>
+              Cliff Street, Mexborough<br/>
+              United Kingdom, S64 9HU
+            </p>
+            <p>
+              <strong class="text-flt-cream uppercase tracking-widest text-[10px] block mb-2 font-label">Hours</strong>
+              Wednesday — Sunday<br/>11:00 AM — 7:00 PM<br/>
+              <em class="text-sm italic opacity-60">Strictly By Appointment Only</em>
+            </p>
+          </div>
+        </section>
+        
+        <a href="/book" class="inline-block w-full text-center px-12 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-colors shadow-2xl">
+          Book Appointment
+        </a>
+      </div>
+      
+      <div class="lg:col-span-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div class="aspect-video bg-flt-border/5 border-premium sm:col-span-2 flex items-center justify-center transition-all duration-1000 overflow-hidden group">
+              <img src="/assets/studio_outside.jpg" alt="The Studio Exterior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[5s]" />
+          </div>
+          <div class="aspect-square bg-flt-border/5 border-premium flex items-center justify-center blob-mask transition-all duration-700 overflow-hidden">
+            <img src="/assets/studio_inside.jpg" alt="Studio Interior" class="w-full h-full object-cover" />
+          </div>
+          <div class="aspect-square bg-flt-border/5 border-premium flex items-center justify-center blob-mask-alt transition-all duration-700 overflow-hidden">
+             <img src="/assets/archival_tools.png" alt="Precision Tools" class="w-full h-full object-cover" />
+          </div>
+        </div>
+        <div class="mt-20 prose prose-invert prose-cream max-w-none">
+          <p class="font-headline italic text-3xl ivory-text opacity-90 leading-tight uppercase tracking-tighter font-black">
+            "Bringing decades of dedication to every needle stroke. We believe in tattooing as a permanent conversation between artist and skin."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

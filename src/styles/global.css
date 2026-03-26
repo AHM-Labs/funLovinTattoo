@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-flt-bg: #131313;
+  --color-flt-text: #ffffff;
+  --color-flt-muted: #c9c6c0;
+  --color-flt-ivory: #e3e2e0;
+  --color-flt-cream: #f2efe4;
+  --color-flt-border: #333333;
+  --color-flt-ivory-border: rgba(227, 226, 224, 0.4);
+  
+  --font-headline: "Newsreader", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-flt-bg);
+    color: var(--color-flt-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    font-weight: 800;
+  }
+}
+
+@layer utilities {
+  .ivory-text {
+    color: var(--color-flt-ivory);
+  }
+
+  .cream-text {
+    color: var(--color-flt-cream);
+  }
+  
+  .border-premium {
+    border: 1px solid var(--color-flt-ivory-border);
+  }
+
+  .blob-mask {
+    clip-path: polygon(5% 10%, 95% 5%, 100% 90%, 5% 100%, 0% 50%);
+  }
+  
+  .blob-mask-alt {
+    clip-path: polygon(0% 0%, 100% 15%, 90% 100%, 10% 95%);
+  }
+
+  .stroke-text {
+    -webkit-text-stroke: 1px rgba(227, 226, 224, 0.3);
+  }
+  
+  .ivory-gradient {
+    background: linear-gradient(to bottom, rgba(242, 239, 228, 0.05), transparent);
+  }
+}
