@@ -1,0 +1,125 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { user as userTable } from "../../db/schema";
+
+// Session Check
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (!session) return Astro.redirect("/admin/login");
+if (session.user.requiresPasswordReset) return Astro.redirect("/admin/reset-password");
+// Only admins can see this
+if (session.user.role !== 'admin') return Astro.redirect("/admin");
+
+const users = await db.select().from(userTable);
+---
+
+<Layout title="Team Management | Admin">
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="mb-12 border-b border-flt-ivory-border/10 pb-8">
+            <a href="/admin" class="font-label text-[9px] uppercase tracking-widest text-flt-muted hover:text-white transition-colors">&larr; Back to Dashboard</a>
+            <h1 class="font-headline text-5xl italic ivory-text uppercase mt-4">Manage <br/> Team.</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Add New Artist -->
+            <div class="lg:col-span-1">
+                <div class="border-premium bg-[#111] p-8">
+                    <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6">Add Artist</h2>
+                    <form id="invite-form" class="space-y-4">
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Name</label>
+                            <input type="text" id="name" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-3 text-white font-body focus:border-flt-cream outline-none text-sm" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Email</label>
+                            <input type="email" id="email" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-3 text-white font-body focus:border-flt-cream outline-none text-sm" />
+                        </div>
+                        <button type="submit" class="w-full bg-flt-cream text-black font-label py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Create Invite</button>
+                    </form>
+                    <p class="mt-4 font-body text-[10px] text-flt-muted leading-relaxed">
+                        A new account will be created with temporary password <span class="text-white">"password"</span>. They will be forced to reset it upon login.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Artist List -->
+            <div class="lg:col-span-2">
+                 <div class="border-premium bg-flt-border/5 p-8">
+                    <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6">Active Artists</h2>
+                    <div class="space-y-4">
+                        {users.map(u => (
+                            <div class="flex justify-between items-center border-b border-flt-ivory-border/5 pb-4 last:border-0">
+                                <div>
+                                    <p class="font-headline text-xl italic ivory-text uppercase">{u.name}</p>
+                                    <p class="font-label text-[9px] uppercase tracking-widest text-flt-muted">{u.email} • {u.role}</p>
+                                </div>
+                                <div class="flex gap-4 items-center">
+                                     {u.requiresPasswordReset && <span class="font-label text-[8px] border border-flt-cream/20 text-flt-cream px-2 py-1 uppercase">Pending Reset</span>}
+                                     <button class="reset-user-btn text-[9px] font-label uppercase tracking-widest text-flt-muted hover:text-flt-cream transition-colors" data-id={u.id}>Force Reset</button>
+                                     <button class="delete-user-btn text-[9px] font-label uppercase tracking-widest text-red-500/50 hover:text-red-500 transition-colors" data-id={u.id}>Delete</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.reset-user-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = (e.target as HTMLElement).dataset.id;
+                if (!id || !confirm("Force this user to reset their password?")) return;
+                
+                const res = await fetch("/api/admin/users/force-reset", {
+                    method: "POST",
+                    body: JSON.stringify({ id })
+                });
+                if (res.ok) alert("User will be required to reset password on next login.");
+                else alert("Failed to trigger reset.");
+            });
+        });
+
+        document.querySelectorAll('.delete-user-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = (e.target as HTMLElement).dataset.id;
+                if (!id || !confirm("Permanently delete this user access?")) return;
+                
+                const res = await fetch("/api/admin/users/delete", {
+                    method: "POST",
+                    body: JSON.stringify({ id })
+                });
+                if (res.ok) location.reload();
+                else alert("Failed to delete user.");
+            });
+        });
+
+        document.getElementById('invite-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = (document.getElementById('name') as HTMLInputElement).value;
+            const email = (document.getElementById('email') as HTMLInputElement).value;
+            const btn = (e.target as HTMLFormElement).querySelector('button');
+            if(btn) btn.textContent = "Creating...";
+
+            try {
+                const res = await fetch("/api/admin/users/add", {
+                    method: "POST",
+                    body: JSON.stringify({ name, email })
+                });
+                if (res.ok) {
+                    alert("User added! Temporary password is 'password'.");
+                    location.reload();
+                } else {
+                    const data = await res.json();
+                    alert("Error: " + data.error);
+                }
+            } catch (e) {
+                alert("Request failed.");
+            }
+            if(btn) btn.textContent = "Create Invite";
+        });
+    </script>
+</Layout>

@@ -1,0 +1,138 @@
+---
+export const prerender = false;
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { auth } from "../../../lib/auth";
+
+// Require Authentication
+const session = await auth.api.getSession({
+    headers: Astro.request.headers
+});
+
+if (!session) return Astro.redirect("/admin/login");
+
+// Fetch existing post if editing
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id");
+let existingPost = null;
+
+if (id) {
+    const posts = await getCollection("news");
+    existingPost = posts.find(p => p.id === id);
+}
+
+const isNew = !id;
+
+let fullMDX = "";
+if (existingPost) {
+    const fm = `---
+title: ${JSON.stringify(existingPost.data.title)}
+date: ${existingPost.data.date.toISOString().split('T')[0]}
+description: ${JSON.stringify(existingPost.data.description)}
+image: ${JSON.stringify(existingPost.data.image || "")}
+---`;
+    fullMDX = `${fm}\n\n${existingPost.body}`;
+}
+---
+
+<Layout title={isNew ? "New Entry | Admin" : "Edit Entry | Admin"}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+     <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
+        <div>
+           <a href="/admin/journal" class="font-label text-[10px] uppercase tracking-[0.2rem] text-flt-cream hover:opacity-70 flex items-center gap-2 mb-6">&larr; Journal</a>
+           <h1 class="font-headline text-5xl italic ivory-text uppercase">{isNew ? 'New entry.' : 'Edit entry.'}</h1>
+        </div>
+        <button id="save-btn" class="bg-white text-black font-label px-12 py-5 uppercase tracking-widest text-xs font-bold hover:bg-flt-cream transition-all shadow-xl">Save & Publish</button>
+     </div>
+
+     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Editor Column -->
+        <div class="lg:col-span-2">
+            <div class="bg-[#0a0a0a] border border-flt-ivory-border/20 relative shadow-2xl">
+                 <div class="flex border-b border-flt-ivory-border/10 p-4 bg-[#111]">
+                    <span class="font-label text-[9px] uppercase tracking-[0.4rem] text-flt-muted/40">MDX Editor</span>
+                 </div>
+                  <textarea id="editor" class="w-full h-[600px] bg-transparent p-10 text-flt-muted font-mono text-sm leading-relaxed outline-none resize-none focus:text-white transition-colors" placeholder="Write your story in Markdown...">{existingPost ? fullMDX : `---
+title: "Untilted Entry"
+date: ${new Date().toISOString().split('T')[0]}
+description: "Brief summary of the work..."
+image: ""
+---
+
+## Start writing...`}</textarea>
+            </div>
+        </div>
+
+        <!-- Meta Column -->
+        <div class="lg:col-span-1 space-y-8">
+            <div class="border-premium bg-[#111] p-8 shadow-xl">
+                 <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6 border-b border-flt-ivory-border/10 pb-4">Configuration</h2>
+                 <div class="space-y-6">
+                    <div>
+                        <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Slug (Filename)</label>
+                        <input 
+                            type="text" 
+                            id="slug" 
+                            value={id || ''} 
+                            placeholder="e.g. summer-elopement" 
+                            class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" 
+                            readonly={id ? true : undefined} 
+                        />
+                        <p class="text-[9px] text-flt-muted/40 mt-2 italic">Format: lowercase-with-dashes</p>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="p-8 border border-flt-ivory-border/10 bg-black/40">
+                <h3 class="font-label text-[10px] uppercase tracking-widest text-flt-cream mb-4">Guidelines</h3>
+                <ul class="font-body text-[11px] text-flt-muted/60 space-y-4 leading-relaxed">
+                    <li>• Frontmatter must be at the very top.</li>
+                    <li>• Image paths should point to `/assets/...`</li>
+                    <li>• Use standard Markdown for formatting.</li>
+                    <li>• Saving will trigger a workspace build.</li>
+                </ul>
+            </div>
+        </div>
+     </div>
+  </div>
+
+  <script>
+      const saveBtn = document.getElementById('save-btn') as HTMLButtonElement;
+      const editor = document.getElementById('editor') as HTMLTextAreaElement;
+      const slugInput = document.getElementById('slug') as HTMLInputElement;
+
+      saveBtn?.addEventListener('click', async () => {
+          const content = editor.value;
+          const slug = slugInput.value;
+
+          if(!slug) {
+              alert("Please provide a slug/filename.");
+              return;
+          }
+
+          saveBtn.innerText = "Validating...";
+          saveBtn.disabled = true;
+
+          try {
+              const res = await fetch("/api/admin/journal/save", {
+                  method: "POST",
+                  body: JSON.stringify({ slug, content })
+              });
+
+              if(res.ok) {
+                  alert("Saved successfully!");
+                  window.location.href = "/admin/journal";
+              } else {
+                  const err = await res.json();
+                  alert("Save Failed: " + (err.error || "Check syntax."));
+                  saveBtn.innerText = "Save & Publish";
+                  saveBtn.disabled = false;
+              }
+          } catch(e) {
+              alert("Network error.");
+              saveBtn.innerText = "Save & Publish";
+              saveBtn.disabled = false;
+          }
+      });
+  </script>
+</Layout>

@@ -1,5 +1,12 @@
 ---
+export const prerender = false;
 import Layout from '../layouts/Layout.astro';
+import { db } from "../db";
+import { settings } from "../db/schema";
+import { eq } from "drizzle-orm";
+
+const locationSetting = await db.select().from(settings).where(eq(settings.key, 'van_location'));
+const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
 ---
 
 <Layout title="Fun Lovin Tattoo | Professional Artistry">
@@ -30,11 +37,13 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div class="lg:col-span-4 relative mt-20 lg:mt-0">
         <div class="aspect-[3/4] bg-flt-border/5 relative blob-mask overflow-hidden contrast-125 transition-all duration-1000 border-premium group">
-           <img src="/assets/mobile_van_hero.png" alt="Fun Lovin Tattoo Mobile Studio" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[3s]" />
+           <img src="/assets/mobile_van_hero.png" alt="Fun Lovin Tattoo Mobile Studio" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-all duration-[3000ms]" />
         </div>
         <div class="absolute -bottom-8 -left-12 z-30 p-8 bg-flt-bg border-premium hidden lg:block backdrop-blur-md">
           <p class="font-label text-[8px] uppercase tracking-widest text-flt-muted mb-2">MOBILE STATUS</p>
-          <p class="font-headline italic text-2xl cream-text leading-tight uppercase tracking-tighter">On Location <br/> Globally</p>
+          <p class="font-headline italic text-2xl cream-text leading-tight uppercase tracking-tighter" id="van-status-text">
+            {currentVanLocation}
+          </p>
         </div>
       </div>
     </div>

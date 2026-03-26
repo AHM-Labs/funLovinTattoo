@@ -1,0 +1,71 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin Login | Professional Artistry">
+  <div class="max-w-md mx-auto py-32 px-4">
+     <div class="text-center mb-12">
+        <span class="font-label text-[10px] uppercase tracking-[0.4rem] text-flt-muted block mb-4">Secure Portal</span>
+        <h1 class="font-headline text-5xl italic ivory-text uppercase">Artist Login</h1>
+     </div>
+
+     <div id="login-container" class="space-y-6">
+       <button id="passkey-btn" class="w-full bg-flt-cream text-black font-label py-5 uppercase tracking-widest font-bold shadow-xl hover:bg-white transition-colors flex items-center justify-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+          Sign in with Passkey
+       </button>
+
+       <div class="mt-8 pt-8 border-t border-flt-ivory-border/10">
+          <p class="font-label text-[10px] text-flt-muted tracking-widest uppercase mb-4 text-center">Fallback Login</p>
+          <form id="fallback-form" class="space-y-4">
+             <input type="email" id="email" placeholder="Email" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" required />
+             <input type="password" id="password" placeholder="Password" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" required />
+             <button type="submit" class="w-full border border-flt-ivory-border/50 text-white font-label py-4 uppercase tracking-widest text-[11px] hover:bg-white hover:text-black transition-colors">Sign In</button>
+          </form>
+       </div>
+
+       <div class="text-center text-flt-muted font-label text-[10px] uppercase tracking-[0.2em] mt-8 pt-4">
+          Unregistered? <a href="/admin/setup" class="text-flt-cream border-b border-flt-cream/30 pb-px hover:opacity-70 transition-opacity ml-2">Setup Access</a>
+       </div>
+     </div>
+  </div>
+  
+  <script>
+    import { authClient } from "../../lib/auth-client";
+    
+    // Passkey Login
+    const passkeyBtn = document.getElementById("passkey-btn");
+    passkeyBtn?.addEventListener("click", async () => {
+       const originalText = passkeyBtn.innerHTML;
+       passkeyBtn.innerHTML = "Authenticating...";
+       
+       const { data, error } = await authClient.signIn.passkey();
+       if (data) {
+          window.location.href = "/admin";
+       } else if (error) {
+          alert("Login failed: " + error.message);
+          passkeyBtn.innerHTML = originalText;
+       }
+    });
+
+    // Fallback Password Login
+    document.getElementById("fallback-form")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = (document.getElementById("email") as HTMLInputElement).value;
+        const password = (document.getElementById("password") as HTMLInputElement).value;
+        const form = e.target as HTMLFormElement;
+        const submitBtn = form.querySelector('button');
+        
+        if(submitBtn) submitBtn.textContent = "Signing In...";
+
+        const { data, error } = await authClient.signIn.email({ email, password });
+        if (data) {
+            window.location.href = "/admin";
+        } else if (error) {
+            alert("Login failed: " + error.message);
+            if(submitBtn) submitBtn.textContent = "Sign In";
+        }
+    });
+  </script>
+</Layout>

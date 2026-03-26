@@ -13,11 +13,22 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
+    "@astrojs/node": "^10.0.4",
     "@astrojs/sitemap": "^3.7.1",
+    "@better-auth/passkey": "^1.5.6",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.0.8",
+    "better-auth": "^1.5.6",
+    "better-sqlite3": "^12.8.0",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "gsap": "^3.14.2",
+    "resend": "^6.9.4",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "drizzle-kit": "^0.31.10"
   }
 }

@@ -1,0 +1,113 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Start Inquiry | Professional Artistry">
+  <div class="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <div class="text-center mb-24">
+      <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">Consultation Request</span>
+      <h1 class="font-headline text-7xl md:text-8xl italic tracking-tighter ivory-text font-black uppercase">Start Inquiry.</h1>
+      <p class="font-body text-flt-muted max-w-xl mx-auto mt-8 leading-relaxed">Please provide as much detail as possible. We carefully review every request to ensure a perfect match between artist specialty and your vision.</p>
+    </div>
+
+    <form id="inquiry-form" class="space-y-12 border-premium bg-[#111] p-12 lg:p-20 shadow-2xl relative overflow-hidden">
+      <!-- Decorative element -->
+      <div class="absolute top-0 right-0 w-32 h-32 bg-flt-cream/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-4">
+          <label for="name" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Full Name</label>
+          <input type="text" id="name" name="name" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. Alexander Thorne" />
+        </div>
+        <div class="space-y-4">
+          <label for="email" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Email Address</label>
+          <input type="email" id="email" name="email" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. alex@example.com" />
+        </div>
+        <div class="space-y-4">
+          <label for="phone" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Phone Number</label>
+          <input type="tel" id="phone" name="phone" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
+        </div>
+        <div class="space-y-4">
+          <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Inquiry Type</label>
+          <select id="type" name="type" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
+            <option value="wedding">Wedding / Elopement</option>
+            <option value="corporate">Corporate Activation</option>
+            <option value="private">Private Event</option>
+            <option value="studio">Studio Session (Mexborough)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <label for="details" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Project Vision & Details</label>
+        <textarea id="details" name="details" required rows="6" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none" placeholder="Describe the concept, placement, size, and approximate date if applicable..."></textarea>
+      </div>
+
+      <div class="pt-8 border-t border-flt-ivory-border/10 flex flex-col md:flex-row items-center justify-between gap-10">
+        <p class="font-body text-[12px] text-flt-muted/60 max-w-sm italic">By submitting, you acknowledge that we may store your details for communication regarding this request.</p>
+        <button type="submit" id="submit-btn" class="w-full md:w-auto px-16 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl">Submit Inquiry</button>
+      </div>
+    </form>
+
+    <div id="success-msg" class="hidden text-center py-20 animate-fade-in">
+       <div class="w-20 h-20 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-10">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+       </div>
+       <h2 class="font-headline text-5xl italic ivory-text uppercase mb-6">Received.</h2>
+       <p class="font-body text-flt-muted max-w-sm mx-auto leading-relaxed">Thank you for your trust. Our lead artist will review your vision and respond within 48 hours.</p>
+       <a href="/" class="mt-12 inline-block font-label text-[10px] uppercase tracking-widest text-flt-cream border-b border-flt-cream/30 pb-2">Return Home &rarr;</a>
+    </div>
+  </div>
+
+  <script>
+    import { actions } from 'astro:actions';
+    
+    const form = document.getElementById('inquiry-form') as HTMLFormElement;
+    const successMsg = document.getElementById('success-msg');
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const response = await fetch('/api/inquiries', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          form.classList.add('hidden');
+          successMsg?.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const err = await response.json();
+          alert(`Error: ${err.error || 'Something went wrong.'}`);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Inquiry';
+        }
+      } catch (error) {
+        alert('Network error. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Inquiry';
+      }
+    });
+
+    // Handle initial auto-fill from URL params (e.g. /book?type=corporate)
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type');
+    if (type) {
+        const typeSelect = document.getElementById('type') as HTMLSelectElement;
+        if (typeSelect) typeSelect.value = type;
+    }
+  </script>
+</Layout>
