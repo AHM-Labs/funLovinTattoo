@@ -11,14 +11,14 @@ const posts: CollectionEntry<'news'>[] = (await getCollection('news')).sort(
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
     <div class="text-center mb-32">
       <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">The Portfolio</span>
-      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter ivory-text font-black uppercase">Journal.</h1>
+      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter cream-text font-black uppercase leading-tight">Journal.</h1>
     </div>
 
     <div class="space-y-12">
       {posts.map(post => (
-        <article class="group border-b border-flt-ivory-border/10 pb-12">
+        <article class="group border-b border-flt-border pb-12">
           <a href={`/news/${post.id}`} class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-8">
-            <div class="md:col-span-3 aspect-[4/3] bg-flt-border/5 overflow-hidden border-premium grayscale group-hover:grayscale-0 transition-all duration-700">
+            <div class="md:col-span-3 aspect-[4/3] bg-flt-bg border-premium grayscale group-hover:grayscale-0 transition-all duration-700 overflow-hidden shadow-2xl">
                {post.data.image ? (
                  <img src={post.data.image} alt={post.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
                ) : (
@@ -31,20 +31,20 @@ const posts: CollectionEntry<'news'>[] = (await getCollection('news')).sort(
                </span>
             </div>
             <div class="md:col-span-8">
-              <h2 class="font-headline text-4xl md:text-5xl italic ivory-text group-hover:cream-text transition-colors leading-tight mb-4 uppercase tracking-tighter">
+              <h2 class="font-headline text-4xl md:text-5xl italic cream-text group-hover:text-white transition-colors leading-tight mb-4 uppercase tracking-tighter">
                 {post.data.title}
               </h2>
               <p class="font-body text-flt-muted max-w-2xl text-sm leading-relaxed mb-6">
                 {post.data.description}
               </p>
-              <span class="font-label text-[9px] uppercase tracking-[0.3em] ivory-text border-b border-flt-ivory-border/30 pb-1 group-hover:border-flt-ivory transition-all">Read Entry &rarr;</span>
+              <span class="font-label text-[9px] uppercase tracking-[0.3em] cream-text border-b border-flt-border/30 pb-1 group-hover:border-flt-cream transition-all">Read Entry &rarr;</span>
             </div>
           </a>
         </article>
       ))}
       
       {posts.length === 0 && (
-        <div class="text-center py-32 border-t border-b border-dashed border-flt-border/20 text-flt-muted/40">
+        <div class="text-center py-32 border-t border-b border-dashed border-flt-border text-flt-muted/40">
           <p class="font-headline italic text-2xl">The archive is silent for now.</p>
         </div>
       )}

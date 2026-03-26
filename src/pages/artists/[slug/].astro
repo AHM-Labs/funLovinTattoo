@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Gallery from '../../components/Gallery.astro';
+import { getCollection, render, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const artists = await getCollection('artists');
+  return artists.map(entry => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('artists', slug as string);
+if (!entry) return Astro.redirect('/404');
+
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.name} | Resident Artist`}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <div class="mb-16">
+      <a href="/artists" class="font-label text-[10px] uppercase tracking-widest text-flt-muted hover:cream-text transition-colors border-b border-flt-border pb-1">&larr; Back to Artists</a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+      <div class="lg:col-span-5 lg:sticky lg:top-10">
+        <div class="aspect-[3/4] bg-flt-bg/5 mb-12 border-premium overflow-hidden grayscale contrast-125 shadow-2xl">
+          <img src={entry.data.image} alt={entry.data.name} class="w-full h-full object-cover" />
+        </div>
+        <h1 class="font-headline text-6xl md:text-8xl italic cream-text leading-[0.9] tracking-tighter mb-8 uppercase">{entry.data.name}</h1>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-flt-muted mb-8">{entry.data.role} — {entry.data.specialty}</p>
+        <div class="h-px w-24 bg-flt-border/30 mb-8"></div>
+        <div class="prose prose-invert prose-cream font-body text-flt-muted leading-relaxed italic text-lg">
+          <Content />
+        </div>
+      </div>
+
+      <div class="lg:col-span-1 hidden lg:block h-full border-r border-flt-border"></div>
+
+      <div class="lg:col-span-6 space-y-24 pt-12 lg:pt-0">
+        <section>
+          <span class="font-label text-[9px] uppercase tracking-[0.5em] text-flt-muted mb-8 block">Selected Work</span>
+          <Gallery images={[
+            { src: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&q=80&w=800', alt: 'Fine line precision' },
+            { src: 'https://images.unsplash.com/photo-1590247813693-5541d1c609fd?auto=format&fit=crop&q=80&w=800', alt: 'Monochrome contrast' },
+            { src: 'https://images.unsplash.com/photo-1562967914-6cda7cca17df?auto=format&fit=crop&q=80&w=800', alt: 'Intricate detail' },
+            { src: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&q=80&w=800', alt: 'Dark aesthetic work' }
+          ]} />
+        </section>
+
+        <section class="p-12 border-premium bg-flt-bg shadow-2xl">
+          <h3 class="font-headline text-3xl font-black italic mb-8 border-b border-flt-border pb-4 uppercase cream-text">Philosophy</h3>
+          <p class="font-body text-flt-muted leading-relaxed opacity-80">
+            {entry.data.bio}
+          </p>
+          <a href="/book" class="mt-12 block bg-flt-cream text-black text-center py-5 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">Inquire with {entry.data.name.split(' ')[0]}</a>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>

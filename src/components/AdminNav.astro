@@ -15,13 +15,13 @@ const isActive = (path: string) => {
 };
 ---
 
-<div class="w-full bg-black/40 backdrop-blur-md border-b border-flt-ivory-border/10 sticky top-[95px] z-40">
+<div class="w-full bg-flt-bg/40 backdrop-blur-md border-b border-flt-border sticky top-[95px] z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-        <nav class="flex items-center gap-8 overflow-x-auto no-scrollbar py-4">
+        <nav class="flex items-center gap-8 overflow-x-auto no-scrollbar py-4 font-label text-[9px] uppercase tracking-[0.2em]">
             {navItems.map(item => (
                 <a 
                     href={item.href}
-                    class={`font-label text-[9px] uppercase tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${isActive(item.href) ? 'text-flt-cream border-b border-flt-cream/50 pb-1' : 'text-flt-muted hover:text-white'}`}
+                    class={`whitespace-nowrap transition-all duration-300 ${isActive(item.href) ? 'text-flt-cream border-b border-flt-cream/50 pb-1' : 'text-flt-muted hover:text-flt-cream'}`}
                 >
                     {item.name}
                 </a>

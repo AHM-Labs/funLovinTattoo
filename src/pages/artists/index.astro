@@ -9,25 +9,25 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
     <div class="text-center mb-32">
       <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">The Collective</span>
-      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter ivory-text font-black uppercase leading-none">The Artists.</h1>
+      <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter cream-text font-black uppercase leading-none">The Artists.</h1>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
       {artists.map(artist => (
         <a href={`/artists/${artist.id}`} class="group">
-          <div class="aspect-[3/4] bg-flt-border/5 mb-10 overflow-hidden border-premium relative transition-all duration-700">
+          <div class="aspect-[3/4] bg-flt-bg/5 mb-10 overflow-hidden border-premium relative transition-all duration-700 shadow-2xl">
             <img 
               src={artist.data.image} 
               alt={artist.data.name} 
-              class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 shadow-2xl"
+              class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
             />
-            <div class="absolute inset-0 bg-[#0d0d0d]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center">
-               <span class="font-label text-[11px] uppercase tracking-widest text-white border border-white/30 px-8 py-4 backdrop-blur-md">View Profile</span>
+            <div class="absolute inset-0 bg-flt-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center">
+               <span class="font-label text-[11px] uppercase tracking-widest text-flt-cream border border-flt-cream/30 px-8 py-4 backdrop-blur-md">View Profile</span>
             </div>
           </div>
-          <div class="flex justify-between items-start border-b border-flt-ivory-border/10 pb-8">
+          <div class="flex justify-between items-start border-b border-flt-border pb-8">
             <div>
-              <h2 class="font-headline text-4xl italic ivory-text mb-2 group-hover:cream-text transition-colors">{artist.data.name}</h2>
+              <h2 class="font-headline text-4xl italic cream-text mb-2 transition-colors">{artist.data.name}</h2>
               <p class="font-label text-[10px] uppercase tracking-[0.2em] text-flt-muted">{artist.data.role}</p>
             </div>
             <p class="font-body text-sm text-flt-muted/60 text-right max-w-[200px] italic">

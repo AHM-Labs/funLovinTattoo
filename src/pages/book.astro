@@ -7,30 +7,30 @@ import Layout from '../layouts/Layout.astro';
   <div class="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
     <div class="text-center mb-24">
       <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">Consultation Request</span>
-      <h1 class="font-headline text-7xl md:text-8xl italic tracking-tighter ivory-text font-black uppercase">Start Inquiry.</h1>
+      <h1 class="font-headline text-7xl md:text-8xl italic tracking-tighter cream-text font-black uppercase leading-tight">Start Inquiry.</h1>
       <p class="font-body text-flt-muted max-w-xl mx-auto mt-8 leading-relaxed">Please provide as much detail as possible. We carefully review every request to ensure a perfect match between artist specialty and your vision.</p>
     </div>
 
-    <form id="inquiry-form" class="space-y-12 border-premium bg-[#111] p-12 lg:p-20 shadow-2xl relative overflow-hidden">
+    <form id="inquiry-form" class="space-y-12 border-premium bg-flt-bg p-12 lg:p-20 shadow-2xl relative overflow-hidden">
       <!-- Decorative element -->
       <div class="absolute top-0 right-0 w-32 h-32 bg-flt-cream/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div class="space-y-4">
           <label for="name" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Full Name</label>
-          <input type="text" id="name" name="name" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. Alexander Thorne" />
+          <input type="text" id="name" name="name" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. Alexander Thorne" />
         </div>
         <div class="space-y-4">
           <label for="email" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Email Address</label>
-          <input type="email" id="email" name="email" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. alex@example.com" />
+          <input type="email" id="email" name="email" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. alex@example.com" />
         </div>
         <div class="space-y-4">
           <label for="phone" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Phone Number</label>
-          <input type="tel" id="phone" name="phone" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
+          <input type="tel" id="phone" name="phone" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
         </div>
         <div class="space-y-4">
           <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Inquiry Type</label>
-          <select id="type" name="type" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
+          <select id="type" name="type" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
             <option value="tattoo">Tattoo Session</option>
             <option value="consultation">Consultation</option>
             <option value="guest-spot">Guest Spot Inquiry</option>
@@ -41,7 +41,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="space-y-4">
         <label for="details" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Project Vision & Details</label>
-        <textarea id="details" name="details" required rows="6" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none" placeholder="Describe the concept, placement, size, and approximate date if applicable..."></textarea>
+        <textarea id="details" name="details" required rows="6" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none" placeholder="Describe the concept, placement, size, and approximate date if applicable..."></textarea>
       </div>
 
       <!-- Multi-Image Upload -->
@@ -50,7 +50,7 @@ import Layout from '../layouts/Layout.astro';
           <label class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Inspiration Images (Up to 5)</label>
           <span id="file-count" class="font-label text-[8px] text-flt-muted uppercase tracking-widest">0 / 5 Selected</span>
         </div>
-        <div class="border-2 border-dashed border-flt-ivory-border/10 bg-[#0d0d0d] p-10 text-center group hover:border-flt-cream/30 transition-colors relative cursor-pointer">
+        <div class="border-2 border-dashed border-flt-border bg-black/40 p-10 text-center group hover:border-flt-cream/30 transition-colors relative cursor-pointer shadow-inner">
           <input type="file" id="images" name="images" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" />
           <div class="space-y-4 pointer-events-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-flt-muted group-hover:text-flt-cream transition-colors"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -62,7 +62,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="pt-8 border-t border-flt-ivory-border/10 flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="pt-8 border-t border-flt-border flex flex-col md:flex-row items-center justify-between gap-10">
         <p class="font-body text-[12px] text-flt-muted/60 max-w-sm italic">By submitting, you acknowledge that we may store your details for communication regarding this request.</p>
         <button type="submit" id="submit-btn" class="w-full md:w-auto px-16 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl">Submit Inquiry</button>
       </div>
@@ -72,9 +72,9 @@ import Layout from '../layouts/Layout.astro';
        <div class="w-20 h-20 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-10">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
        </div>
-       <h2 class="font-headline text-5xl italic ivory-text uppercase mb-6">Received.</h2>
+       <h2 class="font-headline text-5xl italic cream-text uppercase mb-6">Received.</h2>
        <p class="font-body text-flt-muted max-w-sm mx-auto leading-relaxed">Thank you for your trust. Our lead artist will review your vision and respond within 48 hours.</p>
-       <a href="/" class="mt-12 inline-block font-label text-[10px] uppercase tracking-widest text-flt-cream border-b border-flt-cream/30 pb-2">Return Home &rarr;</a>
+       <a href="/" class="mt-12 inline-block font-label text-[10px] uppercase tracking-widest text-flt-cream border-b border-flt-border/30 pb-2">Return Home &rarr;</a>
     </div>
   </div>
 
@@ -100,7 +100,7 @@ import Layout from '../layouts/Layout.astro';
             const reader = new FileReader();
             reader.onload = (e) => {
                 const div = document.createElement('div');
-                div.className = 'aspect-square bg-black border border-flt-ivory-border/10 overflow-hidden shadow-xl';
+                div.className = 'aspect-square bg-black border border-flt-border overflow-hidden shadow-xl';
                 div.innerHTML = `<img src="${e.target?.result}" class="w-full h-full object-cover" />`;
                 previewContainer.appendChild(div);
             };
