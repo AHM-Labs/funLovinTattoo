@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from '../../../layouts/Layout.astro';
+import AdminNav from '../../../components/AdminNav.astro';
 import { getCollection } from 'astro:content';
 import { auth } from "../../../lib/auth";
 
@@ -9,16 +10,18 @@ const session = await auth.api.getSession({
     headers: Astro.request.headers
 });
 
+if (!session) return Astro.redirect("/admin/login");
+
 const posts = (await getCollection('news')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 ---
 
 <Layout title="Journal Manager | Admin">
+  <AdminNav currentPath="/admin/journal" />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
         <div>
-           <a href="/admin" class="font-label text-[10px] uppercase tracking-[0.2rem] text-flt-cream hover:opacity-70 flex items-center gap-2 mb-6">&larr; Dashboard</a>
            <h1 class="font-headline text-5xl italic ivory-text uppercase">Journal.</h1>
         </div>
         <a href="/admin/journal/new" class="bg-white text-black font-label px-10 py-4 uppercase tracking-widest text-[11px] font-bold hover:bg-flt-cream transition-all shadow-xl">New Entry</a>

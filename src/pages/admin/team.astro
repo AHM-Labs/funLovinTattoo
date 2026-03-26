@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
 import { auth } from "../../lib/auth";
 import { db } from "../../db";
 import { user as userTable } from "../../db/schema";
@@ -16,9 +17,9 @@ const users = await db.select().from(userTable);
 ---
 
 <Layout title="Team Management | Admin">
-    <div class="max-w-5xl mx-auto px-4 py-12">
+    <AdminNav currentPath="/admin/team" />
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
         <div class="mb-12 border-b border-flt-ivory-border/10 pb-8">
-            <a href="/admin" class="font-label text-[9px] uppercase tracking-widest text-flt-muted hover:text-white transition-colors">&larr; Back to Dashboard</a>
             <h1 class="font-headline text-5xl italic ivory-text uppercase mt-4">Manage <br/> Team.</h1>
         </div>
 

@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
 import { auth } from "../../lib/auth";
 
 // Server-side session check (middleware handles redirection, but we can get user data here)
@@ -16,6 +17,7 @@ if (user?.requiresPasswordReset) {
 ---
 
 <Layout title="Admin Dashboard | Professional Artistry">
+  <AdminNav currentPath="/admin" />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
         <div>

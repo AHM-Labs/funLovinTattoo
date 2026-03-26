@@ -1,43 +1,43 @@
-# Astro Starter Kit: Minimal
+# Fun Lovin Tattoo 🖋️
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A premium, artisan-focused web platform built with Astro 6, Tailwind CSS v4, and Better Auth. Designed for professional tattoo artists to manage their portfolio, journal, and client inquiries with a high-end, gothic-inspired aesthetic.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ✨ Key Features
 
-## 🚀 Project Structure
+### 🔐 Multi-Artist Portal
+- **Passkey-First Security**: Biometric authentication (WebAuthn) for secure, frictionless access.
+- **Team Management**: Robust controls for adding artists, revoking access, and managing roles.
+- **Secure Onboarding**: Invite-only registration with mandatory password rotation for new users.
 
-Inside of your Astro project, you'll see the following folders and files:
+### 🎨 Visual Portfolio (Gallery)
+- **Masonry Layout**: A high-performance, GSAP-animated public gallery.
+- **Visual Asset Manager**: Drag-and-drop uploads with artist-specific attribution and metadata.
+- **Integrated Asset Picker**: Seamlessly link gallery items to journal entries within the MDX editor.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+### 🖋️ Artisan Journal
+- **Field-Persistent MDX Editor**: Robust content creation with frontmatter-aware editing.
+- **Archival Workflows**: Artists can document their process, shop life, and guest spots with ease.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### 🚐 Real-Time Studio Ops
+- **Van Location Tracker**: Update the studio's real-time mobile location from the dashboard.
+- **Inquiry Pipeline**: Streamlined booking management with client-artist communication loops.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🛠️ Technology Stack
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Framework**: [Astro 6](https://astro.build) (Hybrid SSR)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
+- **Auth**: [Better Auth v1.5](https://better-auth.com)
+- **Database**: [Drizzle ORM](https://orm.drizzle.team) + SQLite
+- **Animations**: [GSAP](https://gsap.com)
+- **Email**: [Resend](https://resend.com)
 
-## 🧞 Commands
+## 🚀 Getting Started
 
-All commands are run from the root of the project, from a terminal:
+1. **Install Dependencies**: `npm install`
+2. **Setup Environment**: Rename `.env.example` to `.env` and fill in secrets.
+3. **Database Setup**: `npx drizzle-kit push`
+4. **Run Dev Server**: `npm run dev -- --host`
+5. **Build for Production**: `npm run build && node ./dist/server/entry.mjs`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
+*Created with focus on artisan craftsmanship and architectural excellence.*

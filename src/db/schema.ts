@@ -73,6 +73,7 @@ export const bookings = sqliteTable("bookings", {
   date: text("date"),
   details: text("details").notNull(),
   status: text("status").default("pending").notNull(), // 'pending', 'accepted', 'declined'
+  images: text("images"), // JSON string array of URLs
   createdAt: integer("createdAt", { mode: "timestamp" }).notNull()
 });
 
