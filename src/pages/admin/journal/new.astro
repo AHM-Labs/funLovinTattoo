@@ -98,7 +98,7 @@ image: ""
           const slug = slugInput.value;
 
           if(!slug) {
-              alert("Please provide a slug/filename.");
+              (window as any).showModal("Missing Data", "Please provide a slug/filename.");
               return;
           }
 
@@ -112,16 +112,16 @@ image: ""
               });
 
               if(res.ok) {
-                  alert("Saved successfully!");
-                  window.location.href = "/admin/journal";
+                  (window as any).showModal("Success", "Saved successfully!");
+                  setTimeout(() => window.location.href = "/admin/journal", 1500);
               } else {
                   const err = await res.json();
-                  alert("Save Failed: " + (err.error || "Check syntax."));
+                  (window as any).showModal("Save Error", err.error || "Check syntax.");
                   saveBtn.innerText = "Save & Publish";
                   saveBtn.disabled = false;
               }
           } catch(e) {
-              alert("Network error.");
+              (window as any).showModal("Network Error", "Unable to reach server.");
               saveBtn.innerText = "Save & Publish";
               saveBtn.disabled = false;
           }

@@ -56,7 +56,7 @@ const posts = (await getCollection('news')).sort(
               target.innerText = "Deleting...";
               const res = await fetch(`/api/admin/journal/delete?id=${id}`, { method: 'DELETE' });
               if(res.ok) window.location.reload();
-              else alert("Failed to delete.");
+              else (window as any).showModal("Delete Error", "Failed to delete entry.");
           });
       });
   </script>

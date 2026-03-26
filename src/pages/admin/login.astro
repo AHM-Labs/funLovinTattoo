@@ -44,7 +44,7 @@ import Layout from '../../layouts/Layout.astro';
        if (data) {
           window.location.href = "/admin";
        } else if (error) {
-          alert("Login failed: " + error.message);
+          (window as any).showModal("Login Failed", error.message);
           passkeyBtn.innerHTML = originalText;
        }
     });
@@ -63,7 +63,7 @@ import Layout from '../../layouts/Layout.astro';
         if (data) {
             window.location.href = "/admin";
         } else if (error) {
-            alert("Login failed: " + error.message);
+            (window as any).showModal("Login Failed", error.message);
             if(submitBtn) submitBtn.textContent = "Sign In";
         }
     });

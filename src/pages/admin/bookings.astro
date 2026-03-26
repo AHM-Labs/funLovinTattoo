@@ -74,11 +74,11 @@ const allBookings = await db.select().from(bookings).orderBy(desc(bookings.creat
                       window.location.reload();
                   } else {
                       const error = await res.json();
-                      alert("Failed: " + error.error);
+                      (window as any).showModal("Action Failed", error.error);
                       target.innerText = originalText;
                   }
               } catch(e) {
-                  alert("Network error.");
+                  (window as any).showModal("Network Error", "Unable to reach server.");
                   target.innerText = originalText;
               }
           });

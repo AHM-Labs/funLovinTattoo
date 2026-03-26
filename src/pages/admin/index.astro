@@ -108,9 +108,9 @@ if (user?.requiresPasswordReset) {
        const name = prompt("Enter a name for this device (e.g. iPhone 15, MacBook Pro):");
        const { error } = await authClient.passkey.addPasskey({ name: name || undefined });
        if (error) {
-           alert("Failed to add passkey: " + error.message);
+           (window as any).showModal("Passkey Error", error.message);
        } else {
-           alert("Passkey successfully registered!");
+           (window as any).showModal("Success", "Passkey successfully registered!");
            loadPasskeys();
        }
     });
@@ -127,10 +127,10 @@ if (user?.requiresPasswordReset) {
                method: "POST",
                body: JSON.stringify({ key: "van_location", value: location })
            });
-           if (res.ok) alert("Location updated successfully!");
-           else alert("Failed to update location.");
+           if (res.ok) (window as any).showModal("Success", "Location updated successfully!");
+           else (window as any).showModal("Error", "Failed to update location.");
        } catch (e) {
-           alert("Error updating location.");
+           (window as any).showModal("Error", "Error updating location.");
        }
        if(submitBtn) submitBtn.textContent = "Update Location";
     });

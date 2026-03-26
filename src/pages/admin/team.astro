@@ -78,8 +78,8 @@ const users = await db.select().from(userTable);
                     method: "POST",
                     body: JSON.stringify({ id })
                 });
-                if (res.ok) alert("User will be required to reset password on next login.");
-                else alert("Failed to trigger reset.");
+                if (res.ok) (window as any).showModal("Success", "User will be required to reset password on next login.");
+                else (window as any).showModal("Error", "Failed to trigger reset.");
             });
         });
 
@@ -93,7 +93,7 @@ const users = await db.select().from(userTable);
                     body: JSON.stringify({ id })
                 });
                 if (res.ok) location.reload();
-                else alert("Failed to delete user.");
+                else (window as any).showModal("Error", "Failed to delete user.");
             });
         });
 
@@ -110,14 +110,14 @@ const users = await db.select().from(userTable);
                     body: JSON.stringify({ name, email })
                 });
                 if (res.ok) {
-                    alert("User added! Temporary password is 'password'.");
-                    location.reload();
+                    (window as any).showModal("Team Updated", "User added! Temporary password is 'password'.");
+                    setTimeout(() => location.reload(), 2000);
                 } else {
                     const data = await res.json();
-                    alert("Error: " + data.error);
+                    (window as any).showModal("Registration Error", data.error);
                 }
             } catch (e) {
-                alert("Request failed.");
+                (window as any).showModal("System Error", "Request failed.");
             }
             if(btn) btn.textContent = "Create Invite";
         });
