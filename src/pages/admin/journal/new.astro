@@ -1,6 +1,6 @@
 ---
+export const prerender = false;
 import Layout from '../../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
 import { auth } from "../../../lib/auth";
 
 // Require Authentication
@@ -9,80 +9,67 @@ const session = await auth.api.getSession({
 });
 
 if (!session) return Astro.redirect("/admin/login");
-
-// Fetch existing post if editing
-const url = new URL(Astro.request.url);
-const id = url.searchParams.get("id");
-let existingPost = null;
-
-if (id) {
-    const posts = await getCollection("news");
-    existingPost = posts.find(p => p.id === id);
-}
-
-const isNew = !id;
-
-let fullMDX = "";
-if (existingPost) {
-    const fm = `---
-title: ${JSON.stringify(existingPost.data.title)}
-date: ${existingPost.data.date.toISOString().split('T')[0]}
-description: ${JSON.stringify(existingPost.data.description)}
-image: ${JSON.stringify(existingPost.data.image || "")}
----`;
-    fullMDX = `${fm}\n\n${existingPost.body}`;
-}
 ---
 
-<Layout title={isNew ? "New Entry | Admin" : "Edit Entry | Admin"}>
+<Layout title="New Entry | Admin">
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
         <div>
            <a href="/admin/journal" class="font-label text-[10px] uppercase tracking-[0.2rem] text-flt-cream hover:opacity-70 flex items-center gap-2 mb-6">&larr; Journal</a>
-           <h1 class="font-headline text-5xl italic ivory-text uppercase">{isNew ? 'New entry.' : 'Edit entry.'}</h1>
+           <h1 class="font-headline text-5xl italic ivory-text uppercase">New entry.</h1>
         </div>
         <button id="save-btn" class="bg-white text-black font-label px-12 py-5 uppercase tracking-widest text-xs font-bold hover:bg-flt-cream transition-all shadow-xl">Save & Publish</button>
      </div>
 
-     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+     <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <!-- Editor Column -->
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-3">
             <div class="bg-[#0a0a0a] border border-flt-ivory-border/20 relative shadow-2xl">
-                 <div class="flex border-b border-flt-ivory-border/10 p-4 bg-[#111]">
+                 <div class="flex border-b border-flt-ivory-border/10 p-4 bg-[#111] justify-between items-center">
                     <span class="font-label text-[9px] uppercase tracking-[0.4rem] text-flt-muted/40">MDX Editor</span>
+                    <button id="help-btn" class="text-flt-muted/40 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    </button>
                  </div>
-                  <textarea id="editor" class="w-full h-[600px] bg-transparent p-10 text-flt-muted font-mono text-sm leading-relaxed outline-none resize-none focus:text-white transition-colors" placeholder="Write your story in Markdown...">{existingPost ? fullMDX : `---
+                  <textarea id="editor" class="w-full h-[700px] bg-transparent p-10 text-flt-muted font-mono text-sm leading-relaxed outline-none resize-none focus:text-white transition-colors" placeholder="Write your story in Markdown...">---
 title: "Untilted Entry"
 date: ${new Date().toISOString().split('T')[0]}
 description: "Brief summary of the work..."
 image: ""
 ---
 
-## Start writing...`}</textarea>
+## Start writing...</textarea>
             </div>
         </div>
 
-        <!-- Meta Column -->
+        <!-- Sidebar Column -->
         <div class="lg:col-span-1 space-y-8">
             <div class="border-premium bg-[#111] p-8 shadow-xl">
                  <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6 border-b border-flt-ivory-border/10 pb-4">Configuration</h2>
                  <div class="space-y-6">
                     <div>
                         <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Slug (Filename)</label>
-                        <input type="text" id="slug" value={id || ''} placeholder="e.g. summer-elopement" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" readonly={id ? true : undefined} />
+                        <input 
+                            type="text" 
+                            id="slug" 
+                            placeholder="e.g. summer-elopement" 
+                            class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" 
+                        />
                         <p class="text-[9px] text-flt-muted/40 mt-2 italic">Format: lowercase-with-dashes</p>
                     </div>
                  </div>
             </div>
 
-            <div class="p-8 border border-flt-ivory-border/10 bg-black/40">
-                <h3 class="font-label text-[10px] uppercase tracking-widest text-flt-cream mb-4">Guidelines</h3>
-                <ul class="font-body text-[11px] text-flt-muted/60 space-y-4 leading-relaxed">
-                    <li>• Frontmatter must be at the very top.</li>
-                    <li>• Image paths should point to `/assets/...`</li>
-                    <li>• Use standard Markdown for formatting.</li>
-                    <li>• Saving will trigger a workspace build.</li>
-                </ul>
+            <!-- Asset Picker -->
+            <div class="border-premium bg-[#111] p-8 shadow-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="font-headline text-2xl italic ivory-text uppercase">Assets</h2>
+                    <a href="/admin/gallery/add" target="_blank" class="text-[9px] text-flt-cream border-b border-flt-cream/30 pb-0.5 hover:opacity-70 transition-opacity">Upload &rarr;</a>
+                </div>
+                <div id="asset-picker" class="grid grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    <p class="col-span-2 text-[9px] text-flt-muted italic text-center py-8">Loading gallery...</p>
+                </div>
+                <p class="text-[8px] text-flt-muted/40 mt-4 leading-relaxed">Click an image to insert into body. Double-click to set as featured image (frontmatter).</p>
             </div>
         </div>
      </div>
@@ -92,7 +79,71 @@ image: ""
       const saveBtn = document.getElementById('save-btn') as HTMLButtonElement;
       const editor = document.getElementById('editor') as HTMLTextAreaElement;
       const slugInput = document.getElementById('slug') as HTMLInputElement;
+      const assetPicker = document.getElementById('asset-picker');
 
+      // Load Assets
+      async function loadAssets() {
+          if (!assetPicker) return;
+          try {
+              const res = await fetch("/api/admin/gallery/list");
+              const items = await res.json();
+              if (items.length === 0) {
+                  assetPicker.innerHTML = `<p class="col-span-2 text-[9px] text-flt-muted italic text-center py-8">No pieces found.</p>`;
+                  return;
+              }
+              assetPicker.innerHTML = items.map((item: any) => `
+                  <button class="asset-item group relative aspect-square bg-black/40 border border-flt-ivory-border/10 hover:border-flt-cream/50 transition-colors overflow-hidden" 
+                          data-url="${item.url}" 
+                          data-alt="${item.altText}">
+                      <img src="${item.url}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </button>
+              `).join('');
+
+              // Add Click Listeners
+              document.querySelectorAll('.asset-item').forEach(btn => {
+                  btn.addEventListener('click', (e) => {
+                      const target = e.currentTarget as HTMLButtonElement;
+                      const url = target.dataset.url;
+                      const alt = target.dataset.alt;
+                      insertAsset(url, alt);
+                  });
+                  btn.addEventListener('dblclick', (e) => {
+                      const target = e.currentTarget as HTMLButtonElement;
+                      const url = target.dataset.url;
+                      setFeatured(url);
+                  });
+              });
+          } catch (e) {
+              assetPicker.innerHTML = `<p class="col-span-2 text-red-500 text-[9px] text-center py-8">Error loading assets.</p>`;
+          }
+      }
+
+      function insertAsset(url: string | undefined, alt: string | undefined) {
+          if (!url) return;
+          const snippet = `\n![${alt || 'Image'}](${url})\n`;
+          const cursor = editor.selectionStart;
+          const text = editor.value;
+          editor.value = text.slice(0, cursor) + snippet + text.slice(editor.selectionEnd);
+          editor.focus();
+          editor.setSelectionRange(cursor + snippet.length, cursor + snippet.length);
+      }
+
+      function setFeatured(url: string | undefined) {
+          if (!url) return;
+          const text = editor.value;
+          // Look for image line in frontmatter
+          const regex = /image:\s*".*"/;
+          if (regex.test(text)) {
+              editor.value = text.replace(regex, `image: "${url}"`);
+              (window as any).showModal("Asset Linked", "Set as featured image in frontmatter.");
+          } else {
+              (window as any).showModal("Selection Hint", "Frontmatter must contain an 'image:' field to set it automatically.");
+          }
+      }
+
+      loadAssets();
+
+      // Save Logic
       saveBtn?.addEventListener('click', async () => {
           const content = editor.value;
           const slug = slugInput.value;
@@ -127,4 +178,20 @@ image: ""
           }
       });
   </script>
+
+  <style>
+      .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+          background: #0d0d0d;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #333;
+          border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #444;
+      }
+  </style>
 </Layout>

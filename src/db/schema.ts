@@ -82,3 +82,12 @@ export const settings = sqliteTable("settings", {
   value: text("value").notNull(),
   updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull()
 });
+
+export const gallery = sqliteTable("gallery", {
+  id: text("id").primaryKey(),
+  url: text("url").notNull(),
+  altText: text("altText").notNull(),
+  description: text("description"),
+  artistId: text("artistId").notNull().references(() => user.id),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull()
+});

@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { db } from "../../db";
+import { gallery, user } from "../../db/schema";
+import { desc, eq } from "drizzle-orm";
+
+// Fetch all gallery items
+const items = await db.select({
+    id: gallery.id,
+    url: gallery.url,
+    altText: gallery.altText,
+    description: gallery.description,
+    artistName: user.name
+})
+.from(gallery)
+.leftJoin(user, eq(gallery.artistId, user.id))
+.orderBy(desc(gallery.createdAt));
+---
+
+<Layout title="Gallery | Artisan Tattooing & Fine Art">
+  <div class="pt-32 pb-24 px-4 sm:px-8 lg:px-12">
+    <div class="max-w-7xl mx-auto mb-20">
+      <span class="font-label text-[10px] uppercase tracking-[0.5rem] text-flt-muted block mb-4">Portfolio</span>
+      <h1 class="font-headline text-6xl md:text-8xl italic ivory-text uppercase leading-none">The Collection.</h1>
+      <p class="font-body text-flt-muted mt-8 max-w-xl leading-relaxed">
+        A curated selection of archival work, spanning traditional blackwork, fine-line illustrate, and commemorative art. Each piece is a unique collaboration between artist and skin.
+      </p>
+    </div>
+
+    {items.length === 0 ? (
+        <div class="max-w-7xl mx-auto py-32 border-y border-flt-ivory-border/10 text-center">
+            <p class="font-headline text-3xl italic text-flt-muted/20 uppercase italic">Curating New Works...</p>
+        </div>
+    ) : (
+        <div class="max-w-7xl mx-auto columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+            {items.map((item: any, i: number) => (
+                <div class="break-inside-avoid group relative bg-[#0a0a0a] border border-flt-ivory-border/10 overflow-hidden cursor-pointer shadow-2xl">
+                    <img src={item.url} alt={item.altText} class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                        <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="font-headline text-2xl italic ivory-text uppercase mb-2">{item.altText}</h3>
+                            {item.description && <p class="font-body text-[10px] text-flt-muted mb-4 line-clamp-2">{item.description}</p>}
+                            <div class="flex justify-between items-center border-t border-flt-ivory-border/20 pt-4">
+                                <span class="font-label text-[8px] uppercase tracking-widest text-flt-cream">By {item.artistName}</span>
+                                <span class="bg-white/10 p-2 rounded-full backdrop-blur-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )}
+
+    <div class="max-w-7xl mx-auto mt-32 text-center">
+        <a href="/book" class="inline-block border border-flt-cream/30 text-flt-cream font-label px-12 py-6 uppercase tracking-[0.3em] text-xs hover:bg-flt-cream hover:text-black transition-all shadow-xl">Start Your Piece</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+    /* Masonry column spans are handled by Tailwind columns-* utility */
+    .break-inside-avoid {
+        break-inside: avoid;
+    }
+</style>
