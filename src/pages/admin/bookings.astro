@@ -8,6 +8,14 @@ import { desc } from "drizzle-orm";
 
 // SSR: Fetch directly from database on component load
 const allBookings = await db.select().from(bookings).orderBy(desc(bookings.createdAt));
+
+const getStatusColor = (status: string) => {
+    switch (status) {
+        case 'accepted': return 'text-green-500 border-green-500/20 bg-green-500/5';
+        case 'declined': return 'text-red-500 border-red-500/20 bg-red-500/5';
+        default: return 'text-flt-cream border-flt-cream/20 bg-flt-cream/5';
+    }
+};
 ---
 
 <Layout title="Booking Inquiries | Admin">
@@ -15,75 +23,150 @@ const allBookings = await db.select().from(bookings).orderBy(desc(bookings.creat
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
         <div>
-           <a href="/admin" class="font-label text-[10px] uppercase tracking-[0.2rem] text-flt-cream hover:opacity-70 flex items-center gap-2 mb-6">&larr; Dashboard</a>
            <h1 class="font-headline text-5xl italic ivory-text uppercase">Inquiries.</h1>
         </div>
      </div>
 
-     <div class="space-y-6">
+     <div class="space-y-8">
         {allBookings.length === 0 ? (
-            <div class="p-12 border-premium bg-[#111] text-center text-flt-muted font-body">
-                No inquiries found yet.
+            <div class="text-center py-20 border border-dashed border-flt-ivory-border/20 bg-black/20">
+                <p class="font-body text-flt-muted italic">No inquiries received yet.</p>
             </div>
         ) : (
-            allBookings.map((booking) => (
-                <div class="border-premium bg-[#0d0d0d] p-8 lg:p-10 flex flex-col md:flex-row gap-8 justify-between items-start">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4">
-                            <span class={`font-label text-[9px] uppercase tracking-widest px-3 py-1 ${booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30' : booking.status === 'accepted' ? 'bg-green-500/20 text-green-500 border border-green-500/30' : 'bg-red-500/20 text-red-500 border border-red-500/30'}`}>
-                                {booking.status}
-                            </span>
-                            <span class="font-label text-[10px] uppercase tracking-widest text-white border-b border-white pb-0.5">{booking.type}</span>
+            allBookings.map(booking => {
+                const images = booking.images ? JSON.parse(booking.images) : [];
+                return (
+                    <div class={`border-premium bg-[#111] p-10 flex flex-col lg:flex-row gap-12 group transition-all duration-500 ${booking.status !== 'pending' ? 'opacity-50 grayscale' : ''}`}>
+                        <div class="flex-1 space-y-8">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class={`font-label text-[8px] uppercase tracking-[0.2em] border px-3 py-1 mb-4 inline-block ${getStatusColor(booking.status)}`}>
+                                        {booking.status}
+                                    </span>
+                                    <h2 class="font-headline text-3xl italic ivory-text uppercase">{booking.name}</h2>
+                                    <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted mt-2">{booking.email} • {booking.phone}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-label text-[9px] uppercase tracking-widest text-flt-muted block">{booking.type}</span>
+                                    <span class="font-label text-[8px] uppercase tracking-widest text-flt-muted/40 block mt-2">{new Date(booking.createdAt).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-black/30 p-8 border border-flt-ivory-border/5">
+                                <h3 class="font-label text-[9px] uppercase tracking-widest text-flt-cream mb-4 border-b border-flt-ivory-border/10 pb-2">Vision & Details</h3>
+                                <p class="font-body text-sm text-flt-muted leading-relaxed whitespace-pre-wrap">{booking.details}</p>
+                                {booking.date && <p class="mt-6 font-label text-[9px] text-flt-muted uppercase">Preferred Date: <span class="text-white italic ml-2">{booking.date}</span></p>}
+                            </div>
+
+                            {images.length > 0 && (
+                                <div class="space-y-4">
+                                    <h3 class="font-label text-[9px] uppercase tracking-widest text-flt-cream">Inspiration Assets</h3>
+                                    <div class="grid grid-cols-5 gap-4">
+                                        {images.map((url: string) => (
+                                            <a href={url} target="_blank" class="aspect-square bg-black border border-flt-ivory-border/10 overflow-hidden hover:border-flt-cream/50 transition-colors cursor-zoom-in">
+                                                <img src={url} class="w-full h-full object-cover" />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        <div>
-                            <h2 class="font-headline text-3xl italic ivory-text">{booking.name}</h2>
-                            <p class="font-label text-[11px] text-flt-muted/60 mt-2">{booking.email} • {booking.phone || 'No phone'}</p>
-                        </div>
-                        <p class="font-body text-flt-muted leading-relaxed max-w-2xl bg-[#111] p-6 border border-flt-ivory-border/10 mt-4 rounded-sm">"{booking.details}"</p>
-                        <p class="font-label text-[9px] text-flt-muted/40 uppercase tracking-widest mt-2">Requested Date: {booking.date || 'N/A'}</p>
+
+                        {booking.status === 'pending' && (
+                            <div class="lg:w-64 flex flex-col gap-4 justify-center">
+                                <button class="action-btn w-full bg-white text-black font-label py-4 uppercase tracking-widest text-[10px] font-bold hover:bg-flt-cream transition-all shadow-xl" data-id={booking.id} data-action="accept">Accept Piece</button>
+                                <button class="action-btn w-full border border-red-500/30 text-red-500 font-label py-4 uppercase tracking-widest text-[10px] hover:bg-red-500 hover:text-white transition-all shadow-xl" data-id={booking.id} data-action="decline">Decline</button>
+                            </div>
+                        )}
                     </div>
-                    {booking.status === 'pending' && (
-                        <div class="flex gap-4 md:flex-col lg:flex-row w-full md:w-auto">
-                            <button data-id={booking.id} data-action="accept" class="booking-action flex-1 md:flex-none border border-green-500/50 text-green-500 hover:bg-green-500 hover:text-black font-label text-[10px] uppercase tracking-widest px-8 py-4 transition-all">Accept</button>
-                            <button data-id={booking.id} data-action="decline" class="booking-action flex-1 md:flex-none border border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white font-label text-[10px] uppercase tracking-widest px-8 py-4 transition-all">Decline</button>
-                        </div>
-                    )}
-                </div>
-            ))
+                );
+            })
         )}
      </div>
   </div>
 
+  <!-- Custom Response Modal (Hidden by default) -->
+  <div id="response-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+      <div class="bg-[#111] border-premium p-10 max-w-lg w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+          <h2 id="modal-title" class="font-headline text-3xl italic ivory-text uppercase mb-6 border-b border-flt-ivory-border/10 pb-4">Accept Inquiry</h2>
+          <p id="modal-desc" class="font-body text-xs text-flt-muted mb-8 leading-relaxed">Add a personal note to the client. This will be included in the notification email alongside social contact links.</p>
+          
+          <textarea id="response-msg" rows="5" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 text-white font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none mb-8 text-sm" placeholder="e.g. I absolutely love this concept. Let's chat more on Instagram to find a date..."></textarea>
+          
+          <div class="flex gap-4">
+              <button id="modal-cancel" class="flex-1 border border-flt-ivory-border/20 text-flt-muted font-label py-4 uppercase tracking-widest text-[10px] hover:bg-white/5 transition-colors">Cancel</button>
+              <button id="modal-confirm" class="flex-1 bg-flt-cream text-black font-label py-4 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-all shadow-xl">Confirm & Send</button>
+          </div>
+      </div>
+  </div>
+
   <script>
-      const buttons = document.querySelectorAll('.booking-action');
-      buttons.forEach(btn => {
-          btn.addEventListener('click', async (e) => {
+      let currentBookingId = '';
+      let currentAction = '';
+
+      const modal = document.getElementById('response-modal');
+      const modalContent = document.getElementById('modal-content');
+      const modalTitle = document.getElementById('modal-title');
+      const modalConfirm = document.getElementById('modal-confirm') as HTMLButtonElement;
+      const modalCancel = document.getElementById('modal-cancel');
+      const responseMsg = document.getElementById('response-msg') as HTMLTextAreaElement;
+
+      document.querySelectorAll('.action-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
               const target = e.currentTarget as HTMLButtonElement;
-              const id = target.dataset.id;
-              const action = target.dataset.action;
+              currentBookingId = target.dataset.id || '';
+              currentAction = target.dataset.action || '';
               
-              if(!confirm(`Are you sure you want to ${action} this booking? This will send an email to the client.`)) return;
-
-              const originalText = target.innerText;
-              target.innerText = "Processing...";
-
-              try {
-                  const res = await fetch("/api/admin/bookings/action", {
-                      method: "POST",
-                      body: JSON.stringify({ id, action })
-                  });
-                  if (res.ok) {
-                      window.location.reload();
-                  } else {
-                      const error = await res.json();
-                      (window as any).showModal("Action Failed", error.error);
-                      target.innerText = originalText;
-                  }
-              } catch(e) {
-                  (window as any).showModal("Network Error", "Unable to reach server.");
-                  target.innerText = originalText;
-              }
+              if (modalTitle) modalTitle.innerText = currentAction === 'accept' ? 'Accept Inquiry' : 'Decline Inquiry';
+              if (modalConfirm) modalConfirm.className = currentAction === 'accept' 
+                  ? "flex-1 bg-flt-cream text-black font-label py-4 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-all shadow-xl"
+                  : "flex-1 bg-red-600 text-white font-label py-4 uppercase tracking-widest text-[10px] font-bold hover:bg-red-500 transition-all shadow-xl";
+              
+              responseMsg.value = '';
+              showModal();
           });
+      });
+
+      function showModal() {
+          modal?.classList.remove('hidden');
+          setTimeout(() => {
+              modal?.classList.remove('opacity-0');
+              modalContent?.classList.remove('scale-95');
+          }, 10);
+      }
+
+      function hideModal() {
+          modal?.classList.add('opacity-0');
+          modalContent?.classList.add('scale-95');
+          setTimeout(() => modal?.classList.add('hidden'), 300);
+      }
+
+      modalCancel?.addEventListener('click', hideModal);
+
+      modalConfirm?.addEventListener('click', async () => {
+          const message = responseMsg.value;
+          modalConfirm.disabled = true;
+          modalConfirm.innerText = "Processing...";
+
+          try {
+              const res = await fetch("/api/admin/bookings/action", {
+                  method: "POST",
+                  body: JSON.stringify({ id: currentBookingId, action: currentAction, message })
+              });
+
+              if (res.ok) {
+                  location.reload();
+              } else {
+                  const data = await res.json();
+                  (window as any).showModal("Error", data.error || "Failed to process.");
+                  modalConfirm.disabled = false;
+                  modalConfirm.innerText = "Confirm & Send";
+              }
+          } catch (e) {
+              (window as any).showModal("Network Error", "Unable to reach server.");
+              modalConfirm.disabled = false;
+              modalConfirm.innerText = "Confirm & Send";
+          }
       });
   </script>
 </Layout>
