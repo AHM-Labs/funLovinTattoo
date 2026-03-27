@@ -26,25 +26,25 @@ const items = await db.select({
 <Layout title="Gallery Manager | Admin">
   <AdminNav currentPath="/admin/gallery" />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
-     <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
+     <div class="flex justify-between items-end border-b border-flt-border pb-8 mb-12">
         <div>
-           <h1 class="font-headline text-5xl italic ivory-text uppercase">Gallery.</h1>
+           <h1 class="font-headline text-5xl italic cream-text uppercase">Gallery.</h1>
         </div>
-        <a href="/admin/gallery/add" class="bg-white text-black font-label px-10 py-4 uppercase tracking-widest text-[11px] font-bold hover:bg-flt-cream transition-all shadow-xl">Add Image</a>
+        <a href="/admin/gallery/add" class="bg-flt-cream text-black font-label px-10 py-4 uppercase tracking-widest text-[11px] font-bold hover:bg-white transition-all shadow-xl">Add Image</a>
      </div>
 
      {items.length === 0 ? (
-          <div class="text-center py-20 border border-dashed border-flt-ivory-border/20 bg-black/20">
+          <div class="text-center py-20 border border-dashed border-flt-border bg-black/20">
               <p class="font-body text-flt-muted italic">No images in your gallery yet.</p>
-              <a href="/admin/gallery/add" class="inline-block mt-4 text-flt-cream font-label text-[10px] uppercase tracking-widest border-b border-flt-cream/20 pb-1 hover:border-flt-cream">Upload your first piece</a>
+              <a href="/admin/gallery/add" class="inline-block mt-4 text-flt-cream font-label text-[10px] uppercase tracking-widest border-b border-flt-border pb-1 hover:border-flt-cream transition-colors">Upload your first piece</a>
           </div>
      ) : (
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
              {items.map(item => (
-                 <div class="group relative aspect-square bg-[#111] border border-flt-ivory-border/10 overflow-hidden shadow-2xl">
+                 <div class="group relative aspect-square bg-flt-bg border border-flt-border overflow-hidden shadow-2xl">
                      <img src={item.url} alt={item.altText} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                      <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                         <p class="font-label text-[9px] text-white uppercase tracking-widest truncate mb-1">{item.altText}</p>
+                         <p class="font-label text-[9px] text-flt-cream uppercase tracking-widest truncate mb-1">{item.altText}</p>
                          <p class="font-body text-[8px] text-flt-muted uppercase mb-4 italic">by {item.artistName}</p>
                          <button data-id={item.id} class="delete-img w-full border border-red-500/50 text-red-500 font-label text-[8px] py-2 uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors">Delete Piece</button>
                      </div>

@@ -1,32 +1,35 @@
 ---
+import Logo from "./Logo.astro";
 ---
-<header class="w-full border-b border-flt-ivory-border/20 relative z-50">
+<header class="w-full border-b border-flt-border relative z-50">
   <div class="max-w-7xl mx-auto flex justify-between items-center py-8 px-4 sm:px-8 lg:px-12">
-    <div class="font-headline italic font-black text-2xl text-white tracking-tighter uppercase relative z-50">
-      <a href="/">Fun Lovin Tattoo</a>
+    <div class="relative z-50">
+      <a href="/" class="block w-48 text-flt-cream hover:text-white transition-colors duration-300">
+        <Logo class="w-full h-auto" />
+      </a>
     </div>
     
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-10 font-label uppercase tracking-[0.2em] text-[10px]">
-      <a href="/" class="text-flt-muted hover:text-white transition-colors duration-300">Home</a>
+      <a href="/" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Home</a>
       <div class="relative group py-2">
-        <a href="/mobile-services" class="text-flt-muted hover:text-white transition-colors duration-300 flex items-center gap-2">
+        <a href="/mobile-services" class="text-flt-muted hover:text-flt-cream transition-colors duration-300 flex items-center gap-2">
           Mobile Tattoo <span class="text-[8px] opacity-40 translate-y-px">▼</span>
         </a>
         <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 min-w-(--spacing-48)">
-          <div class="bg-[#0d0d0d] border border-flt-ivory-border/20 p-5 space-y-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl">
-            <a href="/weddings" class="block text-flt-muted hover:text-white transition-colors tracking-widest">Wedding</a>
-            <a href="/corporate" class="block text-flt-muted hover:text-white transition-colors tracking-widest">Corporate</a>
-            <a href="/events" class="block text-flt-muted hover:text-white transition-colors tracking-widest">Events</a>
-            <div class="h-px bg-flt-ivory-border/10 my-2"></div>
+          <div class="bg-flt-bg border border-flt-border p-5 space-y-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+            <a href="/weddings" class="block text-flt-muted hover:text-flt-cream transition-colors tracking-widest">Wedding</a>
+            <a href="/corporate" class="block text-flt-muted hover:text-flt-cream transition-colors tracking-widest">Corporate</a>
+            <a href="/events" class="block text-flt-muted hover:text-flt-cream transition-colors tracking-widest">Events</a>
+            <div class="h-px bg-flt-border my-2"></div>
             <a href="/mobile-services" class="block text-[9px] text-flt-cream/60 hover:text-flt-cream transition-colors tracking-[0.2em]">All Mobile &rarr;</a>
           </div>
         </div>
       </div>
-      <a href="/studio" class="text-flt-muted hover:text-white transition-colors duration-300">Studio</a>
-      <a href="/artists" class="text-flt-muted hover:text-white transition-colors duration-300">Artists</a>
-      <a href="/gallery" class="text-flt-muted hover:text-white transition-colors duration-300">Gallery</a>
-      <a href="/news" class="text-flt-muted hover:text-white transition-colors duration-300">Journal</a>
+      <a href="/studio" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Studio</a>
+      <a href="/artists" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Artists</a>
+      <a href="/gallery" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Gallery</a>
+      <a href="/news" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Journal</a>
     </nav>
   
     <div class="flex items-center gap-6">
@@ -36,27 +39,27 @@
       
       <!-- Burger Button -->
       <button id="menu-toggle" class="md:hidden flex flex-col gap-1.5 p-2 relative z-[100]" aria-label="Toggle Menu">
-        <span class="w-6 h-0.5 bg-white transition-all duration-300 burger-line"></span>
-        <span class="w-6 h-0.5 bg-white transition-all duration-300 burger-line"></span>
-        <span class="w-6 h-0.5 bg-white transition-all duration-300 burger-line"></span>
+        <span class="w-6 h-0.5 bg-flt-cream transition-all duration-300 burger-line"></span>
+        <span class="w-6 h-0.5 bg-flt-cream transition-all duration-300 burger-line"></span>
+        <span class="w-6 h-0.5 bg-flt-cream transition-all duration-300 burger-line"></span>
       </button>
     </div>
   </div>
 
   <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu" class="fixed inset-0 bg-[#0d0d0d] z-[90] flex flex-col items-center justify-center pointer-events-none opacity-0">
+  <div id="mobile-menu" class="fixed inset-0 bg-flt-bg z-[90] flex flex-col items-center justify-center pointer-events-none opacity-0">
     <nav class="flex flex-col items-center gap-8 text-center px-6 relative z-10">
-      <a href="/" class="mobile-link font-headline italic text-5xl ivory-text opacity-0 block">Home</a>
+      <a href="/" class="mobile-link font-headline italic text-5xl cream-text opacity-0 block">Home</a>
       <div class="mobile-link flex flex-col items-center gap-4 opacity-0 pt-4">
         <a href="/mobile-services" class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted/40">Mobile Tattoo</a>
-        <a href="/weddings" class="font-headline italic text-4xl ivory-text">Wedding</a>
-        <a href="/corporate" class="font-headline italic text-4xl ivory-text">Corporate</a>
-        <a href="/events" class="font-headline italic text-4xl ivory-text">Events</a>
+        <a href="/weddings" class="font-headline italic text-4xl cream-text">Wedding</a>
+        <a href="/corporate" class="font-headline italic text-4xl cream-text">Corporate</a>
+        <a href="/events" class="font-headline italic text-4xl cream-text">Events</a>
       </div>
-      <a href="/studio" class="mobile-link font-headline italic text-5xl ivory-text opacity-0">Studio</a>
-      <a href="/artists" class="mobile-link font-headline italic text-5xl ivory-text opacity-0">Artists</a>
-      <a href="/gallery" class="mobile-link font-headline italic text-5xl ivory-text opacity-0">Gallery</a>
-      <a href="/news" class="mobile-link font-headline italic text-5xl ivory-text opacity-0">Journal</a>
+      <a href="/studio" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Studio</a>
+      <a href="/artists" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Artists</a>
+      <a href="/gallery" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Gallery</a>
+      <a href="/news" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Journal</a>
       <div class="mt-8 opacity-0 mobile-link">
         <a href="/book" class="bg-flt-cream text-black px-12 py-5 font-label text-xs uppercase tracking-[0.2em] font-bold shadow-xl">
           Inquire Now
@@ -95,9 +98,9 @@
 
   // Burger animation
   const burgerTl = gsap.timeline({ paused: true });
-  burgerTl.to(lines[0], { y: 8, rotate: 45, duration: 0.3, backgroundColor: '#ffffff' });
+  burgerTl.to(lines[0], { y: 8, rotate: 45, duration: 0.3, backgroundColor: '#fbf8f1' });
   burgerTl.to(lines[1], { opacity: 0, duration: 0.1 }, "-=0.3");
-  burgerTl.to(lines[2], { y: -8, rotate: -45, duration: 0.3, backgroundColor: '#ffffff' }, "-=0.3");
+  burgerTl.to(lines[2], { y: -8, rotate: -45, duration: 0.3, backgroundColor: '#fbf8f1' }, "-=0.3");
 
   toggle?.addEventListener('click', () => {
     isOpen = !isOpen;

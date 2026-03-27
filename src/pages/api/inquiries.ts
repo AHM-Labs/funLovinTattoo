@@ -5,6 +5,9 @@ import { bookings } from "../../db/schema";
 import fs from "node:fs/promises";
 import path from "node:path";
 
+const GATEWAY_URL = process.env.SERVER_GATEWAY_URL || 'http://localhost:3000';
+const CLIENT_ID = process.env.SERVER_GATEWAY_CLIENT_ID || 'fun-lovin-tattoo';
+
 export const POST: APIRoute = async ({ request }) => {
     try {
         const formData = await request.formData();
@@ -45,6 +48,24 @@ export const POST: APIRoute = async ({ request }) => {
             images: JSON.stringify(imageUrls),
             createdAt: new Date()
         });
+
+        // Notify Owner via Server Gateway
+        try {
+            await fetch(`${GATEWAY_URL}/api/v2/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clientId: CLIENT_ID,
+                    cfToken: 'localhost-admin-bypass', // Bypass for server-side trusted action
+                    name,
+                    email,
+                    message: `New Inquiry from ${name}.\nType: ${type}\nDetails: ${details}\nPhone: ${phone}`,
+                    subject: `New Inquiry: ${name} (${type})`
+                })
+            });
+        } catch (error) {
+            console.error('Failed to notify owner via gateway:', error);
+        }
 
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (e: any) {

@@ -19,41 +19,41 @@ const users = await db.select().from(userTable);
 <Layout title="Team Management | Admin">
     <AdminNav currentPath="/admin/team" />
     <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
-        <div class="mb-12 border-b border-flt-ivory-border/10 pb-8">
-            <h1 class="font-headline text-5xl italic ivory-text uppercase mt-4">Manage <br/> Team.</h1>
+        <div class="mb-12 border-b border-flt-border pb-8">
+            <h1 class="font-headline text-5xl italic cream-text uppercase mt-4">Manage <br/> Team.</h1>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <!-- Add New Artist -->
             <div class="lg:col-span-1">
-                <div class="border-premium bg-[#111] p-8">
-                    <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6">Add Artist</h2>
+                <div class="border-premium bg-flt-bg p-8 shadow-2xl">
+                    <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Add Artist</h2>
                     <form id="invite-form" class="space-y-4">
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Name</label>
-                            <input type="text" id="name" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-3 text-white font-body focus:border-flt-cream outline-none text-sm" />
+                            <input type="text" id="name" required class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Email</label>
-                            <input type="email" id="email" required class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-3 text-white font-body focus:border-flt-cream outline-none text-sm" />
+                            <input type="email" id="email" required class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
                         <button type="submit" class="w-full bg-flt-cream text-black font-label py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Create Invite</button>
                     </form>
                     <p class="mt-4 font-body text-[10px] text-flt-muted leading-relaxed">
-                        A new account will be created with temporary password <span class="text-white">"password"</span>. They will be forced to reset it upon login.
+                        A new account will be created with temporary password <span class="text-flt-cream italic">"password"</span>. They will be forced to reset it upon login.
                     </p>
                 </div>
             </div>
 
             <!-- Artist List -->
             <div class="lg:col-span-2">
-                 <div class="border-premium bg-flt-border/5 p-8">
-                    <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6">Active Artists</h2>
+                 <div class="border-premium bg-black/10 p-8">
+                    <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Active Artists</h2>
                     <div class="space-y-4">
                         {users.map(u => (
-                            <div class="flex justify-between items-center border-b border-flt-ivory-border/5 pb-4 last:border-0">
+                            <div class="flex justify-between items-center border-b border-flt-border pb-4 last:border-0">
                                 <div>
-                                    <p class="font-headline text-xl italic ivory-text uppercase">{u.name}</p>
+                                    <p class="font-headline text-xl italic cream-text uppercase">{u.name}</p>
                                     <p class="font-label text-[9px] uppercase tracking-widest text-flt-muted">{u.email} • {u.role}</p>
                                 </div>
                                 <div class="flex gap-4 items-center">

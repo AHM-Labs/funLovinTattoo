@@ -19,10 +19,10 @@ if (user?.requiresPasswordReset) {
 <Layout title="Admin Dashboard | Professional Artistry">
   <AdminNav currentPath="/admin" />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
-     <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
+     <div class="flex justify-between items-end border-b border-flt-border pb-8 mb-12">
         <div>
            <span class="font-label text-[10px] uppercase tracking-[0.4rem] text-flt-muted block mb-2">Control Center</span>
-           <h1 class="font-headline text-5xl italic ivory-text uppercase">Welcome, {user?.name || 'Artist'}.</h1>
+           <h1 class="font-headline text-5xl italic cream-text uppercase">Welcome, {user?.name || 'Artist'}.</h1>
         </div>
         <div class="flex gap-4">
            <button id="logout-btn" class="bg-flt-cream text-black font-label px-6 py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Sign Out</button>
@@ -32,12 +32,12 @@ if (user?.requiresPasswordReset) {
      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Quick Actions / Status -->
         <div class="lg:col-span-1 space-y-8">
-           <div class="border-premium bg-[#111] p-8">
-              <h2 class="font-headline text-2xl italic ivory-text uppercase mb-6 border-b border-flt-ivory-border/10 pb-4">Today's Setup</h2>
+           <div class="border-premium bg-flt-bg p-8 shadow-2xl">
+              <h2 class="font-headline text-2xl italic cream-text uppercase mb-6 border-b border-flt-border pb-4">Today's Setup</h2>
               <form id="location-form" class="space-y-4">
                  <div>
                     <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Mobile Van Location</label>
-                    <input type="text" id="van-location" placeholder="e.g. Canalside Ind. Estate" class="w-full bg-[#0d0d0d] border border-flt-ivory-border/20 p-4 text-white font-body focus:border-flt-cream outline-none transition-colors" />
+                    <input type="text" id="van-location" placeholder="e.g. Canalside Ind. Estate" class="w-full bg-black/40 border border-flt-border p-4 text-flt-cream font-body focus:border-flt-cream outline-none transition-colors placeholder:text-flt-muted/30" />
                  </div>
                  <button type="submit" class="w-full border border-flt-cream/30 text-flt-cream font-label py-3 uppercase tracking-widest text-[10px] hover:bg-flt-cream hover:text-black transition-colors">Update Location</button>
               </form>
@@ -46,22 +46,22 @@ if (user?.requiresPasswordReset) {
 
         <!-- Main Dashboard Area -->
         <div class="lg:col-span-2 space-y-8">
-           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <a href="/admin/bookings" class="border-premium bg-flt-border/5 p-8 hover:bg-[#111] transition-colors group">
-                 <h3 class="font-headline text-3xl italic ivory-text uppercase mb-2 group-hover:text-white">Inquiries</h3>
-                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted">Manage Bookings &rarr;</p>
+           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+              <a href="/admin/bookings" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+                 <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Inquiries</h3>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Manage Bookings &rarr;</p>
               </a>
-              <a href="/admin/journal" class="border-premium bg-flt-border/5 p-8 hover:bg-[#111] transition-colors group">
-                 <h3 class="font-headline text-3xl italic ivory-text uppercase mb-2 group-hover:text-white">Journal</h3>
-                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted">Write & Edit &rarr;</p>
+              <a href="/admin/journal" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+                 <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Journal</h3>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Write & Edit &rarr;</p>
               </a>
-              <a href="/admin/team" class="border-premium bg-flt-border/5 p-8 hover:bg-[#111] transition-colors group">
-                 <h3 class="font-headline text-3xl italic ivory-text uppercase mb-2 group-hover:text-white">Team</h3>
-                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted">Manage Team &rarr;</p>
+              <a href="/admin/team" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+                 <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Team</h3>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Manage Team &rarr;</p>
               </a>
-              <a href="/admin/gallery" class="border-premium bg-flt-border/5 p-8 hover:bg-[#111] transition-colors group">
-                 <h3 class="font-headline text-3xl italic ivory-text uppercase mb-2 group-hover:text-white">Gallery</h3>
-                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted">Portfolio &rarr;</p>
+              <a href="/admin/gallery" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+                 <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Gallery</h3>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Portfolio &rarr;</p>
               </a>
            </div>
         </div>
@@ -70,56 +70,6 @@ if (user?.requiresPasswordReset) {
 
   <script>
     import { authClient } from "../../lib/auth-client";
-
-    // Passkey Management
-    async function loadPasskeys() {
-        const listEl = document.getElementById("passkeys-list");
-        if (!listEl) return;
-        
-        const { data, error } = await authClient.passkey.listUserPasskeys();
-        if (error || !data) {
-            listEl.innerHTML = `<p class="text-red-500 text-[10px]">Error loading passkeys</p>`;
-            return;
-        }
-
-        if (data.length === 0) {
-            listEl.innerHTML = `<p class="text-flt-muted text-[10px] italic">No biometric devices registered.</p>`;
-            return;
-        }
-
-        listEl.innerHTML = data.map(pk => `
-            <div class="flex justify-between items-center bg-black/40 p-3 border border-flt-ivory-border/5">
-                <div>
-                   <p class="font-label text-[10px] text-white uppercase tracking-wider">${pk.name || 'Passkey Device'}</p>
-                   <p class="text-[8px] text-flt-muted uppercase mt-1">Added ${new Date(pk.createdAt).toLocaleDateString()}</p>
-                </div>
-                <button class="delete-pk-btn text-red-500/50 hover:text-red-500 font-label text-[8px] uppercase tracking-widest transition-colors" data-id="${pk.id}">Remove</button>
-            </div>
-        `).join('');
-
-        document.querySelectorAll(".delete-pk-btn").forEach(btn => {
-            btn.addEventListener("click", async (e) => {
-                const id = (e.target as HTMLElement).dataset.id;
-                if (!id || !confirm("Remove this device secondary access?")) return;
-                const { error } = await authClient.passkey.deletePasskey({ id });
-                if (error) alert(error.message);
-                else loadPasskeys();
-            });
-        });
-    }
-
-    loadPasskeys();
-
-    document.getElementById("add-passkey-btn-dash")?.addEventListener("click", async () => {
-       const name = prompt("Enter a name for this device (e.g. iPhone 15, MacBook Pro):");
-       const { error } = await authClient.passkey.addPasskey({ name: name || undefined });
-       if (error) {
-           (window as any).showModal("Passkey Error", error.message);
-       } else {
-           (window as any).showModal("Success", "Passkey successfully registered!");
-           loadPasskeys();
-       }
-    });
 
     document.getElementById("location-form")?.addEventListener("submit", async (e) => {
        e.preventDefault();

@@ -14,6 +14,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 4321,
+    allowedHosts: ['labs.azflix.lol', '192.168.0.172']
   },
   integrations: [sitemap(), mdx()],
   vite: {

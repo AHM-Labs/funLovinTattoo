@@ -20,27 +20,27 @@ const posts = (await getCollection('news')).sort(
 <Layout title="Journal Manager | Admin">
   <AdminNav currentPath="/admin/journal" />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
-     <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
+     <div class="flex justify-between items-end border-b border-flt-border pb-8 mb-12">
         <div>
-           <h1 class="font-headline text-5xl italic ivory-text uppercase">Journal.</h1>
+           <h1 class="font-headline text-5xl italic cream-text uppercase">Journal.</h1>
         </div>
-        <a href="/admin/journal/new" class="bg-white text-black font-label px-10 py-4 uppercase tracking-widest text-[11px] font-bold hover:bg-flt-cream transition-all shadow-xl">New Entry</a>
+        <a href="/admin/journal/new" class="bg-flt-cream text-black font-label px-10 py-4 uppercase tracking-widest text-[11px] font-bold hover:bg-white transition-all shadow-xl">New Entry</a>
      </div>
 
      <div class="grid grid-cols-1 gap-6">
         {posts.map(post => (
-            <div class="border-premium bg-[#111] p-8 flex flex-col md:flex-row justify-between items-center gap-8 group">
+            <div class="border-premium bg-flt-bg p-8 flex flex-col md:flex-row justify-between items-center gap-8 group shadow-2xl">
                 <div class="flex items-center gap-8 flex-1">
-                    <div class="w-24 h-24 bg-flt-border/5 border border-flt-ivory-border/10 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                    <div class="w-24 h-24 bg-black border border-flt-border overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
                         {post.data.image ? <img src={post.data.image} class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center font-headline italic text-flt-muted/20">MDX</div>}
                     </div>
                     <div>
-                        <h2 class="font-headline text-2xl italic ivory-text uppercase">{post.data.title}</h2>
+                        <h2 class="font-headline text-2xl italic cream-text uppercase">{post.data.title}</h2>
                         <p class="font-label text-[9px] uppercase tracking-widest text-flt-muted mt-2">{post.data.date.toLocaleDateString()}</p>
                     </div>
                 </div>
                 <div class="flex gap-4">
-                    <a href={`/admin/journal/edit?id=${post.id}`} class="border border-flt-ivory-border/30 text-white font-label px-6 py-3 uppercase tracking-widest text-[9px] hover:bg-white hover:text-black transition-all">Edit</a>
+                    <a href={`/admin/journal/edit?id=${post.id}`} class="border border-flt-border text-flt-cream font-label px-6 py-3 uppercase tracking-widest text-[9px] hover:bg-flt-cream hover:text-black transition-all">Edit</a>
                     <button data-id={post.id} class="delete-post border border-red-500/30 text-red-500 font-label px-6 py-3 uppercase tracking-widest text-[9px] hover:bg-red-500 hover:text-white transition-all">Delete</button>
                 </div>
             </div>
