@@ -1,6 +1,6 @@
 # Fun Lovin Tattoo 🖋️
 
-A premium, artisan-focused web platform built with Astro 6, Tailwind CSS v4, and Better Auth. Designed for professional tattoo artists to manage their portfolio, journal, and client inquiries with a high-end, gothic-inspired aesthetic.
+A premium, artisan-focused web platform built with Astro 6, Tailwind CSS v4, and Better Auth. Designed for professional tattoo artists to manage their portfolio, journal, and client inquiries with a high-end, gothic-inspired aesthetic...
 
 ## ✨ Key Features
 
