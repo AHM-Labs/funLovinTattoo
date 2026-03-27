@@ -17,6 +17,7 @@ export const POST: APIRoute = async (context) => {
                 .set({
                     name: data.name,
                     handle: data.handle,
+                    image: data.image,
                     specialty: data.specialty,
                     dateStarted: data.dateStarted,
                     bio: data.bio,

@@ -1,8 +1,11 @@
 ---
+export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { db } from "../../db";
+import { user as userTable } from "../../db/schema";
+import { ne } from "drizzle-orm";
 
-const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b.data.order);
+const artists = await db.select().from(userTable).where(ne(userTable.role, 'admin'));
 ---
 
 <Layout title="Artists | Professional Artistry">
@@ -14,11 +17,11 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
       {artists.map(artist => (
-        <a href={`/artists/${artist.id}`} class="group">
+        <a href={`/artists/${artist.handle}`} class="group">
           <div class="aspect-[3/4] bg-flt-bg/5 mb-10 overflow-hidden border-premium relative transition-all duration-700 shadow-2xl">
             <img 
-              src={artist.data.image} 
-              alt={artist.data.name} 
+              src={artist.image || '/assets/placeholder.png'} 
+              alt={artist.name} 
               class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
             />
             <div class="absolute inset-0 bg-flt-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center">
@@ -27,11 +30,11 @@ const artists = (await getCollection('artists')).sort((a, b) => a.data.order - b
           </div>
           <div class="flex justify-between items-start border-b border-flt-border pb-8">
             <div>
-              <h2 class="font-headline text-4xl italic cream-text mb-2 transition-colors">{artist.data.name}</h2>
-              <p class="font-label text-[10px] uppercase tracking-[0.2em] text-flt-muted">{artist.data.role}</p>
+              <h2 class="font-headline text-4xl italic cream-text mb-2 transition-colors">{artist.name}</h2>
+              <p class="font-label text-[10px] uppercase tracking-[0.2em] text-flt-muted">{artist.role}</p>
             </div>
             <p class="font-body text-sm text-flt-muted/60 text-right max-w-[200px] italic">
-              Specialist in {artist.data.specialty}
+              Specialist in {artist.specialty}
             </p>
           </div>
         </a>

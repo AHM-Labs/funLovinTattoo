@@ -1,0 +1,109 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
+import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { gallery as galleryTable } from "../../db/schema";
+import { eq, desc } from "drizzle-orm";
+
+// Session Check
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (!session) return Astro.redirect("/admin/login");
+if (session.user.requiresPasswordReset) return Astro.redirect("/admin/reset-password");
+
+const user = session.user;
+
+// Fetch current gallery
+const currentItems = await db.select().from(galleryTable)
+    .where(eq(galleryTable.artistId, user.id))
+    .orderBy(desc(galleryTable.createdAt));
+---
+
+<Layout title="Portfolio Gallery | Admin">
+    <AdminNav currentPath="/admin/gallery" userRole={user.role} />
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="mb-12 border-b border-flt-border pb-8">
+            <h1 class="font-headline text-5xl italic cream-text uppercase mt-4">Work <br/> Samples.</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Add New Image -->
+            <div class="lg:col-span-1">
+                <div class="border-premium bg-flt-bg p-8 shadow-2xl">
+                    <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Add Piece</h2>
+                    <form id="add-gallery-form" class="space-y-4">
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Image URL</label>
+                            <input type="text" id="url" required placeholder="https://..." class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Alt Text / Description</label>
+                            <input type="text" id="altText" required placeholder="e.g. Fine line peony" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <button type="submit" class="w-full bg-flt-cream text-black font-label py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Add to Portfolio</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Current Gallery -->
+            <div class="lg:col-span-2">
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {currentItems.map(item => (
+                        <div class="group relative aspect-square border border-flt-border overflow-hidden">
+                            <img src={item.url} alt={item.altText} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button class="delete-item-btn font-label text-[8px] uppercase tracking-widest text-red-500 border border-red-500/30 px-3 py-2 hover:bg-red-500 hover:text-white transition-all" data-id={item.id}>Remove</button>
+                            </div>
+                        </div>
+                    ))}
+                    {currentItems.length === 0 && (
+                        <div class="col-span-full py-20 text-center border border-dashed border-flt-border/30">
+                            <p class="font-body text-xs text-flt-muted italic opacity-50">No pieces added to your portfolio yet.</p>
+                        </div>
+                    )}
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-gallery-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = (document.getElementById('url') as HTMLInputElement).value;
+            const altText = (document.getElementById('altText') as HTMLInputElement).value;
+            const btn = (e.target as HTMLFormElement).querySelector('button');
+            if(btn) btn.textContent = "Adding...";
+
+            try {
+                const res = await fetch("/api/admin/gallery/add", {
+                    method: "POST",
+                    body: JSON.stringify({ url, altText })
+                });
+                if (res.ok) location.reload();
+                else (window as any).showModal("Error", "Failed to add image.");
+            } catch (e) {
+                (window as any).showModal("Error", "Network error.");
+            }
+            if(btn) btn.textContent = "Add to Portfolio";
+        });
+
+        document.querySelectorAll('.delete-item-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = (e.target as HTMLElement).dataset.id;
+                if (!id || !confirm("Remove this piece from your portfolio?")) return;
+                
+                try {
+                    const res = await fetch("/api/admin/gallery/delete", {
+                        method: "POST",
+                        body: JSON.stringify({ id })
+                    });
+                    if (res.ok) location.reload();
+                    else (window as any).showModal("Error", "Failed to remove image.");
+                } catch (e) {
+                    (window as any).showModal("Error", "Network error.");
+                }
+            });
+        });
+    </script>
+</Layout>

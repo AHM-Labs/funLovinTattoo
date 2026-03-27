@@ -37,6 +37,10 @@ const user = session.user;
                             <input type="text" id="handle" value={user.handle || ''} placeholder="@username" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
                         <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Profile Picture URL</label>
+                            <input type="text" id="image" value={user.image || ''} placeholder="https://..." class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Speciality</label>
                             <input type="text" id="specialty" value={user.specialty || ''} placeholder="e.g. Fine Line, Realism" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
@@ -75,6 +79,7 @@ const user = session.user;
             const formData = {
                 name: (document.getElementById('name') as HTMLInputElement).value,
                 handle: (document.getElementById('handle') as HTMLInputElement).value,
+                image: (document.getElementById('image') as HTMLInputElement).value,
                 specialty: (document.getElementById('specialty') as HTMLInputElement).value,
                 dateStarted: (document.getElementById('dateStarted') as HTMLInputElement).value,
                 bio: (document.getElementById('bio') as HTMLTextAreaElement).value,

@@ -2,7 +2,6 @@ export const prerender = false;
 import { auth } from "../../../../lib/auth";
 import { db } from "../../../../db";
 import { gallery as galleryTable } from "../../../../db/schema";
-import { eq, and } from "drizzle-orm";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async (context) => {
@@ -10,17 +9,18 @@ export const POST: APIRoute = async (context) => {
     const session = await auth.api.getSession({ headers: context.request.headers });
     if (!session) return new Response("Unauthorized", { status: 401 });
 
-    const { id } = await context.request.json();
+    const { url, altText } = await context.request.json();
 
-    if (!id) return new Response("Missing ID", { status: 400 });
+    if (!url || !altText) return new Response("Missing data", { status: 400 });
 
     try {
-        // Ensure the item belongs to the user OR user is admin
-        const whereClause = session.user.role === 'admin' 
-            ? eq(galleryTable.id, id)
-            : and(eq(galleryTable.id, id), eq(galleryTable.artistId, session.user.id));
-
-        const result = await db.delete(galleryTable).where(whereClause);
+        await db.insert(galleryTable).values({
+            id: crypto.randomUUID(),
+            url,
+            altText,
+            artistId: session.user.id,
+            createdAt: new Date()
+        });
         
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (e: any) {
