@@ -221,9 +221,16 @@ image: ""
               });
 
               if(res.ok) {
-                  (window as any).showModal("Success", "Saved successfully!");
-                  setTimeout(() => window.location.href = "/admin/journal", 1500);
-              } else {
+                  const data = await res.json();
+                  if (data.warning) {
+                      (window as any).showModal("Partial Success", data.warning);
+                      setTimeout(() => window.location.href = "/admin/journal", 3000);
+                  } else {
+                      (window as any).showModal("Success", "Saved & Pushed to Git!");
+                      setTimeout(() => window.location.href = "/admin/journal", 1500);
+                  }
+              }
+ else {
                   const err = await res.json();
                   (window as any).showModal("Save Error", err.error || "Check syntax.");
                   saveBtn.innerText = "Save & Publish";
