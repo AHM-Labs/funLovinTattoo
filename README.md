@@ -42,11 +42,11 @@ The journal module operates as a headless Git-CMS, ensuring all content is versi
 
 ## 🚀 Getting Started
 
-1. **Install Dependencies**: `npm install`
+1. **Install Dependencies**: `pnpm install`
 2. **Setup Environment**: Rename `.env.example` to `.env` and fill in secrets.
-3. **Database Setup**: `npx drizzle-kit push`
-4. **Run Dev Server**: `npm run dev -- --host`
-5. **Build for Production**: `npm run build && node ./dist/server/entry.mjs`
+3. **Database Setup**: `pnpm db:push`
+4. **Run Dev Server**: `pnpm dev -- --host`
+5. **Build for Production**: `pnpm build && node ./dist/server/entry.mjs`
 
 ---
 *Created with focus on artisan craftsmanship and architectural excellence.*
