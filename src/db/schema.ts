@@ -8,6 +8,10 @@ export const user = sqliteTable("user", {
 	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
 	image: text("image"),
 	role: text("role").default("user").notNull(),
+	handle: text("handle"),
+	specialty: text("specialty"),
+	dateStarted: text("dateStarted"),
+	bio: text("bio"),
 	requiresPasswordReset: integer("requiresPasswordReset", { mode: "boolean" }).default(false).notNull(),
 	createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
 	updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull()

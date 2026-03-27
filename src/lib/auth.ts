@@ -32,6 +32,18 @@ export const auth = betterAuth({
             requiresPasswordReset: {
                 type: "boolean",
                 defaultValue: false
+            },
+            handle: {
+                type: "string",
+            },
+            specialty: {
+                type: "string",
+            },
+            dateStarted: {
+                type: "string",
+            },
+            bio: {
+                type: "string",
             }
         }
     },

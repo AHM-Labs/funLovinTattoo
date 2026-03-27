@@ -5,31 +5,24 @@ import { user as userTable } from "../../../../db/schema";
 import { eq } from "drizzle-orm";
 import type { APIRoute } from "astro";
 
-import { canManageTeam } from "../../../../lib/permissions";
-
 export const POST: APIRoute = async (context) => {
     // Auth Check
     const session = await auth.api.getSession({ headers: context.request.headers });
-    if (!session || !canManageTeam(session.user.role)) return new Response("Unauthorized", { status: 401 });
+    if (!session) return new Response("Unauthorized", { status: 401 });
 
-    const { name, email, role } = await context.request.json();
+    const data = await context.request.json();
 
     try {
-        const result = await auth.api.signUpEmail({
-            body: {
-                email,
-                password: "password",
-                name
-            }
-        });
-
-        // Set role/force reset
         await db.update(userTable)
-                .set({ 
-                    role: role || "staff", 
-                    requiresPasswordReset: true 
+                .set({
+                    name: data.name,
+                    handle: data.handle,
+                    specialty: data.specialty,
+                    dateStarted: data.dateStarted,
+                    bio: data.bio,
+                    updatedAt: new Date()
                 })
-                .where(eq(userTable.id, result.user.id));
+                .where(eq(userTable.id, session.user.id));
         
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (e: any) {

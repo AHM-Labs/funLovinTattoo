@@ -1,0 +1,100 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
+import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { user as userTable } from "../../db/schema";
+import { eq } from "drizzle-orm";
+
+// Session Check
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (!session) return Astro.redirect("/admin/login");
+if (session.user.requiresPasswordReset) return Astro.redirect("/admin/reset-password");
+
+const user = session.user;
+---
+
+<Layout title="My Artist Profile | Admin">
+    <AdminNav currentPath="/admin/profile" userRole={user.role} />
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="mb-12 border-b border-flt-border pb-8">
+            <h1 class="font-headline text-5xl italic cream-text uppercase mt-4">Artist <br/> Details.</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Profile Info Form -->
+            <div class="lg:col-span-1">
+                <div class="border-premium bg-flt-bg p-8 shadow-2xl">
+                    <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Identity</h2>
+                    <form id="profile-form" class="space-y-4">
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Display Name</label>
+                            <input type="text" id="name" value={user.name} required class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Handle / Nickname</label>
+                            <input type="text" id="handle" value={user.handle || ''} placeholder="@username" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Speciality</label>
+                            <input type="text" id="specialty" value={user.specialty || ''} placeholder="e.g. Fine Line, Realism" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Started Tattooing</label>
+                            <input type="text" id="dateStarted" value={user.dateStarted || ''} placeholder="e.g. 2018" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Bio</label>
+                            <textarea id="bio" rows="4" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm resize-none">{user.bio || ''}</textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-flt-cream text-black font-label py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Save Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Portfolio Upload -->
+            <div class="lg:col-span-2">
+                 <div class="border-premium bg-black/10 p-8 h-full">
+                    <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Work Samples</h2>
+                    <p class="font-body text-xs text-flt-muted mb-8 leading-relaxed">
+                        These images will appear in your artist profile across the site. (Feature coming soon - images will be managed via the Gallery section).
+                    </p>
+                    <a href="/admin/gallery" class="inline-block border border-flt-cream/30 text-flt-cream font-label px-8 py-4 uppercase tracking-widest text-[10px] hover:bg-flt-cream hover:text-black transition-colors">Manage Portfolio Gallery</a>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = (e.target as HTMLFormElement).querySelector('button');
+            if(submitBtn) submitBtn.textContent = "Saving...";
+
+            const formData = {
+                name: (document.getElementById('name') as HTMLInputElement).value,
+                handle: (document.getElementById('handle') as HTMLInputElement).value,
+                specialty: (document.getElementById('specialty') as HTMLInputElement).value,
+                dateStarted: (document.getElementById('dateStarted') as HTMLInputElement).value,
+                bio: (document.getElementById('bio') as HTMLTextAreaElement).value,
+            };
+
+            try {
+                const res = await fetch("/api/admin/profile/update", {
+                    method: "POST",
+                    body: JSON.stringify(formData)
+                });
+                if (res.ok) {
+                    (window as any).showModal("Profile Updated", "Your artist details have been saved.");
+                } else {
+                    const data = await res.json();
+                    (window as any).showModal("Error", data.error || "Failed to save profile.");
+                }
+            } catch (e) {
+                (window as any).showModal("Error", "Network failure.");
+            }
+            if(submitBtn) submitBtn.textContent = "Save Profile";
+        });
+    </script>
+</Layout>
