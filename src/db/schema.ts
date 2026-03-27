@@ -12,6 +12,7 @@ export const user = sqliteTable("user", {
 	specialty: text("specialty"),
 	dateStarted: text("dateStarted"),
 	bio: text("bio"),
+	philosophy: text("philosophy"),
 	requiresPasswordReset: integer("requiresPasswordReset", { mode: "boolean" }).default(false).notNull(),
 	createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
 	updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull()

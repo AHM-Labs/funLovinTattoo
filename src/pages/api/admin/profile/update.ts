@@ -11,16 +11,18 @@ export const POST: APIRoute = async (context) => {
     if (!session) return new Response("Unauthorized", { status: 401 });
 
     const data = await context.request.json();
+    const { name, handle, image, specialty, dateStarted, bio, philosophy } = data;
 
     try {
         await db.update(userTable)
                 .set({
-                    name: data.name,
-                    handle: data.handle,
-                    image: data.image,
-                    specialty: data.specialty,
-                    dateStarted: data.dateStarted,
-                    bio: data.bio,
+                    name,
+                    handle,
+                    image,
+                    specialty,
+                    dateStarted,
+                    bio,
+                    philosophy,
                     updatedAt: new Date()
                 })
                 .where(eq(userTable.id, session.user.id));

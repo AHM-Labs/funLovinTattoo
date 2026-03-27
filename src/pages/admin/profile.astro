@@ -56,9 +56,13 @@ const user = session.user;
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Started Tattooing</label>
                             <input type="text" id="dateStarted" value={user.dateStarted || ''} placeholder="e.g. 2018" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
-                        <div>
-                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Bio</label>
-                            <textarea id="bio" rows="4" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm resize-none">{user.bio || ''}</textarea>
+                        <div class="lg:col-span-2 space-y-6">
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block">Artist Bio</label>
+                            <div class="rich-text-editor border border-flt-border bg-black/40 min-h-[200px] p-4 text-flt-cream font-body focus-within:border-flt-cream outline-none text-sm" id="bio-editor" contenteditable="true" set:html={user.bio || ''}></div>
+                        </div>
+                        <div class="lg:col-span-2 space-y-6">
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block">Creative Philosophy</label>
+                            <div class="rich-text-editor border border-flt-border bg-black/40 min-h-[200px] p-4 text-flt-cream font-body focus-within:border-flt-cream outline-none text-sm" id="philosophy-editor" contenteditable="true" set:html={user.philosophy || ''}></div>
                         </div>
                         <button type="submit" class="w-full bg-flt-cream text-black font-label py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Save Profile</button>
                     </form>
@@ -116,7 +120,8 @@ const user = session.user;
                 image: (document.getElementById('profile-preview') as HTMLImageElement).src,
                 specialty: (document.getElementById('specialty') as HTMLInputElement).value,
                 dateStarted: (document.getElementById('dateStarted') as HTMLInputElement).value,
-                bio: (document.getElementById('bio') as HTMLTextAreaElement).value,
+                bio: document.getElementById('bio-editor')?.innerHTML || '',
+                philosophy: document.getElementById('philosophy-editor')?.innerHTML || '',
             };
 
             try {
