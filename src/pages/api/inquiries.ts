@@ -17,6 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
         const type = formData.get("type") as string || 'tattoo';
         const date = formData.get("date") as string || '';
         const details = formData.get("details") as string;
+        const cfToken = formData.get("cf-turnstile-response") as string || '';
         
         const files = formData.getAll("images") as File[];
         const imageUrls: string[] = [];
@@ -56,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     clientId: CLIENT_ID,
-                    cfToken: 'localhost-admin-bypass', // Bypass for server-side trusted action
+                    cfToken: cfToken || 'localhost-admin-bypass', // Use token or bypass for dev
                     name,
                     email,
                     message: `New Inquiry from ${name}.\nType: ${type}\nDetails: ${details}\nPhone: ${phone}`,

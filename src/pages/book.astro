@@ -62,6 +62,20 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
+      <!-- Cloudflare Turnstile -->
+      <div class="flex flex-col items-center mt-8">
+        <div
+          class="cf-turnstile"
+          data-sitekey="0x4AAAAAACwx-x-r_M9rcht1"
+          data-theme="dark"
+        >
+        </div>
+        <script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          async
+          defer></script>
+      </div>
+
       <div class="pt-8 border-t border-flt-border flex flex-col md:flex-row items-center justify-between gap-10">
         <p class="font-body text-[12px] text-flt-muted/60 max-w-sm italic">By submitting, you acknowledge that we may store your details for communication regarding this request.</p>
         <button type="submit" id="submit-btn" class="w-full md:w-auto px-16 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl">Submit Inquiry</button>
@@ -112,7 +126,8 @@ import Layout from '../layouts/Layout.astro';
       e.preventDefault();
       
       const formData = new FormData(form);
-      
+      const cfToken = formData.get("cf-turnstile-response") || (import.meta.env.DEV ? "mock-token" : "");
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
 
