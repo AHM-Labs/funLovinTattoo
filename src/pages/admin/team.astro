@@ -1,4 +1,11 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
 import { canManageTeam } from "../../lib/permissions";
+import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { user as userTable } from "../../db/schema";
 
 // Session Check
 const session = await auth.api.getSession({ headers: Astro.request.headers });
@@ -13,7 +20,7 @@ const users = await db.select().from(userTable);
 
 <Layout title="Team Management | Admin">
     <AdminNav currentPath="/admin/team" userRole={session.user.role} />
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+    <div class="max-w-7xl auto px-4 sm:px-8 lg:px-12 py-12">
         <div class="mb-12 border-b border-flt-border pb-8">
             <h1 class="font-headline text-5xl italic cream-text uppercase mt-4">Manage <br/> Team.</h1>
         </div>
@@ -27,6 +34,10 @@ const users = await db.select().from(userTable);
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Name</label>
                             <input type="text" id="name" required class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        </div>
+                        <div>
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Email Address</label>
+                            <input type="email" id="email" required class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Role</label>
