@@ -17,6 +17,9 @@ export default defineConfig({
     allowedHosts: ['flt.ahm-labs.com', 'labs.azflix.lol', '192.168.0.172']
   },
   integrations: [sitemap(), mdx()],
+  security: {
+    checkOrigin: false, // Fix "Cross-site POST form submissions are forbidden" error behind Nginx
+  },
   vite: {
     plugins: [tailwindcss()],
   },
