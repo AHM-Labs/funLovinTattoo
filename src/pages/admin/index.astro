@@ -3,26 +3,34 @@ export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import AdminNav from '../../components/AdminNav.astro';
 import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { settings } from "../../db/schema";
+import { eq } from "drizzle-orm";
+import { canManageTeam, canManageGlobalBlog } from "../../lib/permissions";
 
-// Server-side session check (middleware handles redirection, but we can get user data here)
+// Server-side session check
 const session = await auth.api.getSession({
     headers: Astro.request.headers
 });
 
 const user = session?.user;
 
-if (user?.requiresPasswordReset) {
-    return Astro.redirect("/admin/reset-password");
-}
+if (!user) return Astro.redirect("/admin/login");
+if (user.requiresPasswordReset) return Astro.redirect("/admin/reset-password");
+
+// Fetch settings
+const allSettings = await db.select().from(settings);
+const vanLocation = allSettings.find(s => s.key === 'van_location')?.value || '';
+const blogEnabled = allSettings.find(s => s.key === 'enableBlogCreation')?.value === 'true';
 ---
 
 <Layout title="Admin Dashboard | Professional Artistry">
-  <AdminNav currentPath="/admin" />
+  <AdminNav currentPath="/admin" userRole={user.role} />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-border pb-8 mb-12">
         <div>
            <span class="font-label text-[10px] uppercase tracking-[0.4rem] text-flt-muted block mb-2">Control Center</span>
-           <h1 class="font-headline text-5xl italic cream-text uppercase">Welcome, {user?.name || 'Artist'}.</h1>
+           <h1 class="font-headline text-5xl italic cream-text uppercase">Welcome, {user.name}.</h1>
         </div>
         <div class="flex gap-4">
            <button id="logout-btn" class="bg-flt-cream text-black font-label px-6 py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-colors shadow-lg">Sign Out</button>
@@ -37,10 +45,22 @@ if (user?.requiresPasswordReset) {
               <form id="location-form" class="space-y-4">
                  <div>
                     <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Mobile Van Location</label>
-                    <input type="text" id="van-location" placeholder="e.g. Canalside Ind. Estate" class="w-full bg-black/40 border border-flt-border p-4 text-flt-cream font-body focus:border-flt-cream outline-none transition-colors placeholder:text-flt-muted/30" />
+                    <input type="text" id="van-location" value={vanLocation} placeholder="e.g. Canalside Ind. Estate" class="w-full bg-black/40 border border-flt-border p-4 text-flt-cream font-body focus:border-flt-cream outline-none transition-colors placeholder:text-flt-muted/30" />
                  </div>
                  <button type="submit" class="w-full border border-flt-cream/30 text-flt-cream font-label py-3 uppercase tracking-widest text-[10px] hover:bg-flt-cream hover:text-black transition-colors">Update Location</button>
               </form>
+
+              {canManageGlobalBlog(user.role) && (
+              <div class="mt-8 pt-8 border-t border-flt-border flex items-center justify-between">
+                  <div>
+                      <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block">Blog Creation</label>
+                      <span class="text-[8px] text-flt-muted/50 uppercase tracking-widest">{blogEnabled ? 'Enabled' : 'Disabled'}</span>
+                  </div>
+                  <button id="toggle-blog-btn" class={`w-12 h-6 rounded-full transition-colors relative ${blogEnabled ? 'bg-flt-cream' : 'bg-white/10'}`}>
+                      <div class={`absolute top-1 w-4 h-4 rounded-full bg-black transition-all ${blogEnabled ? 'left-7' : 'left-1'}`}></div>
+                  </button>
+              </div>
+              )}
            </div>
         </div>
 
@@ -51,24 +71,32 @@ if (user?.requiresPasswordReset) {
                  <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Inquiries</h3>
                  <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Manage Bookings &rarr;</p>
               </a>
-              <a href="/admin/journal" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+              {canManageGlobalBlog(user.role) && (
+              <a href="/admin/journal" class={`border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group ${!blogEnabled ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
                  <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Journal</h3>
-                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Write & Edit &rarr;</p>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">{blogEnabled ? 'Write & Edit' : 'Disabled'} &rarr;</p>
               </a>
+              )}
+              {canManageTeam(user.role) && (
               <a href="/admin/team" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
                  <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Team</h3>
                  <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Manage Team &rarr;</p>
               </a>
+              )}
               <a href="/admin/gallery" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
                  <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">Gallery</h3>
                  <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Portfolio &rarr;</p>
+              </a>
+              <a href="/admin/profile" class="border-premium bg-flt-border/5 p-8 hover:bg-flt-border/10 transition-colors group">
+                 <h3 class="font-headline text-3xl italic cream-text uppercase mb-2">My Profile</h3>
+                 <p class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-flt-cream transition-colors">Artist Details &rarr;</p>
               </a>
            </div>
         </div>
      </div>
   </div>
 
-  <script>
+  <script define:vars={{ blogEnabled }}>
     import { authClient } from "../../lib/auth-client";
 
     document.getElementById("location-form")?.addEventListener("submit", async (e) => {
@@ -89,6 +117,19 @@ if (user?.requiresPasswordReset) {
            (window as any).showModal("Error", "Error updating location.");
        }
        if(submitBtn) submitBtn.textContent = "Update Location";
+    });
+
+    document.getElementById("toggle-blog-btn")?.addEventListener("click", async () => {
+        const newValue = !blogEnabled;
+        try {
+            const res = await fetch("/api/settings", {
+                method: "POST",
+                body: JSON.stringify({ key: "enableBlogCreation", value: String(newValue) })
+            });
+            if (res.ok) location.reload();
+        } catch (e) {
+            console.error(e);
+        }
     });
 
     document.getElementById("logout-btn")?.addEventListener("click", async () => {
