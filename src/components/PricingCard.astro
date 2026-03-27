@@ -1,0 +1,50 @@
+---
+interface Props {
+    name: string;
+    price: string;
+    description?: string;
+    image?: string;
+    isLimited?: boolean;
+}
+
+const { name, price, description, image, isLimited } = Astro.props;
+---
+
+<div class={`group relative border border-flt-border/50 bg-black/20 p-6 transition-all duration-500 hover:border-flt-cream/40 ${isLimited ? 'border-flt-cream/20 shadow-[0_0_30px_rgba(212,186,140,0.05)]' : ''}`}>
+    {isLimited && (
+        <div class="absolute -top-3 left-4 bg-flt-cream text-black font-label text-[8px] uppercase tracking-widest px-3 py-1 font-bold z-10">
+            Limited Edition
+        </div>
+    )}
+    
+    <div class="flex flex-col md:flex-row gap-6">
+        {image && (
+            <div class="w-full md:w-24 h-24 shrink-0 overflow-hidden border border-flt-border group-hover:border-flt-cream/30 transition-colors">
+                <img src={image} alt={name} class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100" />
+            </div>
+        )}
+        
+        <div class="flex-1">
+            <div class="flex justify-between items-start mb-2">
+                <h4 class="font-headline text-2xl italic cream-text uppercase leading-tight tracking-tight group-hover:text-white transition-colors">
+                    {name}
+                </h4>
+                <div class="text-right">
+                    <span class="font-label text-xs text-flt-cream block">{price}</span>
+                </div>
+            </div>
+            
+            {description && (
+                <p class="font-body text-[11px] text-flt-muted/70 leading-relaxed mb-4 group-hover:text-flt-muted transition-colors">
+                    {description}
+                </p>
+            )}
+        </div>
+    </div>
+</div>
+
+<style>
+    .cream-text {
+        color: #d4ba8c;
+    }
+</style>

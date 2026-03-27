@@ -97,3 +97,34 @@ export const gallery = sqliteTable("gallery", {
   artistId: text("artistId").notNull().references(() => user.id),
   createdAt: integer("createdAt", { mode: "timestamp" }).notNull()
 });
+
+export const pricingCategories = sqliteTable("pricing_categories", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  type: text("type").notNull(), // 'studio' | 'mobile'
+  order: integer("order").default(0).notNull(),
+});
+
+export const pricingItems = sqliteTable("pricing_items", {
+  id: text("id").primaryKey(),
+  categoryId: text("categoryId").notNull().references(() => pricingCategories.id, { onDelete: 'cascade' }),
+  name: text("name").notNull(),
+  description: text("description"),
+  price: text("price").notNull(), // e.g. "£100" or "Starts at £50"
+  image: text("image"),
+  isLimited: integer("isLimited", { mode: "boolean" }).default(false).notNull(),
+  order: integer("order").default(0).notNull(),
+});
+
+export const pricingAddons = sqliteTable("pricing_addons", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  price: text("price").notNull(),
+  image: text("image"),
+});
+
+export const categoryToAddons = sqliteTable("category_to_addons", {
+  categoryId: text("categoryId").notNull().references(() => pricingCategories.id, { onDelete: 'cascade' }),
+  addonId: text("addonId").notNull().references(() => pricingAddons.id, { onDelete: 'cascade' }),
+});

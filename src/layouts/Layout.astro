@@ -17,11 +17,60 @@ const { title, description = "Fun Lovin Tattoo. Professional tattoo artists with
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- SEO & GEO -->
+    <meta name="geo.region" content="GB" />
+    <meta name="geo.placename" content="Mexborough" />
+    <meta name="geo.position" content="53.4935;-1.2858" />
+    <meta name="ICBM" content="53.4935, -1.2858" />
+    
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TattooParlor",
+        "name": "Fun Lovin Tattoo",
+        "image": "https://flt.ahm-labs.com/assets/studio_inside.jpg",
+        "@id": "https://flt.ahm-labs.com",
+        "url": "https://flt.ahm-labs.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Unit 3 Canalside Ind. Estate, Cliff Street",
+          "addressLocality": "Mexborough",
+          "postalCode": "S64 9HU",
+          "addressCountry": "GB"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 53.4935,
+          "longitude": -1.2858
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:00",
+          "closes": "19:00"
+        }
+      }
+    </script>
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col w-full bg-flt-bg text-flt-text selection:bg-white selection:text-black">

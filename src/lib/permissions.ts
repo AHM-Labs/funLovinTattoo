@@ -6,4 +6,5 @@ export const isStaff = (role?: string) => role === 'staff' || role === 'owner' |
 
 export const canManageTeam = (role?: string) => isAdmin(role) || isOwner(role);
 export const canManageGlobalBlog = (role?: string) => isAdmin(role) || isOwner(role);
+export const canManagePricing = (role?: string) => isAdmin(role) || isOwner(role);
 export const canAccessAdmin = (role?: string) => isStaff(role);

@@ -1,5 +1,6 @@
 ---
 import { canManageTeam, canManageGlobalBlog } from "../lib/permissions";
+import { canManageTeam, canManageGlobalBlog, canManagePricing } from "../lib/permissions";
 
 const { currentPath, userRole } = Astro.props;
 
@@ -8,6 +9,7 @@ const navItems = [
     { name: 'Inquiries', href: '/admin/bookings' },
     { name: 'Journal', href: '/admin/journal', visible: canManageGlobalBlog(userRole) },
     { name: 'Gallery', href: '/admin/gallery' },
+    { name: 'Pricing', href: '/admin/pricing', visible: canManagePricing(userRole) },
     { name: 'Team', href: '/admin/team', visible: canManageTeam(userRole) },
     { name: 'My Profile', href: '/admin/profile' },
 ].filter(item => item.visible !== false);

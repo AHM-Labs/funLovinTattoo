@@ -1,0 +1,565 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import AdminNav from '../../components/AdminNav.astro';
+import { canManagePricing } from "../../lib/permissions";
+import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { pricingCategories, pricingItems, pricingAddons, categoryToAddons } from "../../db/schema";
+import { eq } from "drizzle-orm";
+
+// Session Check
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (!session) return Astro.redirect("/admin/login");
+if (session.user.requiresPasswordReset) return Astro.redirect("/admin/reset-password");
+if (!canManagePricing(session.user.role)) return Astro.redirect("/admin");
+
+// Initial Data Fetch
+const allCategories = await db.select().from(pricingCategories).orderBy(pricingCategories.order);
+const allItems = await db.select().from(pricingItems).orderBy(pricingItems.order);
+const allAddons = await db.select().from(pricingAddons);
+const allLinks = await db.select().from(categoryToAddons);
+---
+
+<Layout title="Pricing Management | Admin">
+    <AdminNav currentPath="/admin/pricing" userRole={session.user.role} />
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+        <div class="flex justify-between items-end mb-12 border-b border-flt-border pb-8">
+            <div>
+                <h1 class="font-headline text-5xl italic cream-text uppercase mt-4">Pricing <br/> & Menu.</h1>
+            </div>
+            <div class="flex gap-4">
+                <button id="tab-studio" class="tab-btn font-label text-[10px] uppercase tracking-widest px-6 py-2 border border-flt-cream text-flt-cream bg-flt-cream/10 active-tab">Studio</button>
+                <button id="tab-mobile" class="tab-btn font-label text-[10px] uppercase tracking-widest px-6 py-2 border border-flt-border text-flt-muted hover:text-flt-cream">Mobile (Van)</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Sidebar: Categories -->
+            <div class="lg:col-span-3 space-y-8">
+                <div class="border-premium bg-flt-bg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="font-headline text-xl italic cream-text uppercase">Categories</h2>
+                        <button id="add-category-btn" class="text-flt-cream hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                    <div id="category-list" class="space-y-2">
+                        <!-- Categories injected here -->
+                    </div>
+                </div>
+
+                <div id="addon-linking-section" class="border-premium bg-black/20 p-6 hidden">
+                    <h2 class="font-headline text-xl italic cream-text uppercase mb-6">Linked Addons</h2>
+                    <div id="addon-list" class="space-y-4">
+                        <!-- Addons with toggles injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: Items -->
+            <div class="lg:col-span-9">
+                <div id="no-category-view" class="h-64 flex items-center justify-center border border-dashed border-flt-border">
+                    <p class="font-body text-xs text-flt-muted italic uppercase tracking-widest">Select a category to manage items</p>
+                </div>
+
+                <div id="items-view" class="hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 id="current-category-name" class="font-headline text-3xl italic cream-text uppercase">Category Name</h2>
+                        <button id="add-item-btn" class="bg-flt-cream text-black font-label py-2 px-6 uppercase tracking-widest text-[9px] font-bold hover:bg-white transition-colors">Add Item</button>
+                    </div>
+                    <div id="items-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Items injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (Basic approach using hidden divs) -->
+    <div id="category-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-flt-bg border border-flt-border p-8 w-full max-w-md">
+            <h3 class="font-headline text-2xl italic cream-text uppercase mb-6" id="cat-modal-title">Add Category</h3>
+            <form id="cat-form" class="space-y-4">
+                <input type="hidden" id="cat-id" />
+                <div>
+                    <label class="label-text">Category Name</label>
+                    <input type="text" id="cat-name" required class="input-field" />
+                </div>
+                <div>
+                    <label class="label-text">Sort Order</label>
+                    <input type="number" id="cat-order" value="0" class="input-field" />
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" class="close-modal-btn w-1/2 border border-flt-border text-flt-muted py-3 uppercase font-label text-[10px]">Cancel</button>
+                    <button type="submit" class="w-1/2 bg-flt-cream text-black py-3 uppercase font-label text-[10px] font-bold">Save</button>
+                </div>
+                <button type="button" id="delete-cat-btn" class="w-full text-red-500/50 hover:text-red-500 text-[9px] uppercase font-label tracking-widest pt-4 hidden">Delete Category</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="item-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-flt-bg border border-flt-border p-8 w-full max-w-2xl">
+            <h3 class="font-headline text-2xl italic cream-text uppercase mb-6" id="item-modal-title">Add Item</h3>
+            <form id="item-form" class="grid grid-cols-2 gap-6">
+                <input type="hidden" id="item-id" />
+                <div class="space-y-4">
+                    <div>
+                        <label class="label-text">Item Name</label>
+                        <input type="text" id="item-name" required class="input-field" />
+                    </div>
+                    <div>
+                        <label class="label-text">Price Display</label>
+                        <input type="text" id="item-price" placeholder="e.g. £100 or From £50" required class="input-field" />
+                    </div>
+                    <div>
+                        <label class="label-text">Sort Order</label>
+                        <input type="number" id="item-order" value="0" class="input-field" />
+                    </div>
+                    <div class="flex items-center gap-3 py-2">
+                        <input type="checkbox" id="item-limited" class="w-4 h-4 accent-flt-cream" />
+                        <label class="label-text mb-0">Limited Edition / Feature</label>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="label-text">Description</label>
+                        <textarea id="item-desc" rows="4" class="input-field"></textarea>
+                    </div>
+                    <div>
+                        <label class="label-text">Image URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="item-image" class="input-field" placeholder="Upload or enter URL" />
+                            <label class="bg-flt-cream/10 border border-flt-cream text-flt-cream px-3 py-2 cursor-pointer hover:bg-flt-cream hover:text-black transition-all">
+                                <span class="text-xs">↑</span>
+                                <input type="file" class="hidden item-file-upload" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 flex gap-4 pt-4 border-t border-flt-border">
+                    <button type="button" class="close-modal-btn w-1/4 border border-flt-border text-flt-muted py-3 uppercase font-label text-[10px]">Cancel</button>
+                    <button type="submit" class="flex-1 bg-flt-cream text-black py-3 uppercase font-label text-[10px] font-bold">Save Item</button>
+                    <button type="button" id="delete-item-btn" class="w-1/4 text-red-500/50 border border-red-500/20 py-3 text-[9px] uppercase font-label tracking-widest hidden">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Addon Modal -->
+    <div id="addon-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-flt-bg border border-flt-border p-8 w-full max-w-md">
+            <h3 class="font-headline text-2xl italic cream-text uppercase mb-6" id="addon-modal-title">Add Global Addon</h3>
+            <form id="addon-form" class="space-y-4">
+                <input type="hidden" id="addon-id" />
+                <div>
+                    <label class="label-text">Addon Name</label>
+                    <input type="text" id="addon-name" required class="input-field" />
+                </div>
+                <div>
+                    <label class="label-text">Price</label>
+                    <input type="text" id="addon-price" required class="input-field" />
+                </div>
+                <div>
+                    <label class="label-text">Description</label>
+                    <textarea id="addon-desc" rows="3" class="input-field"></textarea>
+                </div>
+                <div>
+                    <label class="label-text">Image URL</label>
+                    <input type="text" id="addon-image" class="input-field" placeholder="Optional" />
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" class="close-modal-btn w-1/2 border border-flt-border text-flt-muted py-3 uppercase font-label text-[10px]">Cancel</button>
+                    <button type="submit" class="w-1/2 bg-flt-cream text-black py-3 uppercase font-label text-[10px] font-bold">Save</button>
+                </div>
+                <button type="button" id="delete-addon-btn" class="w-full text-red-500/50 hover:text-red-500 text-[9px] uppercase font-label tracking-widest pt-4 hidden">Delete Addon</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Addon Management Section (Below main grid) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pb-24 border-t border-flt-border/30 mt-12 pt-12">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="font-headline text-3xl italic cream-text uppercase">Master <br/> Addons List</h2>
+            <button id="add-addon-btn" class="border border-flt-cream text-flt-cream font-label py-2 px-6 uppercase tracking-widest text-[9px] font-bold hover:bg-flt-cream hover:text-black transition-colors">Manage Global Addons</button>
+        </div>
+        <div id="addons-grid" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Global Addons injected here -->
+        </div>
+    </div>
+
+    <script define:vars={{ allCategories, allItems, allAddons, allLinks }}>
+        let currentType = 'studio';
+        let selectedCategoryId = null;
+
+        const catList = document.getElementById('category-list');
+        const itemsGrid = document.getElementById('items-grid');
+        const addonsGrid = document.getElementById('addons-grid');
+        const addonLinkingSection = document.getElementById('addon-linking-section');
+        const itemsView = document.getElementById('items-view');
+        const noCategoryView = document.getElementById('no-category-view');
+
+        // State filter
+        function render() {
+            // Render Categories
+            const filteredCats = allCategories.filter(c => c.type === currentType);
+            catList.innerHTML = filteredCats.map(c => `
+                <button 
+                    class="category-select-btn w-full text-left px-4 py-3 border border-flt-border hover:border-flt-cream transition-all flex justify-between items-center group ${selectedCategoryId === c.id ? 'bg-flt-cream/5 border-flt-cream' : ''}" 
+                    data-id="${c.id}"
+                >
+                    <span class="font-label text-[10px] uppercase tracking-widest ${selectedCategoryId === c.id ? 'text-flt-cream' : 'text-flt-muted group-hover:text-flt-cream'}">${c.name}</span>
+                    <span class="text-[9px] text-flt-muted/40 cursor-pointer hover:text-flt-cream cat-edit-btn" data-id="${c.id}">Edit</span>
+                </button>
+            `).join('');
+
+            // Render Items
+            if (selectedCategoryId) {
+                const filteredItems = allItems.filter(i => i.categoryId === selectedCategoryId);
+                itemsView.classList.remove('hidden');
+                noCategoryView.classList.add('hidden');
+                addonLinkingSection.classList.remove('hidden');
+                
+                const cat = allCategories.find(c => c.id === selectedCategoryId);
+                document.getElementById('current-category-name').innerText = cat ? cat.name : "Category";
+
+                itemsGrid.innerHTML = filteredItems.map(i => `
+                    <div class="border border-flt-border p-4 bg-black/20 group hover:border-flt-cream/50 transition-all">
+                        <div class="flex gap-4">
+                            ${i.image ? `<img src="${i.image}" class="w-16 h-16 object-cover border border-flt-border" />` : `<div class="w-16 h-16 bg-flt-border flex items-center justify-center text-[8px] text-flt-muted uppercase text-center p-2">No Image</div>`}
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="font-headline text-lg italic cream-text uppercase">${i.name}</h4>
+                                    <span class="font-label text-xs text-flt-cream">${i.price}</span>
+                                </div>
+                                <p class="text-[10px] text-flt-muted line-clamp-2 mt-1 mb-3">${i.description || 'No description'}</p>
+                                <div class="flex justify-between items-center">
+                                    ${i.isLimited ? `<span class="font-label text-[8px] border border-flt-cream/20 text-flt-cream px-2 py-0.5 uppercase">Featured</span>` : '<span></span>'}
+                                    <button class="item-edit-btn font-label text-[8px] uppercase tracking-widest text-flt-muted hover:text-flt-cream" data-id="${i.id}">Edit Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('') || '<p class="col-span-2 text-center py-12 text-flt-muted text-xs uppercase tracking-widest">No items in this category yet.</p>';
+
+                // Render Addon Linking
+                const categoryLinks = allLinks.filter(l => l.categoryId === selectedCategoryId).map(l => l.addonId);
+                const addonList = document.getElementById('addon-list');
+                addonList.innerHTML = allAddons.map(a => `
+                    <div class="flex items-center justify-between gap-4 p-2 border-b border-flt-border/30 last:border-0">
+                        <span class="font-label text-[9px] uppercase tracking-widest ${categoryLinks.includes(a.id) ? 'text-flt-cream' : 'text-flt-muted'}">${a.name}</span>
+                        <button 
+                            class="link-addon-btn text-[8px] font-bold uppercase tracking-widest px-3 py-1 border ${categoryLinks.includes(a.id) ? 'bg-flt-cream text-black' : 'text-flt-muted border-flt-border hover:text-flt-cream'}" 
+                            data-addon-id="${a.id}" 
+                            data-linked="${categoryLinks.includes(a.id)}"
+                        >
+                            ${categoryLinks.includes(a.id) ? 'Linked' : 'Link'}
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                itemsView.classList.add('hidden');
+                noCategoryView.classList.remove('hidden');
+                addonLinkingSection.classList.add('hidden');
+            }
+
+            // Render Global Addons
+            addonsGrid.innerHTML = allAddons.map(a => `
+                <div class="border border-flt-border p-4 bg-flt-bg group hover:border-flt-cream/30 transition-all">
+                    <h4 class="font-headline text-lg italic cream-text uppercase mb-1">${a.name}</h4>
+                    <p class="font-label text-xs text-flt-cream mb-2">${a.price}</p>
+                    <p class="text-[9px] text-flt-muted/60 mb-3 line-clamp-1">${a.description || ''}</p>
+                    <button class="addon-edit-btn font-label text-[8px] uppercase tracking-widest text-flt-muted hover:text-flt-cream" data-id="${a.id}">Edit Addon</button>
+                </div>
+            `).join('') || '<p class="text-flt-muted text-[10px] uppercase">No addons defined yet.</p>';
+        }
+
+        // Tab Logic
+        document.getElementById('tab-studio').addEventListener('click', (e) => {
+            currentType = 'studio';
+            selectedCategoryId = null;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab', 'text-flt-cream', 'bg-flt-cream/10'));
+            (e.target as HTMLElement).classList.add('active-tab', 'text-flt-cream', 'bg-flt-cream/10');
+            render();
+        });
+        document.getElementById('tab-mobile').addEventListener('click', (e) => {
+            currentType = 'mobile';
+            selectedCategoryId = null;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab', 'text-flt-cream', 'bg-flt-cream/10'));
+            (e.target as HTMLElement).classList.add('active-tab', 'text-flt-cream', 'bg-flt-cream/10');
+            render();
+        });
+
+        // Delegate Selections
+        catList.addEventListener('click', (e) => {
+            const btn = (e.target as HTMLElement).closest('.category-select-btn') as HTMLElement;
+            if (btn && !(e.target as HTMLElement).classList.contains('cat-edit-btn')) {
+                selectedCategoryId = btn.dataset.id;
+                render();
+            }
+            if ((e.target as HTMLElement).classList.contains('cat-edit-btn')) {
+                const id = (e.target as HTMLElement).dataset.id;
+                openCatModal(id);
+            }
+        });
+
+        itemsGrid.addEventListener('click', (e) => {
+            if ((e.target as HTMLElement).classList.contains('item-edit-btn')) {
+                openItemModal((e.target as HTMLElement).dataset.id);
+            }
+        });
+
+        addonsGrid.addEventListener('click', (e) => {
+            if ((e.target as HTMLElement).classList.contains('addon-edit-btn')) {
+                openAddonModal((e.target as HTMLElement).dataset.id);
+            }
+        });
+
+        addonLinkingSection.addEventListener('click', async (e) => {
+            const btn = (e.target as HTMLElement).closest('.link-addon-btn') as HTMLElement;
+            if (!btn) return;
+            const addonId = btn.dataset.addonId;
+            const isLinked = btn.dataset.linked === 'true';
+            
+            const res = await fetch("/api/admin/pricing/addons", {
+                method: "POST",
+                body: JSON.stringify({ 
+                    action: isLinked ? "unlink_addon" : "link_addon",
+                    categoryId: selectedCategoryId,
+                    addonId
+                })
+            });
+            if (res.ok) {
+                // Update local state and re-render
+                if(isLinked) {
+                    const idx = allLinks.findIndex(l => l.categoryId === selectedCategoryId && l.addonId === addonId);
+                    if(idx > -1) allLinks.splice(idx, 1);
+                } else {
+                    allLinks.push({ categoryId: selectedCategoryId, addonId });
+                }
+                render();
+            }
+        });
+
+        // Modals Logic
+        const catModal = document.getElementById('category-modal');
+        const itemModal = document.getElementById('item-modal');
+        const addonModal = document.getElementById('addon-modal');
+        
+        function openCatModal(id = null) {
+            const cat = id ? allCategories.find(c => c.id === id) : null;
+            (document.getElementById('cat-id') as HTMLInputElement).value = id || '';
+            (document.getElementById('cat-name') as HTMLInputElement).value = cat ? cat.name : '';
+            (document.getElementById('cat-order') as HTMLInputElement).value = (cat ? cat.order : 0).toString();
+            document.getElementById('cat-modal-title').innerText = id ? "Edit Category" : "Add Category";
+            document.getElementById('delete-cat-btn').classList.toggle('hidden', !id);
+            catModal.classList.remove('hidden');
+        }
+
+        function openItemModal(id = null) {
+            const item = id ? allItems.find(i => i.id === id) : null;
+            (document.getElementById('item-id') as HTMLInputElement).value = id || '';
+            (document.getElementById('item-name') as HTMLInputElement).value = item ? item.name : '';
+            (document.getElementById('item-price') as HTMLInputElement).value = item ? item.price : '';
+            (document.getElementById('item-order') as HTMLInputElement).value = (item ? item.order : 0).toString();
+            (document.getElementById('item-desc') as HTMLTextAreaElement).value = item ? item.description : '';
+            (document.getElementById('item-image') as HTMLInputElement).value = item ? item.image : '';
+            (document.getElementById('item-limited') as HTMLInputElement).checked = item ? !!item.isLimited : false;
+            
+            const preview = document.getElementById('item-preview') as HTMLImageElement;
+            if (item && item.image) {
+                preview.src = item.image;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+            }
+            
+            document.getElementById('item-modal-title').innerText = id ? "Edit Item" : "Add Item";
+            document.getElementById('delete-item-btn').classList.toggle('hidden', !id);
+            itemModal.classList.remove('hidden');
+        }
+
+        function openAddonModal(id = null) {
+            const addon = id ? allAddons.find(a => a.id === id) : null;
+            (document.getElementById('addon-id') as HTMLInputElement).value = id || '';
+            (document.getElementById('addon-name') as HTMLInputElement).value = addon ? addon.name : '';
+            (document.getElementById('addon-price') as HTMLInputElement).value = addon ? addon.price : '';
+            (document.getElementById('addon-desc') as HTMLTextAreaElement).value = addon ? addon.description : '';
+            (document.getElementById('addon-image') as HTMLInputElement).value = addon ? addon.image : '';
+            document.getElementById('addon-modal-title').innerText = id ? "Edit Addon" : "Add Addon";
+            document.getElementById('delete-addon-btn').classList.toggle('hidden', !id);
+            addonModal.classList.remove('hidden');
+        }
+
+        document.getElementById('add-category-btn').addEventListener('click', () => openCatModal());
+        document.getElementById('add-item-btn').addEventListener('click', () => openItemModal());
+        document.getElementById('add-addon-btn').addEventListener('click', () => openAddonModal());
+
+        document.querySelectorAll('.close-modal-btn').forEach(btn => btn.addEventListener('click', () => {
+            catModal.classList.add('hidden');
+            itemModal.classList.add('hidden');
+            addonModal.classList.add('hidden');
+        }));
+
+        // Handlers
+        document.getElementById('cat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = (document.getElementById('cat-id') as HTMLInputElement).value;
+            const name = (document.getElementById('cat-name') as HTMLInputElement).value;
+            const order = parseInt((document.getElementById('cat-order') as HTMLInputElement).value);
+            
+            const action = id ? "edit_category" : "add_category";
+            const res = await fetch("/api/admin/pricing/categories", {
+                method: "POST",
+                body: JSON.stringify({ action, id, name, type: currentType, order })
+            });
+
+            if (res.ok) {
+                location.reload();
+            } else {
+                (window as any).showModal("Error", "Failed to save category.");
+            }
+        });
+
+        document.getElementById('delete-cat-btn')?.addEventListener('click', async () => {
+            const id = (document.getElementById('cat-id') as HTMLInputElement).value;
+            if (!confirm("Permanently delete this category and all its items?")) return;
+            const res = await fetch("/api/admin/pricing/categories", {
+                method: "POST",
+                body: JSON.stringify({ action: "delete_category", id })
+            });
+            if (res.ok) location.reload();
+        });
+
+        document.getElementById('item-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = (document.getElementById('item-id') as HTMLInputElement).value;
+            const name = (document.getElementById('item-name') as HTMLInputElement).value;
+            const price = (document.getElementById('item-price') as HTMLInputElement).value;
+            const order = parseInt((document.getElementById('item-order') as HTMLInputElement).value);
+            const description = (document.getElementById('item-desc') as HTMLTextAreaElement).value;
+            const image = (document.getElementById('item-image') as HTMLInputElement).value;
+            const isLimited = (document.getElementById('item-limited') as HTMLInputElement).checked;
+            
+            const action = id ? "edit_item" : "add_item";
+            const res = await fetch("/api/admin/pricing/items", {
+                method: "POST",
+                body: JSON.stringify({ action, id, name, price, order, description, image, isLimited, categoryId: selectedCategoryId })
+            });
+
+            if (res.ok) {
+                location.reload();
+            } else {
+                (window as any).showModal("Error", "Failed to save item.");
+            }
+        });
+
+        document.getElementById('delete-item-btn')?.addEventListener('click', async () => {
+            const id = (document.getElementById('item-id') as HTMLInputElement).value;
+            if (!confirm("Delete this item?")) return;
+            const res = await fetch("/api/admin/pricing/items", {
+                method: "POST",
+                body: JSON.stringify({ action: "delete_item", id })
+            });
+            if (res.ok) location.reload();
+        });
+
+        document.getElementById('addon-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = (document.getElementById('addon-id') as HTMLInputElement).value;
+            const name = (document.getElementById('addon-name') as HTMLInputElement).value;
+            const price = (document.getElementById('addon-price') as HTMLInputElement).value;
+            const description = (document.getElementById('addon-desc') as HTMLTextAreaElement).value;
+            const image = (document.getElementById('addon-image') as HTMLInputElement).value;
+            
+            const action = id ? "edit_addon" : "add_addon";
+            const res = await fetch("/api/admin/pricing/addons", {
+                method: "POST",
+                body: JSON.stringify({ action, id, name, price, description, image })
+            });
+
+            if (res.ok) {
+                location.reload();
+            } else {
+                (window as any).showModal("Error", "Failed to save addon.");
+            }
+        });
+
+        document.getElementById('delete-addon-btn')?.addEventListener('click', async () => {
+            const id = (document.getElementById('addon-id') as HTMLInputElement).value;
+            if (!confirm("Delete this global addon? It will be unlinked from all categories.")) return;
+            const res = await fetch("/api/admin/pricing/addons", {
+                method: "POST",
+                body: JSON.stringify({ action: "delete_addon", id })
+            });
+            if (res.ok) location.reload();
+        });
+
+        // Image Preview and Upload integration
+        document.querySelectorAll('.item-file-upload').forEach(input => {
+            input.addEventListener('change', async (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+                if (!file) return;
+
+                const fd = new FormData();
+                fd.append("file", file);
+                fd.append("category", "gallery");
+
+                try {
+                    const upRes = await fetch("/api/admin/upload", { method: "POST", body: fd });
+                    const { url } = await upRes.json();
+                    
+                    const urlInput = (document.getElementById('item-image') as HTMLInputElement);
+                    urlInput.value = url;
+                    
+                    const preview = document.getElementById('item-preview') as HTMLImageElement;
+                    preview.src = url;
+                    preview.classList.remove('hidden');
+                } catch (e) {
+                    (window as any).showModal("Upload Error", "Failed to upload image.");
+                }
+            });
+        });
+
+        // Initial render
+        render();
+    </script>
+
+    <style>
+        .active-tab {
+            background: var(--flt-cream);
+            color: black !important;
+        }
+        .border-premium {
+            border: 1px solid rgba(212, 186, 140, 0.2);
+        }
+        .cream-text {
+            color: #d4ba8c;
+        }
+        .label-text {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #d4ba8c;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+        .input-field {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(212,186,140,0.2);
+            padding: 0.75rem;
+            color: #d4ba8c;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-field:focus {
+            border-color: #d4ba8c;
+        }
+    </style>
+</Layout>

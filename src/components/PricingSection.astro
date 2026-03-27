@@ -1,0 +1,106 @@
+---
+import { db } from "../db";
+import { pricingCategories, pricingItems, pricingAddons, categoryToAddons } from "../db/schema";
+import { eq, inArray } from "drizzle-orm";
+import PricingCard from "./PricingCard.astro";
+
+interface Props {
+    type?: 'studio' | 'mobile';
+    categoryIds?: string[]; // Optional: restrict to specific categories
+    categoryName?: string; // Optional: restrict to a specific category by name
+    title?: string;
+    description?: string;
+}
+
+const { type = 'studio', categoryIds, categoryName, title, description } = Astro.props;
+
+// Fetch Data
+const categories = await db.select()
+    .from(pricingCategories)
+    .where(
+        categoryName
+            ? eq(pricingCategories.name, categoryName)
+            : categoryIds 
+                ? inArray(pricingCategories.id, categoryIds)
+                : eq(pricingCategories.type, type)
+    )
+    .orderBy(pricingCategories.order);
+
+const categoryIdsList = categories.map(c => c.id);
+
+const items = categoryIdsList.length > 0 
+    ? await db.select().from(pricingItems).where(inArray(pricingItems.categoryId, categoryIdsList)).orderBy(pricingItems.order)
+    : [];
+
+const links = categoryIdsList.length > 0
+    ? await db.select().from(categoryToAddons).where(inArray(categoryToAddons.categoryId, categoryIdsList))
+    : [];
+
+const addonIds = links.map(l => l.addonId);
+const addons = addonIds.length > 0
+    ? await db.select().from(pricingAddons).where(inArray(pricingAddons.id, addonIds))
+    : [];
+---
+
+<section class="py-24 bg-flt-bg relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+        {(title || description) && (
+            <div class="mb-16 max-w-2xl">
+                {title && <h2 class="font-headline text-5xl sm:text-6xl italic cream-text uppercase mb-6 tracking-tighter">{title}</h2>}
+                {description && <p class="font-body text-lg text-flt-muted/80">{description}</p>}
+            </div>
+        )}
+
+        <div class="space-y-24">
+            {categories.map(category => {
+                const catItems = items.filter(i => i.categoryId === category.id);
+                const catAddonIds = links.filter(l => l.categoryId === category.id).map(l => l.addonId);
+                const catAddonsList = addons.filter(a => catAddonIds.includes(a.id));
+
+                return (
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                        <div class="lg:col-span-4 border-l border-flt-cream/10 pl-8 h-fit lg:sticky lg:top-32 py-4">
+                            <span class="font-label text-[9px] uppercase tracking-[0.4em] text-flt-muted mb-4 block">Section</span>
+                            <h3 class="font-headline text-4xl italic cream-text uppercase tracking-tighter mb-6">{category.name}</h3>
+                            
+                            {catAddonsList.length > 0 && (
+                                <div class="mt-12 pt-8 border-t border-flt-border/30">
+                                    <p class="font-label text-[8px] uppercase tracking-widest text-flt-cream mb-6">Available Addons</p>
+                                    <div class="space-y-6">
+                                        {catAddonsList.map(addon => (
+                                            <div class="group">
+                                                <div class="flex justify-between items-baseline mb-1">
+                                                    <span class="font-label text-[10px] uppercase tracking-widest text-flt-muted group-hover:text-white transition-colors">{addon.name}</span>
+                                                    <span class="font-body text-[10px] text-flt-cream italic">{addon.price}</span>
+                                                </div>
+                                                {addon.description && <p class="text-[9px] text-flt-muted/50 leading-relaxed group-hover:text-flt-muted/70">{addon.description}</p>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {catItems.map(item => (
+                                <PricingCard 
+                                    name={item.name}
+                                    price={item.price}
+                                    description={item.description || ''}
+                                    image={item.image || ''}
+                                    isLimited={!!item.isLimited}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+</section>
+
+<style>
+    .cream-text {
+        color: #d4ba8c;
+    }
+</style>
