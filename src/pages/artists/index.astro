@@ -39,6 +39,11 @@ const artists = await db.select().from(userTable).where(ne(userTable.role, 'admi
           </div>
         </a>
       ))}
+      {artists.length === 0 && (
+          <div class="col-span-full text-center py-20 border border-dashed border-flt-border/30">
+              <p class="font-body text-flt-muted opacity-50 italic">Our collective is growing. Check back soon for new resident artists.</p>
+          </div>
+      )}
     </div>
   </div>
 </Layout>
