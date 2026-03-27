@@ -102,8 +102,11 @@ const user = session.user;
             if (!file) return;
 
             const preview = document.getElementById('profile-preview') as HTMLImageElement;
-            const originalSrc = preview.src;
-            preview.style.opacity = "0.3";
+            
+            // Show local preview immediately
+            const localUrl = URL.createObjectURL(file);
+            preview.src = localUrl;
+            preview.style.opacity = "0.5";
 
             const fd = new FormData();
             fd.append("file", file);
@@ -113,9 +116,12 @@ const user = session.user;
                 const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
                 if (res.ok) {
                     const data = await res.json();
-                    preview.src = data.url;
+                    // Store server URL in data attribute but keep local preview for visual consistency
+                    preview.dataset.serverUrl = data.url;
                 } else {
                      (window as any).showModal("Upload Failed", "Could not save image.");
+                     // Revert if failed
+                     preview.src = preview.dataset.initial || '/assets/placeholder.png';
                 }
             } catch (e) {
                 (window as any).showModal("Error", "Network error during upload.");
@@ -128,10 +134,11 @@ const user = session.user;
             const submitBtn = (e.target as HTMLFormElement).querySelector('button');
             if(submitBtn) submitBtn.textContent = "Saving...";
 
+            const preview = document.getElementById('profile-preview') as HTMLImageElement;
             const formData = {
                 name: (document.getElementById('name') as HTMLInputElement).value,
                 handle: (document.getElementById('handle') as HTMLInputElement).value,
-                image: (document.getElementById('profile-preview') as HTMLImageElement).src,
+                image: preview.dataset.serverUrl || preview.src, // Use uploaded URL if available, else current src
                 specialty: (document.getElementById('specialty') as HTMLInputElement).value,
                 dateStarted: (document.getElementById('dateStarted') as HTMLInputElement).value,
                 bio: document.getElementById('bio-editor')?.innerHTML || '',
