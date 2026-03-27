@@ -27,13 +27,18 @@ const portfolio = await db.select().from(galleryTable).where(eq(galleryTable.art
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
       <div class="lg:col-span-5 lg:sticky lg:top-10">
         <div class="aspect-[3/4] bg-flt-bg/5 mb-12 border-premium overflow-hidden grayscale contrast-125 shadow-2xl">
-          <img src={artist.image || '/assets/placeholder.png'} alt={artist.name} class="w-full h-full object-cover" />
+          {artist.image ? (
+              <img src={artist.image} alt={artist.name} class="w-full h-full object-cover" />
+          ) : (
+                <div class="w-full h-full flex items-center justify-center bg-black/40">
+                    <span class="font-headline text-3xl italic text-flt-muted/30 uppercase tracking-tighter">Coming Soon</span>
+                </div>
+          )}
         </div>
         <h1 class="font-headline text-6xl md:text-8xl italic cream-text leading-[0.9] tracking-tighter mb-8 uppercase">{artist.name}</h1>
         <p class="font-label text-xs uppercase tracking-[0.4em] text-flt-muted mb-8">{artist.role} — {artist.specialty}</p>
         <div class="h-px w-24 bg-flt-border/30 mb-8"></div>
-        <div class="prose prose-invert prose-cream font-body text-flt-muted leading-relaxed italic text-lg whitespace-pre-line">
-          {artist.bio}
+        <div class="prose prose-invert prose-cream font-body text-flt-muted leading-relaxed italic text-lg whitespace-pre-line" set:html={artist.bio}>
         </div>
       </div>
 
@@ -50,9 +55,8 @@ const portfolio = await db.select().from(galleryTable).where(eq(galleryTable.art
 
         <section class="p-12 border-premium bg-flt-bg shadow-2xl">
           <h3 class="font-headline text-3xl font-black italic mb-8 border-b border-flt-border pb-4 uppercase cream-text">Philosophy</h3>
-          <p class="font-body text-flt-muted leading-relaxed opacity-80 whitespace-pre-line">
-            {artist.bio?.split('\n\n')[0]}
-          </p>
+          <div class="prose prose-invert prose-cream font-body text-flt-muted leading-relaxed opacity-80" set:html={artist.philosophy || artist.bio}>
+          </div>
           <a href="/book" class="mt-12 block bg-flt-cream text-black text-center py-5 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">Inquire with {artist.name.split(' ')[0]}</a>
         </section>
       </div>

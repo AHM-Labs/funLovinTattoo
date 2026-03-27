@@ -19,11 +19,17 @@ const artists = await db.select().from(userTable).where(ne(userTable.role, 'admi
       {artists.map(artist => (
         <a href={`/artists/${artist.handle}`} class="group">
           <div class="aspect-[3/4] bg-flt-bg/5 mb-10 overflow-hidden border-premium relative transition-all duration-700 shadow-2xl">
-            <img 
-              src={artist.image || '/assets/placeholder.png'} 
-              alt={artist.name} 
-              class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-            />
+            {artist.image ? (
+                <img 
+                src={artist.image} 
+                alt={artist.name} 
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                />
+            ) : (
+                <div class="w-full h-full flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">
+                    <span class="font-headline text-2xl italic text-flt-muted/30 uppercase tracking-tighter">Image Coming Soon</span>
+                </div>
+            )}
             <div class="absolute inset-0 bg-flt-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center">
                <span class="font-label text-[11px] uppercase tracking-widest text-flt-cream border border-flt-cream/30 px-8 py-4 backdrop-blur-md">View Profile</span>
             </div>
