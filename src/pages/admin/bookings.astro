@@ -3,6 +3,9 @@ export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import AdminNav from '../../components/AdminNav.astro';
 import { auth } from "../../lib/auth";
+import { db } from "../../db";
+import { bookings } from "../../db/schema";
+import { desc } from "drizzle-orm";
 
 // Server-side session check
 const session = await auth.api.getSession({
