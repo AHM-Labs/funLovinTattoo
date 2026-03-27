@@ -1,8 +1,9 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, render, getEntry, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Gallery from '../../components/Gallery.astro';
 
+// For static builds (if ever used)
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
   return newsEntries.map((entry: CollectionEntry<'news'>) => ({
@@ -11,10 +12,22 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  entry: CollectionEntry<'news'>;
+  entry?: CollectionEntry<'news'>;
 }
 
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+let { entry } = Astro.props;
+
+// If not in props (SSR mode), fetch by slug
+if (!entry && slug) {
+  entry = await getEntry('news', slug);
+}
+
+// Handle entry not found
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
 const { Content } = await render(entry);
 ---
 

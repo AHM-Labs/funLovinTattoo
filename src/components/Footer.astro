@@ -1,9 +1,16 @@
 ---
+import Logo from "./Logo.astro";
+import AHMLogo from "./AHMLogo.astro";
+const currentYear = new Date().getFullYear();
 ---
 <footer class="w-full py-20 border-t border-flt-ivory-border/10 mt-auto bg-[#0d0d0d]">
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
     <div class="space-y-8">
-      <div class="ivory-text font-headline text-4xl italic font-black tracking-tighter uppercase">Fun Lovin Tattoo</div>
+      <div class="ivory-text w-64 uppercase">
+        <a href="/" class="hover:text-white transition-all">
+          <Logo class="w-full h-auto" />
+        </a>
+      </div>
       <div class="flex gap-12">
         <div class="flex flex-col gap-4 font-label uppercase tracking-widest text-[10px]">
           <span class="text-flt-ivory/20">Social</span>
@@ -17,9 +24,15 @@
     </div>
     <div class="flex flex-col items-start md:items-end justify-between h-full space-y-8 md:space-y-0 text-left md:text-right">
        <p class="font-headline italic text-2xl ivory-text opacity-80 uppercase tracking-tighter">Professional Artistry <br/> That Lasts a Lifetime.</p>
-       <p class="font-label uppercase tracking-[0.2rem] text-[8px] text-flt-muted/40 font-bold">
-         © {new Date().getFullYear()} FUN LOVIN TATTOO. ALL RIGHTS RESERVED. <br/> EST. 2007
-       </p>
+       <div class="flex flex-col md:items-end gap-2">
+         <p class="font-label uppercase tracking-[0.2rem] text-[8px] text-flt-muted/40 font-bold">
+           © {currentYear} FUN LOVIN TATTOO. ALL RIGHTS RESERVED. <br/> EST. 2007
+         </p>
+         <p class="text-[8px] font-label uppercase tracking-widest text-flt-muted/40 transition-colors flex items-center gap-1.5">
+           Website by <a href="https://ahm-labs.com" target="_blank" rel="noopener noreferrer" class="hover:text-white underline decoration-flt-muted/20">AHM Labs</a>
+           <AHMLogo class="h-3 w-auto opacity-40 hover:opacity-100 transition-opacity" />
+         </p>
+       </div>
     </div>
   </div>
 </footer>
