@@ -4,18 +4,21 @@ A premium, artisan-focused web platform built with Astro 6, Tailwind CSS v4, and
 
 ## ✨ Key Features
 
-### 🔐 Multi-Artist Portal
+### 🔐 Artist & Team Management
+- **Role-Based Governance**: Granular permissions for **Owners** (Studio Directors), **Admins** (Site Developers), and **Staff** (Resident Artists).
+- **Self-Managed Profiles**: Artists control their own bios, creative philosophies, and portfolio galleries.
 - **Passkey-First Security**: Biometric authentication (WebAuthn) for secure, frictionless access.
-- **Team Management**: Robust controls for adding artists, revoking access, and managing roles.
 - **Secure Onboarding**: Invite-only registration with mandatory password rotation for new users.
 
 ### 🎨 Visual Portfolio (Gallery)
-- **Masonry Layout**: A high-performance, GSAP-animated public gallery.
-- **Visual Asset Manager**: Drag-and-drop uploads with artist-specific attribution and metadata.
+- **Local Asset Hosting**: Direct file-to-server uploads replacing external image URL dependencies.
+- **Instant Previews**: Local Blob URL previews for immediate visual verification during uploads.
+- **Artist-Specific Attribution**: Automatic linking of work samples to the respective artist profile.
 - **Integrated Asset Picker**: Seamlessly link gallery items to journal entries within the MDX editor.
 
 ### 🖋️ Artisan Journal
 - **Field-Persistent MDX Editor**: Robust content creation with frontmatter-aware editing.
+- **Rich Text Support**: Artists can now document their process and philosophy with expressive formatting.
 - **Archival Workflows**: Artists can document their process, shop life, and guest spots with ease.
 
 ### 🚐 Real-Time Studio Ops
