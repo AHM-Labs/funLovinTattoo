@@ -33,9 +33,12 @@ const currentItems = await db.select().from(galleryTable)
                 <div class="border-premium bg-flt-bg p-8 shadow-2xl">
                     <h2 class="font-headline text-2xl italic cream-text uppercase mb-6">Add Piece</h2>
                     <form id="add-gallery-form" class="space-y-4">
-                        <div>
-                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Image URL</label>
-                            <input type="text" id="url" required placeholder="https://..." class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        <div class="mb-6">
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-4">Piece Image</label>
+                            <div class="aspect-square bg-black/40 border border-flt-border overflow-hidden grayscale mb-4 hidden" id="preview-container">
+                                <img id="gallery-preview" class="w-full h-full object-cover" />
+                            </div>
+                            <input type="file" id="file" required accept="image/*" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-[10px] file:bg-flt-cream file:text-black file:border-0 file:py-1 file:px-3 file:mr-4 file:font-label file:uppercase file:tracking-widest file:text-[8px] cursor-pointer" />
                         </div>
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Alt Text / Description</label>
@@ -68,14 +71,37 @@ const currentItems = await db.select().from(galleryTable)
     </div>
 
     <script>
+        // Preview handling
+        document.getElementById('file')?.addEventListener('change', (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            const container = document.getElementById('preview-container');
+            const img = document.getElementById('gallery-preview') as HTMLImageElement;
+            if (file) {
+                const url = URL.createObjectURL(file);
+                img.src = url;
+                container?.classList.remove('hidden');
+            }
+        });
+
         document.getElementById('add-gallery-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const url = (document.getElementById('url') as HTMLInputElement).value;
+            const fileInput = document.getElementById('file') as HTMLInputElement;
             const altText = (document.getElementById('altText') as HTMLInputElement).value;
             const btn = (e.target as HTMLFormElement).querySelector('button');
-            if(btn) btn.textContent = "Adding...";
+            if(btn) btn.textContent = "Uploading...";
 
             try {
+                // 1. Upload file
+                const fd = new FormData();
+                if(!fileInput.files?.[0]) return;
+                fd.append("file", fileInput.files[0]);
+                fd.append("category", "gallery");
+
+                const upRes = await fetch("/api/admin/upload", { method: "POST", body: fd });
+                if (!upRes.ok) throw new Error("Upload failed");
+                const { url } = await upRes.json();
+
+                // 2. Add to database
                 const res = await fetch("/api/admin/gallery/add", {
                     method: "POST",
                     body: JSON.stringify({ url, altText })
@@ -83,7 +109,7 @@ const currentItems = await db.select().from(galleryTable)
                 if (res.ok) location.reload();
                 else (window as any).showModal("Error", "Failed to add image.");
             } catch (e) {
-                (window as any).showModal("Error", "Network error.");
+                (window as any).showModal("Error", "Network or upload error.");
             }
             if(btn) btn.textContent = "Add to Portfolio";
         });

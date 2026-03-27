@@ -36,9 +36,17 @@ const user = session.user;
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Handle / Nickname</label>
                             <input type="text" id="handle" value={user.handle || ''} placeholder="@username" class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
                         </div>
-                        <div>
-                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Profile Picture URL</label>
-                            <input type="text" id="image" value={user.image || ''} placeholder="https://..." class="w-full bg-black/40 border border-flt-border p-3 text-flt-cream font-body focus:border-flt-cream outline-none text-sm placeholder:text-flt-muted/30" />
+                        <div class="mb-6">
+                            <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-4">Profile Image</label>
+                            <div class="flex items-center gap-6">
+                                <div class="w-20 h-20 border border-flt-border bg-black/40 overflow-hidden grayscale">
+                                    <img id="profile-preview" src={user.image || '/assets/placeholder.png'} class="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                    <input type="file" id="profile-upload" class="hidden" accept="image/*" />
+                                    <button type="button" onclick="document.getElementById('profile-upload').click()" class="text-[9px] font-label uppercase tracking-widest text-flt-cream border border-flt-cream/20 px-4 py-2 hover:bg-flt-cream hover:text-black transition-all">Change Photo</button>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label class="font-label text-[9px] uppercase tracking-widest text-flt-muted block mb-2">Speciality</label>
@@ -71,6 +79,32 @@ const user = session.user;
     </div>
 
     <script>
+        document.getElementById('profile-upload')?.addEventListener('change', async (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (!file) return;
+
+            const preview = document.getElementById('profile-preview') as HTMLImageElement;
+            const originalSrc = preview.src;
+            preview.style.opacity = "0.3";
+
+            const fd = new FormData();
+            fd.append("file", file);
+            fd.append("category", "artists");
+
+            try {
+                const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+                if (res.ok) {
+                    const data = await res.json();
+                    preview.src = data.url;
+                } else {
+                     (window as any).showModal("Upload Failed", "Could not save image.");
+                }
+            } catch (e) {
+                (window as any).showModal("Error", "Network error during upload.");
+            }
+            preview.style.opacity = "1";
+        });
+
         document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = (e.target as HTMLFormElement).querySelector('button');
@@ -79,7 +113,7 @@ const user = session.user;
             const formData = {
                 name: (document.getElementById('name') as HTMLInputElement).value,
                 handle: (document.getElementById('handle') as HTMLInputElement).value,
-                image: (document.getElementById('image') as HTMLInputElement).value,
+                image: (document.getElementById('profile-preview') as HTMLImageElement).src,
                 specialty: (document.getElementById('specialty') as HTMLInputElement).value,
                 dateStarted: (document.getElementById('dateStarted') as HTMLInputElement).value,
                 bio: (document.getElementById('bio') as HTMLTextAreaElement).value,
