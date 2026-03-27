@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from '../../../layouts/Layout.astro';
+import AdminNav from '../../../components/AdminNav.astro';
 import { getCollection } from 'astro:content';
 import { auth } from "../../../lib/auth";
 
@@ -36,6 +37,7 @@ image: ${JSON.stringify(existingPost.data.image || "")}
 ---
 
 <Layout title={isNew ? "New Entry | Admin" : "Edit Entry | Admin"}>
+  <AdminNav currentPath="/admin/journal" userRole={session.user.role} />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-ivory-border/20 pb-8 mb-12">
         <div>
