@@ -16,10 +16,16 @@ A premium, artisan-focused web platform built with Astro 6, Tailwind CSS v4, and
 - **Artist-Specific Attribution**: Automatic linking of work samples to the respective artist profile.
 - **Integrated Asset Picker**: Seamlessly link gallery items to journal entries within the MDX editor.
 
-### 🖋️ Artisan Journal
-- **Field-Persistent MDX Editor**: Robust content creation with frontmatter-aware editing.
-- **Rich Text Support**: Artists can now document their process and philosophy with expressive formatting.
-- **Archival Workflows**: Artists can document their process, shop life, and guest spots with ease.
+### 🖋️ Artisan Journal & Git-CMS Workflow
+The journal module operates as a headless Git-CMS, ensuring all content is version-controlled and peer-reviewed before appearing on the live site.
+
+- **Automated Staging (`upcoming-posts`)**: Every save or edit in the admin dashboard instantly triggers an automated Git workflow. The entry is committed and pushed to a dedicated `upcoming-posts` branch, bypassing the production `main` branch.
+- **Conflict-Resistant Publishing**: The system uses automated rebasing and targeted file checkouts to ensure multiple artists can contribute simultaneously without disrupting the runtime environment.
+- **Review & Approval Cycle**:
+    - **Drafting**: Artists write and format posts using the MDX editor and local asset picker.
+    - **Staging**: Upon saving, the post is "pushed" to GitHub in the `journal-staging` directory.
+    - **Audit**: Studio Owners or Admins can pull the `upcoming-posts` branch, perform quality checks on the MDX/Frontmatter, and merge into `main`.
+- **Fault-Tolerant Saves**: If a network error or Git permission issue occurs, the system preserves the draft locally and alerts the artist to perform a manual sync, ensuring no creative work is ever lost.
 
 ### 🚐 Real-Time Studio Ops
 - **Van Location Tracker**: Update the studio's real-time mobile location from the dashboard.
