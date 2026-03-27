@@ -38,6 +38,17 @@
     "@rolldown/binding-linux-x64-gnu": "*",
     "@rolldown/binding-win32-x64-msvc": "*"
   },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "linux",
+        "win32"
+      ],
+      "cpu": [
+        "x64"
+      ]
+    }
+  },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/uuid": "^10.0.0",
