@@ -1,0 +1,95 @@
+---
+export const prerender = false;
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Check Gift Card Balance | Professional Artistry">
+  <div class="max-w-xl mx-auto px-4 py-24 sm:py-32">
+    <div class="text-center mb-16">
+      <span class="font-label text-[10px] uppercase tracking-[0.4rem] text-flt-muted mb-6 block">Account Inquiry</span>
+      <h1 class="font-headline text-6xl italic cream-text uppercase">Balance.</h1>
+      <p class="font-body text-flt-muted mt-6 max-w-sm mx-auto leading-relaxed opacity-60 italic">Please enter your unique Card ID and security PIN to view your remaining balance.</p>
+    </div>
+
+    <div class="border-premium bg-flt-bg p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+       <!-- Decorative background element -->
+       <div class="absolute -top-10 -right-10 w-32 h-32 bg-flt-cream/5 rounded-full blur-3xl"></div>
+       
+       <form id="check-form" class="space-y-8 relative z-10">
+          <div class="space-y-4">
+             <label for="cardId" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Gift Card ID</label>
+             <input type="text" id="cardId" name="id" required placeholder="FLT-XXXX-XXXX" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/20 uppercase tracking-widest text-sm" />
+          </div>
+
+          <div class="space-y-4">
+             <label for="pin" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Security PIN</label>
+             <input type="text" id="pin" name="pin" required maxlength="4" placeholder="XXXX" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/20 text-center tracking-[0.5em] font-bold" />
+          </div>
+
+          <button type="submit" id="submit-btn" class="w-full bg-flt-cream text-black py-6 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">
+             Check Balance
+          </button>
+       </form>
+
+       <div id="result-area" class="mt-12 pt-12 border-t border-flt-border/10 hidden animate-fade-in text-center">
+          <p class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-4 block">Available Balance</p>
+          <p id="balance-display" class="font-headline text-7xl cream-text leading-none mb-6 italic tracking-tighter">£0.00</p>
+          <div class="h-px w-12 bg-flt-cream/20 mx-auto mb-6"></div>
+          <p id="id-display" class="font-body text-[10px] text-flt-muted uppercase tracking-widest mb-12 opacity-40">CARDS ID: FLT-XXXX-XXXX</p>
+          
+          <a href="/book" class="inline-block border border-flt-border px-10 py-4 font-label text-[10px] uppercase tracking-widest hover:bg-flt-cream hover:text-black transition-all font-bold cream-text shadow-xl">
+             Book Session &rarr;
+          </a>
+       </div>
+       
+       <div id="error-msg" class="mt-8 text-center text-red-500 font-body text-xs italic opacity-80 hidden">Invalid Card ID or PIN provided.</div>
+    </div>
+    
+    <div class="mt-16 text-center space-y-4">
+       <p class="font-body text-[10px] text-flt-muted/40 uppercase tracking-widest leading-relaxed">Cards are non-refundable and valid for 12 months from issuance. For lost PINs, please visit the studio or contact us via email.</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('check-form') as HTMLFormElement;
+    const resultArea = document.getElementById('result-area');
+    const balanceDisplay = document.getElementById('balance-display');
+    const idDisplay = document.getElementById('id-display');
+    const errorMsg = document.getElementById('error-msg');
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+    form?.addEventListener('submit', async (e) => {
+       e.preventDefault();
+       const formData = new FormData(form);
+       const id = formData.get('id') as string;
+       const pin = formData.get('pin') as string;
+
+       submitBtn.disabled = true;
+       submitBtn.innerText = 'Verifying...';
+       errorMsg?.classList.add('hidden');
+       resultArea?.classList.add('hidden');
+
+       try {
+          const res = await fetch('/api/gift-cards/check', {
+             method: 'POST',
+             body: JSON.stringify({ id, pin }),
+             headers: { 'Content-Type': 'application/json' }
+          });
+
+          if (res.ok) {
+             const data = await res.json();
+             if (balanceDisplay) balanceDisplay.innerText = `£${data.balance.toFixed(2)}`;
+             if (idDisplay) idDisplay.innerText = `CARD ID: ${data.id}`;
+             resultArea?.classList.remove('hidden');
+          } else {
+             errorMsg?.classList.remove('hidden');
+          }
+       } catch (err) {
+          alert('Network error. Please try again.');
+       } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Check Balance';
+       }
+    });
+  </script>
+</Layout>

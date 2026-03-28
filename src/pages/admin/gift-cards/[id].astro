@@ -1,0 +1,209 @@
+---
+export const prerender = false;
+import Layout from "../../../layouts/Layout.astro";
+import AdminNav from "../../../components/AdminNav.astro";
+import { auth } from "../../../lib/auth";
+import { giftCardDb } from "../../../db/giftcards/db";
+import { giftCards, giftCardTransactions } from "../../../db/giftcards/schema";
+import { eq, desc } from "drizzle-orm";
+
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (!session) return Astro.redirect("/login");
+const { user } = session;
+
+const { id } = Astro.params;
+if (!id) return Astro.redirect("/admin/gift-cards");
+
+const [card] = await giftCardDb.select().from(giftCards).where(eq(giftCards.id, id));
+if (!card) return Astro.redirect("/admin/gift-cards");
+
+const history = await giftCardDb.select().from(giftCardTransactions).where(eq(giftCardTransactions.giftCardId, id)).orderBy(desc(giftCardTransactions.createdAt));
+---
+
+<Layout title={`Manage ${id} | Admin`}>
+  <AdminNav currentPath="/admin/gift-cards" userRole={user.role} />
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
+    <div class="mb-12">
+      <a href="/admin/gift-cards" class="font-label text-[10px] uppercase tracking-widest text-flt-muted hover:text-flt-cream transition-colors mb-8 inline-block">&larr; Back to Cards</a>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-flt-border pb-8">
+        <div>
+          <h1 class="font-headline text-5xl italic cream-text uppercase">{card.id}</h1>
+          <p class="font-body text-xs text-flt-muted mt-2 uppercase tracking-widest">Gift Card Management</p>
+        </div>
+        
+        <div class="flex flex-wrap gap-8 items-center bg-black/20 p-8 border border-flt-border/10">
+           <div class="text-right">
+              <p class="font-label text-[8px] uppercase tracking-widest text-flt-muted mb-1">Current Balance</p>
+              <p class="font-headline text-3xl cream-text">£{(card.currentBalance / 100).toFixed(2)}</p>
+           </div>
+           <div class="h-10 w-px bg-flt-border/20"></div>
+           <div class="text-right">
+              <p class="font-label text-[8px] uppercase tracking-widest text-flt-muted mb-1">PIN</p>
+              <p class="font-headline text-3xl cream-text tracking-widest">{card.pin}</p>
+           </div>
+           <div class="h-10 w-px bg-flt-border/20"></div>
+           <div class="text-right">
+              <p class="font-label text-[8px] uppercase tracking-widest text-flt-muted mb-1">Status</p>
+              <span class={`px-3 py-1 text-[8px] uppercase tracking-widest font-bold ${card.status === 'active' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                {card.status}
+              </span>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <!-- Actions -->
+      <div class="lg:col-span-4 space-y-10">
+        <section class="border-premium bg-flt-border/5 p-10 space-y-8">
+           <h3 class="font-headline text-2xl italic cream-text uppercase">Actions</h3>
+           
+           <div class="space-y-4">
+              <button id="redeem-btn" class="w-full bg-flt-cream text-black py-4 font-label text-[10px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-lg">Manual Redemption</button>
+              <button id="reset-pin-btn" class="w-full border border-flt-border text-flt-muted py-4 font-label text-[10px] uppercase tracking-widest hover:bg-white/5 transition-all">Reset PIN</button>
+              <button id="void-btn" class="w-full border border-flt-border text-red-500/60 py-4 font-label text-[10px] uppercase tracking-widest hover:bg-red-500/10 transition-all font-bold">{card.status === 'active' ? 'Void Card' : 'Reactivate Card'}</button>
+           </div>
+        </section>
+
+        <section class="p-8 border border-flt-border/10">
+           <p class="font-body text-[10px] text-flt-muted/40 uppercase tracking-widest mb-4">Initial Amount</p>
+           <p class="font-headline text-xl cream-text italic">£{(card.initialAmount / 100).toFixed(2)}</p>
+           <p class="font-body text-[10px] text-flt-muted/40 uppercase tracking-widest mt-6 mb-4">First Issued</p>
+           <p class="font-body text-xs text-flt-muted font-bold">{new Date(card.createdAt).toLocaleString()}</p>
+        </section>
+      </div>
+
+      <!-- History -->
+      <div class="lg:col-span-8">
+         <h3 class="font-headline text-3xl italic cream-text uppercase mb-10 border-b border-flt-border pb-4">Activity Log</h3>
+         
+         <div class="space-y-8">
+            {history.map(tx => (
+              <div class="flex justify-between items-center bg-black/10 border-l-2 border-flt-cream/30 p-8 group hover:border-flt-cream transition-all">
+                <div>
+                   <p class={`font-label text-[10px] uppercase tracking-widest mb-2 ${tx.type === 'redemption' ? 'text-red-400' : 'text-green-400'}`}>{tx.type}</p>
+                   <p class="font-body text-sm text-flt-cream font-bold mb-1">{tx.description || '-'}</p>
+                   <p class="font-body text-[10px] text-flt-muted/40">{new Date(tx.createdAt).toLocaleString()}</p>
+                </div>
+                <div class="text-right">
+                   <p class={`font-headline text-2xl ${tx.amount < 0 ? 'text-red-400/80' : 'cream-text opacity-90'}`}>
+                      {tx.amount < 0 ? `-£${(Math.abs(tx.amount) / 100).toFixed(2)}` : `£${(tx.amount / 100).toFixed(2)}`}
+                   </p>
+                </div>
+              </div>
+            ))}
+         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Redemption Modal -->
+  <div id="action-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-sm hidden opacity-0 transition-opacity">
+     <div class="bg-flt-bg border-premium p-10 max-w-md w-full shadow-2xl transform scale-95 transition-transform" id="modal-content">
+        <h2 id="modal-title" class="font-headline text-3xl italic cream-text uppercase mb-6 border-b border-flt-border pb-4">Manual Redemption</h2>
+        <p class="font-body text-xs text-flt-muted mb-8 leading-relaxed">Enter the amount to redeem from this card. Current balance is £{(card.currentBalance / 100).toFixed(2)}.</p>
+        
+        <form id="action-form" class="space-y-8">
+           <div class="space-y-3">
+              <label for="amountValue" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block text-left">Amount (GBP)</label>
+              <div class="relative">
+                 <span class="absolute left-5 top-1/2 -translate-y-1/2 text-flt-muted font-body">£</span>
+                 <input type="number" id="amountValue" name="amount" step="1" min="1" max={(card.currentBalance / 100)} required class="w-full bg-black/40 border border-flt-border p-5 pl-10 text-flt-cream font-body focus:border-flt-cream outline-none transition-all" />
+              </div>
+           </div>
+           
+           <div class="space-y-3">
+              <label for="desc" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block text-left">Internal Note</label>
+              <input type="text" id="desc" name="description" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all" placeholder="e.g. Booking #ABC Redemption" />
+           </div>
+
+           <div class="flex gap-4 pt-4">
+              <button type="button" id="close-modal" class="flex-1 border border-flt-border text-flt-muted font-label py-4 uppercase tracking-widest text-[10px] hover:bg-white/5 transition-colors">Cancel</button>
+              <button type="submit" id="submit-btn" class="flex-1 bg-flt-cream text-black font-label py-4 uppercase tracking-widest text-[10px] font-bold hover:bg-white transition-all">Confirm</button>
+           </div>
+        </form>
+     </div>
+  </div>
+
+  <script define:vars={{ cardId: card.id, currentStatus: card.status }}>
+    const modal = document.getElementById('action-modal');
+    const modalContent = document.getElementById('modal-content');
+    const redeemBtn = document.getElementById('redeem-btn');
+    const resetPinBtn = document.getElementById('reset-pin-btn');
+    const voidBtn = document.getElementById('void-btn');
+    const closeBtn = document.getElementById('close-modal');
+    const actionForm = document.getElementById('action-form') as HTMLFormElement;
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+    function openModal() {
+      modal?.classList.remove('hidden');
+      setTimeout(() => {
+        modal?.classList.add('opacity-100');
+        modalContent?.classList.remove('scale-95');
+        modalContent?.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      modal?.classList.remove('opacity-100');
+      modalContent?.classList.add('scale-95');
+      modalContent?.classList.remove('scale-100');
+      setTimeout(() => modal?.classList.add('hidden'), 300);
+    }
+
+    redeemBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+
+    resetPinBtn?.addEventListener('click', async () => {
+       if (!confirm('Are you sure you want to reset the PIN?')) return;
+       const res = await fetch('/api/admin/gift-cards/action', {
+          method: 'POST',
+          body: JSON.stringify({ id: cardId, action: 'reset-pin' }),
+          headers: { 'Content-Type': 'application/json' }
+       });
+       if (res.ok) {
+          const data = await res.json();
+          alert(`New PIN: ${data.pin}`);
+          window.location.reload();
+       } else {
+          alert('Failed to reset PIN');
+       }
+    });
+
+    voidBtn?.addEventListener('click', async () => {
+       const action = currentStatus === 'active' ? 'void' : 'activate';
+       if (!confirm(`Are you sure you want to ${action} this card?`)) return;
+       const res = await fetch('/api/admin/gift-cards/action', {
+          method: 'POST',
+          body: JSON.stringify({ id: cardId, action }),
+          headers: { 'Content-Type': 'application/json' }
+       });
+       if (res.ok) window.location.reload();
+    });
+
+    actionForm?.addEventListener('submit', async (e) => {
+       e.preventDefault();
+       const formData = new FormData(actionForm);
+       const amount = parseInt(formData.get('amount') as string);
+       const description = formData.get('description') as string;
+
+       submitBtn.disabled = true;
+       submitBtn.innerText = 'Processing...';
+
+       try {
+          const res = await fetch('/api/admin/gift-cards/action', {
+             method: 'POST',
+             body: JSON.stringify({ id: cardId, action: 'redeem', amount, description }),
+             headers: { 'Content-Type': 'application/json' }
+          });
+          if (res.ok) window.location.reload();
+          else alert('Action failed');
+       } catch (err) {
+          alert('Network error');
+       } finally {
+          submitBtn.disabled = false;
+       }
+    });
+  </script>
+</Layout>
