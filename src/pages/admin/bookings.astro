@@ -28,19 +28,19 @@ const getStatusColor = (status: string) => {
 };
 ---
 
-<Layout title="Booking Inquiries | Admin">
+<Layout title="Booking Enquiries | Admin">
   <AdminNav currentPath="/admin/bookings" userRole={user?.role} />
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12">
      <div class="flex justify-between items-end border-b border-flt-border pb-8 mb-12">
         <div>
-           <h1 class="font-headline text-5xl italic cream-text uppercase">Inquiries.</h1>
+           <h1 class="font-headline text-5xl italic cream-text uppercase">Enquiries.</h1>
         </div>
      </div>
 
      <div class="space-y-8">
         {allBookings.length === 0 ? (
             <div class="text-center py-20 border border-dashed border-flt-border bg-black/20">
-                <p class="font-body text-flt-muted italic">No inquiries received yet.</p>
+                <p class="font-body text-flt-muted italic">No enquiries received yet.</p>
             </div>
         ) : (
             allBookings.map(booking => {
@@ -98,7 +98,7 @@ const getStatusColor = (status: string) => {
   <!-- Custom Response Modal (Hidden by default) -->
   <div id="response-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
       <div class="bg-flt-bg border-premium p-10 max-w-lg w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
-          <h2 id="modal-title" class="font-headline text-3xl italic cream-text uppercase mb-6 border-b border-flt-border pb-4">Accept Inquiry</h2>
+          <h2 id="modal-title" class="font-headline text-3xl italic cream-text uppercase mb-6 border-b border-flt-border pb-4">Accept Enquiry</h2>
           <p id="modal-desc" class="font-body text-xs text-flt-muted mb-8 leading-relaxed">Add a personal note to the client. This will be included in the notification email alongside social contact links.</p>
           
           <textarea id="response-msg" rows="5" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none mb-8 text-sm" placeholder="e.g. I absolutely love this concept. Let's chat more on Instagram to find a date..."></textarea>

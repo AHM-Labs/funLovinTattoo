@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request }) => {
         const imageUrls: string[] = [];
 
         // Ensure directory exists
-        const uploadDir = path.join(process.cwd(), "public", "assets", "uploads", "inquiries");
+        const uploadDir = path.join(process.cwd(), "public", "assets", "uploads", "enquiries");
         await fs.mkdir(uploadDir, { recursive: true });
 
         // Process up to 5 images
@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
                 const filePath = path.join(uploadDir, fileName);
                 const buffer = Buffer.from(await file.arrayBuffer());
                 await fs.writeFile(filePath, buffer);
-                imageUrls.push(`/assets/uploads/inquiries/${fileName}`);
+                imageUrls.push(`/assets/uploads/enquiries/${fileName}`);
             }
         }
 
@@ -60,8 +60,8 @@ export const POST: APIRoute = async ({ request }) => {
                     cfToken: cfToken || 'localhost-admin-bypass', // Use token or bypass for dev
                     name,
                     email,
-                    message: `New Inquiry from ${name}.\nType: ${type}\nDetails: ${details}\nPhone: ${phone}`,
-                    subject: `New Inquiry: ${name} (${type})`
+                    message: `New Enquiry from ${name}.\nType: ${type}\nDetails: ${details}\nPhone: ${phone}`,
+                    subject: `New Enquiry: ${name} (${type})`
                 })
             });
         } catch (error) {
@@ -70,7 +70,7 @@ export const POST: APIRoute = async ({ request }) => {
 
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (e: any) {
-        console.error("Inquiry Upload Error:", e);
+        console.error("Enquiry Upload Error:", e);
         return new Response(JSON.stringify({ error: e.message }), { status: 500 });
     }
 };

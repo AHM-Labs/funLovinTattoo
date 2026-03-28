@@ -34,7 +34,7 @@ import Logo from "./Logo.astro";
   
     <div class="flex items-center gap-6">
       <a href="/book" class="hidden sm:inline-block bg-flt-cream text-black px-8 py-3 font-label text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 font-bold shadow-lg">
-        Inquire
+        Enquire
       </a>
       
       <!-- Burger Button -->
@@ -45,29 +45,30 @@ import Logo from "./Logo.astro";
       </button>
     </div>
   </div>
-
-  <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu" class="fixed inset-0 bg-flt-bg/98 backdrop-blur-2xl z-[150] flex flex-col items-center pointer-events-none opacity-0 overflow-y-auto pt-24 pb-12">
-    <nav class="flex flex-col items-center gap-8 text-center px-6 relative z-10">
-      <a href="/" class="mobile-link font-headline italic text-5xl cream-text opacity-0 block">Home</a>
-      <div class="mobile-link flex flex-col items-center gap-4 opacity-0 pt-4">
-        <a href="/mobile-services" class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted/40">Mobile Tattoo</a>
-        <a href="/weddings" class="font-headline italic text-4xl cream-text">Wedding</a>
-        <a href="/corporate" class="font-headline italic text-4xl cream-text">Corporate</a>
-        <a href="/events" class="font-headline italic text-4xl cream-text">Events</a>
-      </div>
-      <a href="/studio" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Studio</a>
-      <a href="/artists" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Artists</a>
-      <a href="/gallery" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Gallery</a>
-      <a href="/news" class="mobile-link font-headline italic text-5xl cream-text opacity-0">Journal</a>
-      <div class="mt-8 opacity-0 mobile-link">
-        <a href="/book" class="bg-flt-cream text-black px-12 py-5 font-label text-xs uppercase tracking-[0.2em] font-bold shadow-xl">
-          Inquire Now
-        </a>
-      </div>
-    </nav>
-  </div>
 </header>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-flt-bg/98 backdrop-blur-2xl z-90 flex flex-col items-center pointer-events-none opacity-0 overflow-y-auto pt-32 pb-12">
+  <nav class="flex flex-col items-center gap-6 text-center px-6 relative z-10 w-full">
+    <a href="/" class="mobile-link font-headline italic text-3xl cream-text opacity-0 block">Home</a>
+    <div class="mobile-link flex flex-col items-center gap-3 opacity-0 pt-2">
+      <a href="/mobile-services" class="font-label text-[9px] uppercase tracking-[0.4em] text-flt-muted/40 mb-2">Mobile Tattoo</a>
+      <a href="/weddings" class="font-headline italic text-2xl cream-text">Wedding</a>
+      <a href="/corporate" class="font-headline italic text-2xl cream-text">Corporate</a>
+      <a href="/events" class="font-headline italic text-2xl cream-text">Events</a>
+    </div>
+    <a href="/studio" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Studio</a>
+    <a href="/artists" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Artists</a>
+    <a href="/gallery" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Gallery</a>
+    <a href="/news" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Journal</a>
+    <div class="mt-8 opacity-0 mobile-link">
+      <a href="/book" class="bg-flt-cream text-black px-12 py-5 font-label text-xs uppercase tracking-[0.2em] font-bold shadow-xl">
+        Enquire Now
+      </a>
+    </div>
+  </nav>
+</div>
+
 
 <script>
   import { gsap } from 'gsap';

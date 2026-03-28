@@ -30,12 +30,12 @@ export const POST: APIRoute = async (context) => {
         // Prepare Email
         const subject = action === 'accept' 
             ? "Booking Accepted! - Fun Lovin Tattoo" 
-            : "Update on your Inquiry - Fun Lovin Tattoo";
+            : "Update on your Enquiry - Fun Lovin Tattoo";
         
         const artistMessage = message ? `<div style="background: #f9f9f9; border-left: 4px solid #000; padding: 15px; margin: 20px 0; font-style: italic;">"${message}"</div>` : '';
         
         const instagramUrl = "https://instagram.com/funlovintattoo"; // Replace with actual handle
-        const mailtoUrl = `mailto:hello@funlovintattoo.com?subject=Re: Booking Inquiry - ${booking.name}`;
+        const mailtoUrl = `mailto:hello@funlovintattoo.com?subject=Re: Booking Enquiry - ${booking.name}`;
 
         const html = action === 'accept' 
             ? `<div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #eee;">

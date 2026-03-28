@@ -57,7 +57,7 @@ const portfolio = await db.select().from(galleryTable).where(eq(galleryTable.art
           <h3 class="font-headline text-3xl font-black italic mb-8 border-b border-flt-border pb-4 uppercase cream-text">Philosophy</h3>
           <div class="prose prose-invert prose-cream font-body text-flt-muted leading-relaxed opacity-80" set:html={artist.philosophy || artist.bio}>
           </div>
-          <a href="/book" class="mt-12 block bg-flt-cream text-black text-center py-5 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">Inquire with {artist.name.split(' ')[0]}</a>
+          <a href="/book" class="mt-12 block bg-flt-cream text-black text-center py-5 font-label text-[11px] uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl">Enquire with {artist.name.split(' ')[0]}</a>
         </section>
       </div>
     </div>

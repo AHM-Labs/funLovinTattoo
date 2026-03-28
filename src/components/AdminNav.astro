@@ -6,7 +6,7 @@ const { currentPath, userRole } = Astro.props;
 
 const navItems = [
     { name: 'Dashboard', href: '/admin' },
-    { name: 'Inquiries', href: '/admin/bookings' },
+    { name: 'Enquiries', href: '/admin/bookings' },
     { name: 'Journal', href: '/admin/journal', visible: canManageGlobalBlog(userRole) },
     { name: 'Gallery', href: '/admin/gallery' },
     { name: 'Pricing', href: '/admin/pricing', visible: canManagePricing(userRole) },

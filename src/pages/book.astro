@@ -3,15 +3,15 @@ export const prerender = false;
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Start Inquiry | Professional Artistry">
+<Layout title="Start Enquiry | Professional Artistry">
   <div class="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
     <div class="text-center mb-24">
       <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">Consultation Request</span>
-      <h1 class="font-headline text-7xl md:text-8xl italic tracking-tighter cream-text font-black uppercase leading-tight">Start Inquiry.</h1>
+      <h1 class="font-headline text-7xl md:text-8xl italic tracking-tighter cream-text font-black uppercase leading-tight">Start Enquiry.</h1>
       <p class="font-body text-flt-muted max-w-xl mx-auto mt-8 leading-relaxed">Please provide as much detail as possible. We carefully review every request to ensure a perfect match between artist specialty and your vision.</p>
     </div>
 
-    <form id="inquiry-form" class="space-y-12 border-premium bg-flt-bg p-12 lg:p-20 shadow-2xl relative overflow-hidden">
+    <form id="enquiry-form" class="space-y-12 border-premium bg-flt-bg p-12 lg:p-20 shadow-2xl relative overflow-hidden">
       <!-- Decorative element -->
       <div class="absolute top-0 right-0 w-32 h-32 bg-flt-cream/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
       
@@ -29,11 +29,11 @@ import Layout from '../layouts/Layout.astro';
           <input type="tel" id="phone" name="phone" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
         </div>
         <div class="space-y-4">
-          <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Inquiry Type</label>
+          <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Enquiry Type</label>
           <select id="type" name="type" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
             <option value="tattoo">Tattoo Session</option>
             <option value="consultation">Consultation</option>
-            <option value="guest-spot">Guest Spot Inquiry</option>
+            <option value="guest-spot">Guest Spot Enquiry</option>
             <option value="other">Other</option>
           </select>
         </div>
@@ -78,7 +78,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="pt-8 border-t border-flt-border flex flex-col md:flex-row items-center justify-between gap-10">
         <p class="font-body text-[12px] text-flt-muted/60 max-w-sm italic">By submitting, you acknowledge that we may store your details for communication regarding this request.</p>
-        <button type="submit" id="submit-btn" class="w-full md:w-auto px-16 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl">Submit Inquiry</button>
+        <button type="submit" id="submit-btn" class="w-full md:w-auto px-16 py-6 bg-flt-cream text-black font-label text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl">Submit Enquiry</button>
       </div>
     </form>
 
@@ -93,7 +93,7 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <script>
-    const form = document.getElementById('inquiry-form') as HTMLFormElement;
+    const form = document.getElementById('enquiry-form') as HTMLFormElement;
     const successMsg = document.getElementById('success-msg');
     const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
     const imageInput = document.getElementById('images') as HTMLInputElement;
@@ -132,7 +132,7 @@ import Layout from '../layouts/Layout.astro';
       submitBtn.textContent = 'Sending...';
 
       try {
-        const response = await fetch('/api/inquiries', {
+        const response = await fetch('/api/enquiries', {
           method: 'POST',
           body: formData
         });
@@ -145,7 +145,7 @@ import Layout from '../layouts/Layout.astro';
           const err = await response.json();
           alert(`Error: ${err.error || 'Something went wrong.'}`);
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit Inquiry';
+          submitBtn.textContent = 'Submit Enquiry';
         }
       } catch (error) {
         alert('Network error. Please try again.');
