@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import { db } from "../db";
 import { settings } from "../db/schema";
 import { eq } from "drizzle-orm";
+import Monogram from "../components/Monogram.astro";
 
 const locationSetting = await db
   .select()
@@ -17,49 +18,72 @@ const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
     class="relative min-h-[90vh] flex flex-col justify-center overflow-hidden border-b border-flt-border ivory-gradient"
   >
     <div
-      class="absolute inset-0 bg-[url('/noise.png')] opacity-15 pointer-events-none mix-blend-overlay"
+      class="absolute inset-0 floral-pattern pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-transparent via-flt-bg/50 to-flt-bg pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-[url('/noise.png')] opacity-10 pointer-events-none mix-blend-overlay"
     >
     </div>
     <div
       class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-24"
     >
-      <div class="lg:col-span-8 z-20">
-        <span
-          class="inline-block font-label text-[10px] uppercase tracking-[0.4em] mb-12 text-flt-muted"
-          >EST. 2007 — PROFESSIONAL TATTOO ARTISTRY</span
-        >
+      <div class="lg:col-span-8 z-20 flex flex-col items-start">
+        <div class="mb-12 flex items-center gap-6">
+           <Monogram class="w-16 h-auto text-flt-cream" />
+           <div class="h-10 w-px bg-flt-border"></div>
+           <span class="font-label text-[10px] uppercase tracking-[0.5em] text-flt-cream/60">Mobile Tattooing</span>
+        </div>
+        
         <h1
-          class="font-headline text-fluid-h1 leading-[0.85] italic tracking-tighter mb-12 cream-text uppercase"
+          class="font-headline text-fluid-h1 leading-[0.85] italic tracking-tighter mb-12 cream-text uppercase max-w-4xl"
         >
-          Mobile <br />
-          <span class="ml-5 md:ml-24">Artistry,</span>
-          <br />
-          <span class="italic stroke-text text-transparent"
-            >Bespoke Studio.</span
-          >
+          Artistry.<br />
+          <span class="ml-12 md:ml-32">Anywhere.</span><br />
+          <span class="italic stroke-text text-transparent">Elevated.</span>
         </h1>
-        <div class="max-w-md ml-4 md:ml-32 space-y-8">
-          <p class="font-body text-lg text-flt-muted leading-relaxed">
-            Luxury tattooing, wherever you are. Our custom-converted private
-            mobile studio brings elite artistry to your doorstep, wedding, or
-            multi-day event.
+
+        <div class="max-w-xl space-y-12">
+          <p class="font-body text-xl text-flt-ivory/80 leading-relaxed italic border-l-2 border-flt-cream/20 pl-8">
+            "Bring a refined edge to your event with professional mobile tattooing, designed for those who want something unforgettable."
           </p>
+          
+          <div class="space-y-6">
+            <h3 class="font-label text-[10px] uppercase tracking-[0.3em] text-flt-cream">The Experience</h3>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+              {[
+                "A clean, discreet, fully mobile setup",
+                "Custom designs curated to your event",
+                "Precision artistry with a luxury feel",
+                "An unforgettable statement for your guests"
+              ].map(item => (
+                <li class="flex items-start gap-3 font-body text-sm text-flt-ivory/60">
+                  <span class="text-flt-cream mt-1">✧</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div class="flex flex-wrap gap-8 items-center pt-4">
             <a
               href="/book"
               class="bg-flt-cream text-black px-12 py-6 font-label text-[11px] uppercase tracking-[0.2em] transition-all hover:bg-white font-bold shadow-xl"
             >
-              Book Event
+              Book FLT
             </a>
             <a
               href="/news"
               class="group flex items-center gap-4 py-5 font-label text-[11px] uppercase tracking-[0.2em]"
             >
               <span
-                class="border-b border-flt-cream/30 group-hover:border-flt-cream pb-1 transition-all cream-text"
-                >The Journal</span
+                class="border-b border-flt-ivory/10 group-hover:border-flt-cream pb-1 transition-all text-flt-ivory/60 group-hover:text-flt-cream"
+                >The Journal &nearr;</span
               >
-              <span class="text-xs cream-text">&nearr;</span>
             </a>
           </div>
         </div>
@@ -111,7 +135,7 @@ const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
             The Mobile <br/> Sanctuary.
           </h2>
           <div class="space-y-8 max-w-xl">
-            <p class="font-body text-xl text-flt-muted leading-relaxed">
+            <p class="font-body text-xl text-flt-ivory/90 leading-relaxed">
               A masterclass in bespoke luxury. Our custom-converted studio brings the clinical precision and curated atmosphere of a high-end boutique directly to your location.
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -164,12 +188,12 @@ const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
         </h2>
         <div class="space-y-6 max-w-sm">
           <p
-            class="font-body text-lg sm:text-xl text-flt-muted leading-relaxed"
+            class="font-body text-lg sm:text-xl text-flt-ivory/90 leading-relaxed"
           >
             Our permanent boutique studio provides a curated environment for
             large-scale illustrative works and intimate appointments.
           </p>
-          <p class="font-body text-flt-muted/60">
+          <p class="font-body text-flt-ivory/60">
             A boutique space designed for precision, and the elevation of
             tattooing as a dedicated art form.
           </p>

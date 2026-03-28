@@ -1,17 +1,22 @@
 ---
 import Logo from "./Logo.astro";
+import Monogram from "./Monogram.astro";
 ---
 <header class="w-full border-b border-flt-border sticky top-0 z-[100] bg-flt-bg/90 backdrop-blur-xl">
   <div class="max-w-7xl mx-auto flex justify-between items-center py-8 px-4 sm:px-8 lg:px-12">
-    <div class="relative z-50">
-      <a href="/" class="block w-48 text-flt-cream hover:text-white transition-colors duration-300">
+    <div class="relative z-50 flex items-center gap-4">
+      <a href="/" class="block w-10 text-flt-cream hover:text-flt-ivory transition-colors duration-300">
+        <Monogram class="w-full h-auto" />
+      </a>
+      <div class="h-8 w-px bg-flt-border"></div>
+      <a href="/" class="block w-36 text-flt-ivory hover:text-flt-cream transition-colors duration-300">
         <Logo class="w-full h-auto" />
       </a>
     </div>
     
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-10 font-label uppercase tracking-[0.2em] text-[10px]">
-      <a href="/" class="text-flt-muted hover:text-flt-cream transition-colors duration-300">Home</a>
+      <a href="/" class="text-flt-muted hover:text-flt-ivory transition-colors duration-300">Home</a>
       <div class="relative group py-2">
         <a href="/mobile-services" class="text-flt-muted hover:text-flt-cream transition-colors duration-300 flex items-center gap-2">
           Mobile Tattoo <span class="text-[8px] opacity-40 translate-y-px">▼</span>
@@ -51,18 +56,18 @@ import Logo from "./Logo.astro";
 <!-- Mobile Menu Overlay -->
 <div id="mobile-menu" class="fixed inset-0 bg-flt-bg/98 backdrop-blur-2xl z-90 flex flex-col items-center pointer-events-none opacity-0 overflow-y-auto pt-32 pb-12">
   <nav class="flex flex-col items-center gap-6 text-center px-6 relative z-10 w-full">
-    <a href="/" class="mobile-link font-headline italic text-3xl cream-text opacity-0 block">Home</a>
+    <a href="/" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 block leading-tight">Home</a>
     <div class="mobile-link flex flex-col items-center gap-3 opacity-0 pt-2">
       <a href="/mobile-services" class="font-label text-[9px] uppercase tracking-[0.4em] text-flt-muted/40 mb-2">Mobile Tattoo</a>
-      <a href="/weddings" class="font-headline italic text-2xl cream-text">Wedding</a>
-      <a href="/corporate" class="font-headline italic text-2xl cream-text">Corporate</a>
-      <a href="/events" class="font-headline italic text-2xl cream-text">Events</a>
+      <a href="/weddings" class="font-headline italic text-xl ivory-text">Wedding</a>
+      <a href="/corporate" class="font-headline italic text-xl ivory-text">Corporate</a>
+      <a href="/events" class="font-headline italic text-xl ivory-text">Events</a>
     </div>
-    <a href="/studio" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Studio</a>
-    <a href="/artists" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Artists</a>
-    <a href="/gallery" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Gallery</a>
-    <a href="/news" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Journal</a>
-    <a href="/book" class="mobile-link font-headline italic text-3xl cream-text opacity-0">Gift Cards</a>
+    <a href="/studio" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 leading-tight">Studio</a>
+    <a href="/artists" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 leading-tight">Artists</a>
+    <a href="/gallery" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 leading-tight">Gallery</a>
+    <a href="/news" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 leading-tight">Journal</a>
+    <a href="/book" class="mobile-link font-headline italic text-2xl ivory-text opacity-0 leading-tight">Gift Cards</a>
     <div class="mt-8 opacity-0 mobile-link">
       <a href="/book" class="bg-flt-cream text-black px-12 py-5 font-label text-xs uppercase tracking-[0.2em] font-bold shadow-xl">
         Enquire Now
