@@ -98,9 +98,9 @@ import Logo from "./Logo.astro";
 
   // Burger animation
   const burgerTl = gsap.timeline({ paused: true });
-  burgerTl.to(lines[0], { y: 8, rotate: 45, duration: 0.3, backgroundColor: '#fbf8f1' });
+  burgerTl.to(lines[0], { y: 8, rotate: 45, duration: 0.3, backgroundColor: '#d4ba8c' });
   burgerTl.to(lines[1], { opacity: 0, duration: 0.1 }, "-=0.3");
-  burgerTl.to(lines[2], { y: -8, rotate: -45, duration: 0.3, backgroundColor: '#fbf8f1' }, "-=0.3");
+  burgerTl.to(lines[2], { y: -8, rotate: -45, duration: 0.3, backgroundColor: '#d4ba8c' }, "-=0.3");
 
   toggle?.addEventListener('click', () => {
     isOpen = !isOpen;

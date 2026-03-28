@@ -3,12 +3,12 @@
 
 @theme {
   --color-flt-bg: #080808;
-  --color-flt-text: #fbf8f1;
+  --color-flt-text: #d4ba8c;
   --color-flt-muted: #7c776e;
-  --color-flt-ivory: #f2efe4;
-  --color-flt-cream: #fbf8f1;
-  --color-flt-border: rgba(251, 248, 241, 0.08);
-  --color-flt-ivory-border: rgba(251, 248, 241, 0.15);
+  --color-flt-ivory: #d4ba8c;
+  --color-flt-cream: #d4ba8c;
+  --color-flt-border: rgba(212, 186, 140, 0.08);
+  --color-flt-ivory-border: rgba(212, 186, 140, 0.15);
   
   --font-headline: "Newsreader", serif;
   --font-body: "Manrope", sans-serif;
@@ -57,10 +57,10 @@
   }
 
   .stroke-text {
-    -webkit-text-stroke: 1px rgba(251, 248, 241, 0.2);
+    -webkit-text-stroke: 1px rgba(212, 186, 140, 0.2);
   }
   
   .ivory-gradient {
-    background: linear-gradient(to bottom, rgba(251, 248, 241, 0.03), transparent);
+    background: linear-gradient(to bottom, rgba(212, 186, 140, 0.03), transparent);
   }
 }
