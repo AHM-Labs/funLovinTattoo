@@ -4,11 +4,11 @@
 @theme {
   --color-flt-bg: #080808;
   --color-flt-text: #fbf8f1;
-  --color-flt-muted: #7c776e;
+  --color-flt-muted: #948f85;
   --color-flt-ivory: #fbf8f1;
-  --color-flt-cream: #d4ba8c;
-  --color-flt-border: rgba(212, 186, 140, 0.08);
-  --color-flt-ivory-border: rgba(212, 186, 140, 0.15);
+  --color-flt-cream: #B89666;
+  --color-flt-border: rgba(184, 150, 102, 0.08);
+  --color-flt-ivory-border: rgba(184, 150, 102, 0.15);
   
   --font-headline: "Newsreader", serif;
   --font-body: "Manrope", sans-serif;
@@ -18,7 +18,7 @@
 @layer base {
   body {
     background-color: var(--color-flt-bg);
-    color: var(--color-flt-text);
+    color: var(--color-flt-ivory);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
@@ -59,11 +59,11 @@
   }
 
   .stroke-text {
-    -webkit-text-stroke: 1px rgba(212, 186, 140, 0.2);
+    -webkit-text-stroke: 1px rgba(184, 150, 102, 0.2);
   }
   
   .ivory-gradient {
-    background: linear-gradient(to bottom, rgba(212, 186, 140, 0.03), transparent);
+    background: linear-gradient(to bottom, rgba(184, 150, 102, 0.03), transparent);
   }
 
   /* Fluid Typography Utilities */
@@ -77,5 +77,13 @@
 
   .text-fluid-h3 {
     font-size: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  .floral-pattern {
+    background-image: url('/assets/floral_pattern.png');
+    background-repeat: repeat;
+    background-size: 500px;
+    mix-blend-mode: overlay;
+    opacity: 0.15;
   }
 }
