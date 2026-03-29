@@ -5,6 +5,9 @@ import { db } from "../db";
 import { settings } from "../db/schema";
 import { eq } from "drizzle-orm";
 import Monogram from "../components/Monogram.astro";
+import { Image } from "astro:assets";
+import giftCardFront from "../assets/gift_card_front.webp";
+import giftCardBack from "../assets/gift_card_back.webp";
 
 const locationSetting = await db
   .select()
@@ -77,7 +80,7 @@ const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
               Book FLT
             </a>
             <a
-              href="/news"
+              href="/journal"
               class="group flex items-center gap-4 py-5 font-label text-[11px] uppercase tracking-[0.2em]"
             >
               <span
@@ -260,17 +263,22 @@ const currentVanLocation = locationSetting[0]?.value || "On Location Globally";
               Give the gift of permanent artistry. Our bespoke physical gift cards are a statement of luxury in their own right, delivered in premium packaging.
            </p>
            <div class="pt-12 flex flex-col items-center">
-              <!-- Placeholder for final gift card design -->
-              <div class="w-full max-w-xl aspect-[1.6/1] bg-flt-border/5 border-premium flex items-center justify-center relative group cursor-pointer overflow-hidden shadow-2xl">
-                 <div class="absolute inset-0 bg-flt-cream/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                 <div class="text-center space-y-4 px-12 z-10 transition-transform group-hover:scale-110 duration-700">
-                    <span class="font-label text-[8px] uppercase tracking-[0.4em] text-flt-muted/40 block mb-4">Design Coming Soon</span>
-                    <div class="h-px w-12 bg-flt-border/30 mx-auto"></div>
-                    <p class="font-headline italic text-2xl cream-text opacity-40 leading-tight">Fun Lovin Tattoo <br/> Bespoke Physical Cards</p>
-                 </div>
+              <div class="w-full max-w-2xl perspective-1000 group">
+                <div class="relative w-full aspect-[1.58/1] transition-transform duration-1000 transform-style-3d group-hover:rotate-y-180">
+                  <!-- Front -->
+                  <div class="absolute inset-0 backface-hidden shadow-2xl border-premium overflow-hidden">
+                    <Image src={giftCardFront} alt="Fun Lovin Tattoo Gift Card Front" class="w-full h-full object-cover" />
+                    <div class="absolute inset-0 bg-gradient-to-tr from-flt-bg/40 to-transparent pointer-events-none"></div>
+                  </div>
+                  <!-- Back -->
+                  <div class="absolute inset-0 backface-hidden rotate-y-180 shadow-2xl border-premium overflow-hidden">
+                    <Image src={giftCardBack} alt="Fun Lovin Tattoo Gift Card Back" class="w-full h-full object-cover" />
+                    <div class="absolute inset-0 bg-gradient-to-tr from-flt-bg/40 to-transparent pointer-events-none"></div>
+                  </div>
+                </div>
               </div>
-              <a href="/book" class="mt-16 inline-block bg-flt-cream text-black px-16 py-6 font-label text-[11px] uppercase tracking-[0.2em] font-bold shadow-xl hover:bg-white transition-all">
-                 Purchase Gift Card
+              <a href="/gift-cards" class="mt-16 inline-block bg-flt-cream text-black px-16 py-6 font-label text-[11px] uppercase tracking-[0.2em] font-bold shadow-xl hover:bg-white transition-all">
+                 Explore Gift Cards
               </a>
            </div>
         </div>

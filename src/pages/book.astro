@@ -15,34 +15,35 @@ import Layout from '../layouts/Layout.astro';
       <!-- Decorative element -->
       <div class="absolute top-0 right-0 w-32 h-32 bg-flt-cream/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="space-y-4">
-          <label for="name" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Full Name</label>
-          <input type="text" id="name" name="name" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. Alexander Thorne" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="space-y-4">
+            <label for="name" class="font-label text-[10px] uppercase tracking-widest text-flt-ivory/80 block">Full Name</label>
+            <input type="text" id="name" name="name" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. Alexander Thorne" />
+          </div>
+          <div class="space-y-4">
+            <label for="email" class="font-label text-[10px] uppercase tracking-widest text-flt-ivory/80 block">Email Address</label>
+            <input type="email" id="email" name="email" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. alex@example.com" />
+          </div>
+          <div class="space-y-4">
+            <label for="phone" class="font-label text-[10px] uppercase tracking-widest text-flt-ivory/80 block">Phone Number</label>
+            <input type="tel" id="phone" name="phone" class="w-full bg-black/40 border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
+          </div>
+          <div class="space-y-4">
+            <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-ivory/80 block">Enquiry Type</label>
+            <select id="type" name="type" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
+              <option value="tattoo">Tattoo Session</option>
+              <option value="consultation">Consultation</option>
+              <option value="gift-card">Gift Card Enquiry</option>
+              <option value="guest-spot">Guest Spot Enquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
         </div>
+  
         <div class="space-y-4">
-          <label for="email" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Email Address</label>
-          <input type="email" id="email" name="email" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="e.g. alex@example.com" />
+          <label for="details" class="font-label text-[10px] uppercase tracking-widest text-flt-ivory/80 block">Project Vision & Details</label>
+          <textarea id="details" name="details" required rows="6" class="w-full bg-black/40 border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none" placeholder="Describe the concept, placement, size, and approximate date if applicable..."></textarea>
         </div>
-        <div class="space-y-4">
-          <label for="phone" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Phone Number</label>
-          <input type="tel" id="phone" name="phone" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30" placeholder="+44 (0) ..." />
-        </div>
-        <div class="space-y-4">
-          <label for="type" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Enquiry Type</label>
-          <select id="type" name="type" required class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all appearance-none cursor-pointer">
-            <option value="tattoo">Tattoo Session</option>
-            <option value="consultation">Consultation</option>
-            <option value="guest-spot">Guest Spot Enquiry</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="space-y-4">
-        <label for="details" class="font-label text-[10px] uppercase tracking-widest text-flt-cream block">Project Vision & Details</label>
-        <textarea id="details" name="details" required rows="6" class="w-full bg-black/40 border border-flt-border p-5 text-flt-cream font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/30 resize-none" placeholder="Describe the concept, placement, size, and approximate date if applicable..."></textarea>
-      </div>
 
       <!-- Multi-Image Upload -->
       <div class="space-y-6">

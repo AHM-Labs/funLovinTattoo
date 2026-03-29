@@ -1,0 +1,66 @@
+---
+import { getCollection, render, getEntry, type CollectionEntry } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import Gallery from '../../../components/Gallery.astro';
+
+export async function getStaticPaths() {
+  const newsEntries = await getCollection('news', ({ data }) => {
+    return data.type === 'guide';
+  });
+  return newsEntries.map((entry: CollectionEntry<'news'>) => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+interface Props {
+  entry?: CollectionEntry<'news'>;
+}
+
+const { slug } = Astro.params;
+let { entry } = Astro.props;
+
+if (!entry && slug) {
+  entry = await getEntry('news', slug);
+}
+
+if (!entry || entry.data.type !== 'guide') {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.title} | Journal`}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 overflow-hidden">
+      <div class="mb-16">
+        <a href="/journal/guide" class="font-label text-[10px] uppercase tracking-widest text-flt-muted hover:ivory-text transition-colors border-b border-flt-ivory-border/20 pb-1">&larr; Back to Guides</a>
+      </div>
+      
+      <header class="mb-20 text-center">
+        <div class="font-label text-[10px] uppercase tracking-[0.5em] text-flt-muted mb-8">GUIDE NO. {entry.id.slice(0, 4)}</div>
+        <h1 class="font-headline text-5xl md:text-7xl italic ivory-text leading-[0.9] tracking-tighter mb-12 uppercase">{entry.data.title}</h1>
+        <div class="h-px w-24 bg-flt-ivory-border/30 mx-auto"></div>
+      </header>
+
+      {entry.data.image && (
+        <div class="aspect-video mb-20 grayscale border-premium overflow-hidden blob-mask-alt">
+          <img src={entry.data.image} alt={entry.data.title} class="w-full h-full object-cover" />
+        </div>
+      )}
+
+      <div class="prose prose-invert prose-ivory max-w-none 
+        prose-headings:font-headline prose-headings:italic prose-headings:tracking-tighter prose-headings:ivory-text
+        prose-p:font-body prose-p:text-flt-muted prose-p:leading-relaxed prose-p:text-lg
+        prose-blockquote:border-l-flt-ivory-border prose-blockquote:italic prose-blockquote:text-flt-muted/80
+        prose-img:border-premium"
+      >
+        <Content components={{ Gallery }} />
+      </div>
+
+      <footer class="mt-24 pt-12 border-t border-flt-border flex justify-between items-center">
+        <a href="/journal/guide" class="font-label text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:text-flt-muted transition-colors">
+          &larr; Back to Guides
+        </a>
+      </footer>
+    </div>
+</Layout>

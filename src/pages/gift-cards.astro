@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import giftCardFront from '../assets/gift_card_front.webp';
+import giftCardBack from '../assets/gift_card_back.webp';
+---
+
+<Layout title="Bespoke Gift Cards | Professional Artistry">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
+    <!-- Hero Section -->
+    <div class="text-center mb-32">
+      <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">The Perfect Statement</span>
+      <h1 class="font-headline text-7xl md:text-9xl italic tracking-tighter cream-text font-black uppercase leading-tight">Art, Gifted.</h1>
+      <p class="font-body text-xl text-flt-muted max-w-2xl mx-auto mt-12 leading-relaxed italic">
+        "A statement of luxury in its own right—the ultimate gift for those who value permanent artistry and bespoke refinement."
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
+      <!-- Visuals -->
+      <div class="relative group perspective-2000">
+         <div class="relative w-full aspect-[1.58/1] transition-transform duration-1000 transform-style-3d group-hover:rotate-y-12">
+            <div class="absolute inset-0 shadow-[0_50px_100px_rgba(0,0,0,0.8)] border-premium overflow-hidden">
+                <Image src={giftCardFront} alt="Gift Card Front" class="w-full h-full object-cover" />
+            </div>
+            <!-- Floating secondary card -->
+            <div class="absolute -bottom-12 -right-12 w-2/3 aspect-[1.58/1] shadow-2xl border-premium overflow-hidden rotate-6 translate-z-20 hidden md:block group-hover:rotate-0 transition-transform duration-1000">
+                <Image src={giftCardBack} alt="Gift Card Back" class="w-full h-full object-cover" />
+            </div>
+         </div>
+      </div>
+
+      <!-- Details -->
+      <div class="space-y-12">
+         <div class="space-y-4">
+            <h2 class="font-headline text-4xl italic cream-text uppercase">The Physical Experience</h2>
+            <div class="h-px w-24 bg-flt-border/30"></div>
+         </div>
+         <p class="font-body text-flt-muted text-lg leading-relaxed">
+            Our physical gift cards are meticulously crafted with a premium finish and delivered in hand-finished packaging. Available in any denomination from £50 to £1,000, they are the ideal way to contribute towards a masterpiece or gift an entire session.
+         </p>
+         <ul class="space-y-6">
+            <li class="flex items-start gap-4">
+                <span class="text-flt-cream mt-1">✧</span>
+                <div>
+                    <h4 class="font-label text-[10px] uppercase tracking-widest text-flt-cream mb-1">Premium Packaging</h4>
+                    <p class="font-body text-sm text-flt-muted/60">Delivered in a bespoke presenter with hand-sealed accents.</p>
+                </div>
+            </li>
+            <li class="flex items-start gap-4">
+                <span class="text-flt-cream mt-1">✧</span>
+                <div>
+                    <h4 class="font-label text-[10px] uppercase tracking-widest text-flt-cream mb-1">Valid Everywhere</h4>
+                    <p class="font-body text-sm text-flt-muted/60">Redeemable at our boutique studio or for any mobile activation.</p>
+                </div>
+            </li>
+            <li class="flex items-start gap-4">
+                <span class="text-flt-cream mt-1">✧</span>
+                <div>
+                    <h4 class="font-label text-[10px] uppercase tracking-widest text-flt-cream mb-1">Lifetime Validity</h4>
+                    <p class="font-body text-sm text-flt-muted/60">Confidence in quality. Our gift cards do not expire.</p>
+                </div>
+            </li>
+         </ul>
+         <div class="pt-8">
+            <a href="/book?type=gift-card" class="bg-flt-cream text-black px-16 py-6 font-label text-[11px] uppercase tracking-[0.2em] font-bold shadow-xl hover:bg-white transition-all inline-block">
+               Purchase Gift Card
+            </a>
+         </div>
+      </div>
+    </div>
+
+    <!-- Balance Check Section -->
+    <div class="border-premium bg-black/40 p-12 lg:p-24 relative overflow-hidden text-center max-w-4xl mx-auto">
+        <div class="absolute inset-0 bg-flt-cream/2 pointer-events-none"></div>
+        <div class="relative z-10 space-y-12">
+            <h3 class="font-headline text-3xl md:text-5xl italic ivory-text uppercase tracking-tighter">Check Your Balance</h3>
+            <p class="font-body text-flt-muted/60 max-w-sm mx-auto">Enter your unique reference number found on the back of your physical card.</p>
+            
+            <form class="max-w-md mx-auto space-y-8" onsubmit="event.preventDefault(); alert('Please contact the studio to verify manual ledger balances.');">
+                <div class="space-y-4 text-left">
+                    <label for="card-ref" class="font-label text-[10px] uppercase tracking-widest text-flt-muted block ml-1">Card Reference Number</label>
+                    <input type="text" id="card-ref" name="card-ref" class="w-full bg-flt-bg border border-flt-border p-5 text-flt-ivory font-body focus:border-flt-cream outline-none transition-all placeholder:text-flt-muted/20" placeholder="e.g. FLT-XXXX-XXXX" />
+                </div>
+                <button type="submit" class="w-full border border-flt-cream/30 py-6 font-label text-[10px] uppercase tracking-[0.3em] text-flt-cream hover:bg-flt-cream hover:text-black transition-all">Verify Balance</button>
+            </form>
+            
+            <p class="font-body text-[10px] text-flt-muted/40 italic">Note: For security, balance checks reflect the last synchronized ledger update.</p>
+        </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+    .perspective-1000 { perspective: 1000px; }
+    .perspective-2000 { perspective: 2000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+    .rotate-y-12 { transform: rotateY(12deg); }
+    .translate-z-20 { transform: translateZ(20px); }
+</style>

@@ -2,22 +2,37 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-const posts: CollectionEntry<'news'>[] = (await getCollection('news')).sort(
+const { type } = Astro.props;
+
+let posts: CollectionEntry<'news'>[] = (await getCollection('news')).sort(
   (a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+if (type) {
+  posts = posts.filter(post => post.data.type === type);
+}
+
+const activeFilter = type || 'all';
 ---
 
 <Layout title="Journal | Professional Artistry">
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24">
-    <div class="text-center mb-32">
+    <div class="text-center mb-16">
       <span class="font-label text-[10px] uppercase tracking-[0.4em] text-flt-muted mb-6 inline-block">The Portfolio</span>
       <h1 class="font-headline text-7xl md:text-[9rem] italic tracking-tighter cream-text font-black uppercase leading-tight">Journal.</h1>
+    </div>
+
+    <!-- Filter UI -->
+    <div class="flex justify-center gap-8 mb-24 font-label text-[10px] uppercase tracking-[0.2em]">
+      <a href="/journal" class={`pb-2 border-b-2 transition-all ${activeFilter === 'all' ? 'border-flt-cream text-flt-cream' : 'border-transparent text-flt-muted hover:text-flt-ivory'}`}>All</a>
+      <a href="/journal/blog" class={`pb-2 border-b-2 transition-all ${activeFilter === 'blog' ? 'border-flt-cream text-flt-cream' : 'border-transparent text-flt-muted hover:text-flt-ivory'}`}>Blog</a>
+      <a href="/journal/guide" class={`pb-2 border-b-2 transition-all ${activeFilter === 'guide' ? 'border-flt-cream text-flt-cream' : 'border-transparent text-flt-muted hover:text-flt-ivory'}`}>Guides</a>
     </div>
 
     <div class="space-y-12">
       {posts.map(post => (
         <article class="group border-b border-flt-border pb-12">
-          <a href={`/news/${post.id}`} class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-8">
+          <a href={`/journal/${post.data.type === 'guide' ? 'guide' : 'blog'}/${post.id}`} class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-8">
             <div class="md:col-span-3 aspect-[4/3] bg-flt-bg border-premium grayscale group-hover:grayscale-0 transition-all duration-700 overflow-hidden shadow-2xl">
                {post.data.image ? (
                  <img src={post.data.image} alt={post.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
@@ -31,6 +46,11 @@ const posts: CollectionEntry<'news'>[] = (await getCollection('news')).sort(
                </span>
             </div>
             <div class="md:col-span-8">
+              <div class="flex items-center gap-4 mb-2">
+                <span class="font-label text-[8px] uppercase tracking-widest text-flt-cream/60">
+                  {post.data.type} {post.data.category ? `• ${post.data.category}` : ''}
+                </span>
+              </div>
               <h2 class="font-headline text-4xl md:text-5xl italic cream-text group-hover:text-white transition-colors leading-tight mb-4 uppercase tracking-tighter">
                 {post.data.title}
               </h2>

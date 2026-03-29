@@ -1,11 +1,12 @@
 ---
 import { getCollection, render, getEntry, type CollectionEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Gallery from '../../components/Gallery.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Gallery from '../../../components/Gallery.astro';
 
-// For static builds (if ever used)
 export async function getStaticPaths() {
-  const newsEntries = await getCollection('news');
+  const newsEntries = await getCollection('news', ({ data }) => {
+    return data.type === 'blog';
+  });
   return newsEntries.map((entry: CollectionEntry<'news'>) => ({
     params: { slug: entry.id }, props: { entry },
   }));
@@ -18,13 +19,11 @@ interface Props {
 const { slug } = Astro.params;
 let { entry } = Astro.props;
 
-// If not in props (SSR mode), fetch by slug
 if (!entry && slug) {
   entry = await getEntry('news', slug);
 }
 
-// Handle entry not found
-if (!entry) {
+if (!entry || entry.data.type !== 'blog') {
   return Astro.redirect('/404');
 }
 
@@ -34,7 +33,7 @@ const { Content } = await render(entry);
 <Layout title={`${entry.data.title} | Journal`}>
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 overflow-hidden">
       <div class="mb-16">
-        <a href="/news" class="font-label text-[10px] uppercase tracking-widest text-flt-muted hover:ivory-text transition-colors border-b border-flt-ivory-border/20 pb-1">&larr; Back to Journal</a>
+        <a href="/journal/blog" class="font-label text-[10px] uppercase tracking-widest text-flt-muted hover:ivory-text transition-colors border-b border-flt-ivory-border/20 pb-1">&larr; Back to Blog</a>
       </div>
       
       <header class="mb-20 text-center">
@@ -57,10 +56,11 @@ const { Content } = await render(entry);
       >
         <Content components={{ Gallery }} />
       </div>
+
+      <footer class="mt-24 pt-12 border-t border-flt-border flex justify-between items-center">
+        <a href="/journal/blog" class="font-label text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:text-flt-muted transition-colors">
+          &larr; Back to Blog
+        </a>
+      </footer>
     </div>
-      <a href="/news" class="font-label text-[10px] uppercase tracking-[0.2em] font-bold text-white hover:text-flt-muted transition-colors">
-        &larr; Back to Journal
-      </a>
-    </footer>
-  </article>
 </Layout>

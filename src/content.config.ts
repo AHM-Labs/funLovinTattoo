@@ -10,6 +10,8 @@ const newsCollection = defineCollection({
     excerpt: z.string().optional(),
     author: z.string().default('Marco V.'),
     image: z.string().optional(),
+    type: z.enum(['blog', 'guide']).default('blog'),
+    category: z.enum(['Before', 'During', 'Aftercare']).optional(),
   }),
 });
 
